@@ -1,0 +1,230 @@
+{
+  "id": "kaiyrosSwapMachine1",
+  "name": "Swap machine",
+  "active": false,
+  "nodes": [
+    {
+      "id": "every-30-minutes",
+      "name": "Every 30 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "notes": "Wakes the swap machine's helper. Each step only does what is still missing, so repeated runs are safe.",
+      "notesInFlow": true
+    },
+    {
+      "id": "run-once-now",
+      "name": "Run once now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "settings",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        100
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1",
+              "name": "list",
+              "type": "string",
+              "value": "trending"
+            },
+            {
+              "id": "s2",
+              "name": "look_at",
+              "type": "number",
+              "value": 60
+            },
+            {
+              "id": "s3",
+              "name": "keep",
+              "type": "number",
+              "value": 14
+            }
+          ]
+        },
+        "options": {}
+      },
+      "notes": "EDIT HERE. list: top, trending or latest (Kaiyros Discover). look_at: how many Kaiyros videos to screen. keep: stop once this many clips are prepared in total.",
+      "notesInFlow": true
+    },
+    {
+      "id": "pick-and-prepare-clips",
+      "name": "Pick and prepare clips",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        440,
+        100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/swap/swap_job.py prep {{ $json.list }} {{ $json.look_at }} {{ $json.keep }}"
+      },
+      "notes": "Per Kaiyros video: download, look at 6 frames (keeps only one person, face visible and talking, no outfit video, no burned-in captions, not lying down or far away), transcribe, her Fish voice says each sentence where the creator said it, first ~20 s. Output: swap/ready/<id>.mp4. Only our presenter is ever used.",
+      "notesInFlow": true
+    },
+    {
+      "id": "send-to-swap-machine",
+      "name": "Send to swap machine",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        660,
+        100
+      ],
+      "parameters": {
+        "command": "/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/swap/swap_job.py send"
+      },
+      "notes": "Uploads prepared clips to the swap machine (second Vast box), where queue.sh swaps them one by one, about 12 minutes each. Needs ~/comfyui-mcp/swap_connection.json (python3 set_5090.py --swap).",
+      "notesInFlow": true
+    },
+    {
+      "id": "collect-finished-swaps",
+      "name": "Collect finished swaps",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        880,
+        100
+      ],
+      "parameters": {
+        "command": "/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/swap/swap_job.py collect"
+      },
+      "notes": "Downloads finished videos to swap/finished/<id>.mp4 with <id>.json (creator, product, words). No text is added; captions are done by hand in CapCut.",
+      "notesInFlow": true
+    },
+    {
+      "id": "read-result",
+      "name": "Read result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const lines = String($input.first().json.stdout || '').split('\\n').filter(l => l.trim().startsWith('{'));\nlet r;\ntry { r = JSON.parse(lines[lines.length - 1]); } catch (e) { r = { ok: false, why: 'step gave no answer: ' + String($input.first().json.stderr || '').slice(-200) }; }\nreturn [{ json: r }];"
+      }
+    },
+    {
+      "id": "post-to-tiktok-needs-sign-in",
+      "name": "Post to TikTok (needs sign-in)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        100
+      ],
+      "parameters": {},
+      "notes": "Not built yet: posting needs the owner's one-time TikTok sign-in in the uploader. Until then finished videos wait in swap/finished/.",
+      "notesInFlow": true
+    }
+  ],
+  "connections": {
+    "Every 30 minutes": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run once now": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Pick and prepare clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick and prepare clips": {
+      "main": [
+        [
+          {
+            "node": "Send to swap machine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to swap machine": {
+      "main": [
+        [
+          {
+            "node": "Collect finished swaps",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect finished swaps": {
+      "main": [
+        [
+          {
+            "node": "Read result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read result": {
+      "main": [
+        [
+          {
+            "node": "Post to TikTok (needs sign-in)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

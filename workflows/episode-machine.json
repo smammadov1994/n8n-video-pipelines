@@ -1,0 +1,511 @@
+{
+  "id": "kaiyrosEpisodeMachine1",
+  "name": "Episode machine",
+  "active": false,
+  "nodes": [
+    {
+      "id": "every-10-minutes",
+      "name": "Every 10 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "notes": "Wakes the machine. If an episode is already being made, the run ends at 'Go?' within a second.",
+      "notesInFlow": true
+    },
+    {
+      "id": "run-once-now",
+      "name": "Run once now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "topics",
+      "name": "Topics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        100
+      ],
+      "parameters": {
+        "jsCode": "// The list the machine works through, top to bottom. Add, remove or reorder freely.\n// style: \"long\" = 9 takes, 4-5 places, about 70 s.  \"short\" = 6 takes, studio + 2 places, about 45 s.\n// A topic that already has a finished episode is skipped.\nconst topics = [\n  {\n    \"topic\": \"Why the ocean is salty when the rivers that feed it are fresh\",\n    \"where\": \"a rocky ocean beach; a river mouth or stream running over rocks\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How honey bees turn flower nectar into honey\",\n    \"where\": \"a flower garden beside wooden beehive boxes; a kitchen counter with a jar of honey and honeycomb\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How a volcano erupts\",\n    \"where\": \"a field of black hardened lava rock; the rim of an old volcanic crater\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"Why leaves change color in autumn\",\n    \"where\": \"a forest path under red and yellow maple trees; beside a single bright tree with fallen leaves on the ground\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"Why the sea has tides\",\n    \"where\": \"a rocky shore with tide pools at low tide; a harbor wall with a visible high-water line\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How glaciers carve valleys\",\n    \"where\": \"a wide U-shaped mountain valley; beside a huge smooth scratched boulder left by ice\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How trees share food and warnings through fungus in the soil\",\n    \"where\": \"an old mossy forest among big tree roots; beside a fallen log covered in mushrooms\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"Why ice floats on water\",\n    \"where\": \"the edge of a frozen lake; a kitchen counter with a clear glass of ice water\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How sand dunes move\",\n    \"where\": \"among tall desert sand dunes with wind ripples; the sharp crest of a dune\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How caves grow stalactites\",\n    \"where\": \"the mouth of a limestone cave; inside a lit cave with stalactites behind her\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How a river carves a canyon\",\n    \"where\": \"the rim of a deep red-rock canyon; down by the river at the canyon floor\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"Why the desert gets cold at night\",\n    \"where\": \"a rocky desert with cactus in daylight; the same desert under an overcast sky\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How coral reefs are built by tiny animals\",\n    \"where\": \"a tropical beach beside clear shallow water with reef visible; an aquarium wall with living coral behind her\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How mountains make their own weather\",\n    \"where\": \"a mountain meadow with clouds piling against peaks; a dry rocky slope on the far side of a range\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"Why rivers bend and wind instead of running straight\",\n    \"where\": \"a grassy bank above a winding river; the inside of a river bend with a gravel bar\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How a seed knows which way is up\",\n    \"where\": \"a vegetable garden with seedlings in rows; a greenhouse bench with sprouting pots\",\n    \"style\": \"short\"\n  },\n  {\n    \"topic\": \"How a waterfall slowly moves backward up its river\",\n    \"where\": \"the pool at the foot of a waterfall; the flat river above the drop; a narrow rock gorge downstream; a mossy cliff beside the falls\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"Where the sand on a beach comes from\",\n    \"where\": \"a wide sandy beach; a rocky headland with waves breaking; a river mouth carrying brown water to the sea; a dune with grass behind the beach\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"Why some cliffs have stripes: how rock layers are laid down\",\n    \"where\": \"the foot of a striped layered cliff; a dry riverbed with flat stones; a canyon wall of red and cream bands; a muddy lake shore where new layers settle\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How a forest grows back after a fire\",\n    \"where\": \"blackened standing trunks with green shoots at their feet; a meadow of purple flowers among burnt logs; young pines in rows of natural regrowth; an old unburnt forest edge\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How a river is born: from a spring on a hill to the sea\",\n    \"where\": \"a spring bubbling out of a mossy hillside; a small rocky mountain stream; a wide slow lowland river; a river mouth at the coast\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How geysers and hot springs work\",\n    \"where\": \"a steaming blue hot spring pool; white mineral terraces; a geyser cone venting steam; a boardwalk-free field of steaming ground\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How soil is made from rock\",\n    \"where\": \"bare grey rock covered in lichen; a rocky slope with thin grass; a forest floor of dark leaf litter; a cut bank showing soil layers above rock\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How fog forms and why it sits in valleys\",\n    \"where\": \"a hilltop above a valley filled with fog; a misty lake shore; a foggy pine forest; a clear meadow after the fog lifts\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How a wetland cleans water\",\n    \"where\": \"a marsh of tall reeds; a still pond covered in lily pads; a muddy channel between grasses; clear water leaving the wetland over stones\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"How to read a tree's life in its rings\",\n    \"where\": \"a large sawn tree stump with clear rings; an old forest of thick trunks; a young sapling grove; a fallen log split open\",\n    \"style\": \"long\"\n  },\n  {\n    \"topic\": \"Why waves break when they reach the shore\",\n    \"where\": \"a beach with rolling breakers; a rocky point with spray; calm deep water off a cliff; a shallow sandbar at low tide\",\n    \"style\": \"long\"\n  }\n];\nreturn [{ json: { encoded: Buffer.from(JSON.stringify(topics)).toString('base64'), count: topics.length } }];"
+      },
+      "notes": "EDIT HERE: the topic list and the style of each episode.",
+      "notesInFlow": true
+    },
+    {
+      "id": "pick-next-topic",
+      "name": "Pick next topic",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        440,
+        100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/scripts/episode_job.py next {{ $json.encoded }}"
+      },
+      "notes": "First topic on the list with no finished episode. Says no if one is in flight or episodes/PAUSE exists.",
+      "notesInFlow": true
+    },
+    {
+      "id": "read-pick",
+      "name": "Read pick",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const lines = String($input.first().json.stdout || '').split('\\n').filter(l => l.trim().startsWith('{'));\nlet r;\ntry { r = JSON.parse(lines[lines.length - 1]); } catch (e) { r = { go: false, why: 'pick step gave no answer: ' + String($input.first().json.stderr || '').slice(-200) }; }\nreturn [{ json: r }];"
+      }
+    },
+    {
+      "id": "go",
+      "name": "Go?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.go }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "nothing-to-do",
+      "name": "Nothing to do",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        260
+      ],
+      "parameters": {},
+      "notes": "Busy, paused, or the list is finished. See 'why' in the item.",
+      "notesInFlow": true
+    },
+    {
+      "id": "plan-episode",
+      "name": "Plan episode",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/scripts/episode_job.py plan {{ $json.folder }}"
+      },
+      "notes": "Opus writes the script, a fact check corrects it, Codex makes the location pictures, each picture is face- and body-checked. About 10-20 minutes.",
+      "notesInFlow": true
+    },
+    {
+      "id": "read-plan",
+      "name": "Read plan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const lines = String($input.first().json.stdout || '').split('\\n').filter(l => l.trim().startsWith('{'));\nlet r;\ntry { r = JSON.parse(lines[lines.length - 1]); } catch (e) { r = { ok: false, folder: $('Read pick').first().json.folder, error: 'plan step gave no answer' }; }\nreturn [{ json: r }];"
+      }
+    },
+    {
+      "id": "planned",
+      "name": "Planned?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "shoot-episode",
+      "name": "Shoot episode",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        -100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/scripts/episode_job.py shoot {{ $json.folder }}"
+      },
+      "notes": "Fish voice, clips on the 5090. Every take: word check, face check, big-mistake picture check; a failed take is reshot up to 4 times. Waits if the 5090 is away. About 20-45 minutes.",
+      "notesInFlow": true
+    },
+    {
+      "id": "finish",
+      "name": "Finish",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        0
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/scripts/episode_job.py finish {{ $('Read pick').first().json.folder }}"
+      },
+      "notes": "Frees the machine for the next topic, refreshes episodes/index.html, files the episode under output/ready_to_post.json or output/needs_look.json.",
+      "notesInFlow": true
+    },
+    {
+      "id": "read-result",
+      "name": "Read result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const lines = String($input.first().json.stdout || '').split('\\n').filter(l => l.trim().startsWith('{'));\nlet r;\ntry { r = JSON.parse(lines[lines.length - 1]); } catch (e) { r = { status: 'failed', folder: $('Read pick').first().json.folder }; }\nreturn [{ json: r }];"
+      }
+    },
+    {
+      "id": "clean",
+      "name": "Clean?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2420,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ready",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "upload-to-youtube-not-built-yet",
+      "name": "Upload to YouTube",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        -100
+      ],
+      "parameters": {
+        "command": "/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/scripts/episode_job.py post"
+      },
+      "notes": "Runs on EVERY wake-up (after a finished episode, and also when the machine is busy or idle). Publishes ONE waiting episode from output/ready_to_post.json: the vertical cut as a public Short, then the wide cut as a public video. At least 3 hours between episodes (GAP in scripts/episode_job.py). If an upload fails (sign-in lost, daily upload limit) it waits 2 hours and tries again, so nothing is forgotten. Flagged episodes never get here.",
+      "notesInFlow": true
+    },
+    {
+      "id": "needs-a-look",
+      "name": "Needs a look",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        120
+      ],
+      "parameters": {},
+      "notes": "A take was flagged, or the episode failed. Listed in output/needs_look.json with the reason. Not published. A topic that fails twice is left alone for 3 hours, then tried again.",
+      "notesInFlow": true
+    },
+    {
+      "id": "read-upload",
+      "name": "Read upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        -100
+      ],
+      "parameters": {
+        "jsCode": "const lines = String($input.first().json.stdout || '').split('\\n').filter(l => l.trim().startsWith('{'));\nlet r;\ntry { r = JSON.parse(lines[lines.length - 1]); } catch (e) { r = { ok: false, error: 'upload step gave no answer: ' + String($input.first().json.stderr || '').slice(-200) }; }\nreturn [{ json: r }];"
+      }
+    }
+  ],
+  "connections": {
+    "Every 10 minutes": {
+      "main": [
+        [
+          {
+            "node": "Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run once now": {
+      "main": [
+        [
+          {
+            "node": "Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Topics": {
+      "main": [
+        [
+          {
+            "node": "Pick next topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick next topic": {
+      "main": [
+        [
+          {
+            "node": "Read pick",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read pick": {
+      "main": [
+        [
+          {
+            "node": "Go?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Go?": {
+      "main": [
+        [
+          {
+            "node": "Plan episode",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nothing to do",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan episode": {
+      "main": [
+        [
+          {
+            "node": "Read plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read plan": {
+      "main": [
+        [
+          {
+            "node": "Planned?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planned?": {
+      "main": [
+        [
+          {
+            "node": "Shoot episode",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finish",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shoot episode": {
+      "main": [
+        [
+          {
+            "node": "Finish",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finish": {
+      "main": [
+        [
+          {
+            "node": "Read result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read result": {
+      "main": [
+        [
+          {
+            "node": "Clean?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean?": {
+      "main": [
+        [
+          {
+            "node": "Upload to YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Needs a look",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to YouTube": {
+      "main": [
+        [
+          {
+            "node": "Read upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nothing to do": {
+      "main": [
+        [
+          {
+            "node": "Upload to YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs a look": {
+      "main": [
+        [
+          {
+            "node": "Upload to YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

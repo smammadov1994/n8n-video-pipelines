@@ -1,0 +1,187 @@
+{
+  "id": "cartoonMachine1",
+  "name": "Cartoon machine",
+  "active": false,
+  "nodes": [
+    {
+      "id": "run-once-now",
+      "name": "Run once now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "episode",
+      "name": "Episode",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        100
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e1",
+              "name": "episode",
+              "type": "string",
+              "value": "omelet"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "notes": "EDIT HERE. Name of a folder in cartoon/ that holds script.json (one entry per scene: says, picture, does).",
+      "notesInFlow": true
+    },
+    {
+      "id": "make-start-pictures",
+      "name": "Make start pictures",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        440,
+        100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/cartoon/cartoon_job.py pictures {{ $('Episode').first().json.episode }}"
+      },
+      "notes": "One start picture per scene, made by Codex from the character sheet so Mango and the kitchen stay identical. Look at them before shooting: every prop the scene uses must already be visible.",
+      "notesInFlow": true
+    },
+    {
+      "id": "record-mangos-voice",
+      "name": "Record Mango's voice",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        660,
+        100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/cartoon/cartoon_job.py voice {{ $('Episode').first().json.episode }}"
+      },
+      "notes": "Fish Audio 'Kids' voice says each line. The clip is later generated around this audio, so the mouth follows the voice.",
+      "notesInFlow": true
+    },
+    {
+      "id": "shoot-the-scenes",
+      "name": "Shoot the scenes",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        880,
+        100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/cartoon/cartoon_job.py shoot {{ $('Episode').first().json.episode }}"
+      },
+      "notes": "One image-to-video clip per scene on the RTX 5090 (MiniMax H3 / HyperFlow Flash), voice anchored at frame 0. Each clip is transcribed; up to 4 tries until the words match.",
+      "notesInFlow": true
+    },
+    {
+      "id": "join-and-make-short",
+      "name": "Join and make Short",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        100
+      ],
+      "parameters": {
+        "command": "=/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/cartoon/cartoon_job.py finish {{ $('Episode').first().json.episode }}"
+      },
+      "notes": "Joins the best take of every scene into final.mp4 (1080p) and cuts a vertical Short.",
+      "notesInFlow": true
+    },
+    {
+      "id": "read-result",
+      "name": "Read result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const lines = String($input.first().json.stdout || '').split('\\n').filter(l => l.trim().startsWith('{'));\nlet r;\ntry { r = JSON.parse(lines[lines.length - 1]); } catch (e) { r = { ok: false, why: 'step gave no answer: ' + String($input.first().json.stderr || '').slice(-200) }; }\nreturn [{ json: r }];"
+      }
+    }
+  ],
+  "connections": {
+    "Run once now": {
+      "main": [
+        [
+          {
+            "node": "Episode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Episode": {
+      "main": [
+        [
+          {
+            "node": "Make start pictures",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make start pictures": {
+      "main": [
+        [
+          {
+            "node": "Record Mango's voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Mango's voice": {
+      "main": [
+        [
+          {
+            "node": "Shoot the scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shoot the scenes": {
+      "main": [
+        [
+          {
+            "node": "Join and make Short",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Join and make Short": {
+      "main": [
+        [
+          {
+            "node": "Read result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

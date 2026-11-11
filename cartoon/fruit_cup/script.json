@@ -1,0 +1,34 @@
+[
+ {
+  "n": 1,
+  "says": "Hello, little chefs! I am Mango the cat. Today we make a yummy fruit and yoghurt cup!",
+  "picture": "Mango stands behind a light wooden kitchen counter, seen from the belly up, with one paw raised beside the head in a friendly wave. On the counter in front of Mango: one empty clear plastic cup, one small bowl of white yoghurt, one small bowl of red strawberries and blue blueberries.",
+  "does": "Mango waves the raised paw twice on 'Hello', lowers it, then points with one paw down at the empty cup on 'fruit and yoghurt cup'. The mouth opens and closes with every word. After the last word Mango closes the mouth and smiles."
+ },
+ {
+  "n": 2,
+  "says": "First, spoon some creamy yoghurt into your cup. Then drop soft berries on top. Plop, plop, plop!",
+  "picture": "Mango stands behind the same light wooden kitchen counter, seen from the belly up, holding a small wooden spoon in one paw above a clear plastic cup that is half full of white yoghurt. Next to the cup: one small bowl of white yoghurt and one small bowl of red strawberries and blue blueberries.",
+  "does": "Mango dips the wooden spoon toward the cup once on 'spoon', then puts the spoon down and drops one berry into the cup on each 'plop'. The mouth opens and closes with every word. After the last word Mango closes the mouth and smiles."
+ },
+ {
+  "n": 3,
+  "says": "Look, our fruit cup is ready! Always cook with a grown-up. Bye-bye, little chefs!",
+  "picture": "Mango stands behind the same light wooden kitchen counter, seen from the belly up, holding up in both paws at chest height one clear plastic cup filled with white yoghurt and topped with red strawberries and blue blueberries. The counter is otherwise tidy.",
+  "does": "Mango lifts the full cup a little higher on 'Look', sets it down on the counter, nods once on 'grown-up', then waves one paw on 'Bye-bye'. The mouth opens and closes with every word. After the last word Mango closes the mouth and smiles."
+ },
+ {
+  "n": 4,
+  "name": "2a",
+  "says": "First, spoon some creamy yoghurt into your cup.",
+  "picture": "Mango stands behind the light wooden kitchen counter, seen from the belly up. On the counter, left to right: one small clear glass bowl of white yoghurt, one empty clear plastic cup in the centre, one small clear glass bowl of red strawberries and blue blueberries. Mango holds a small wooden spoon in one paw; the spoon is dipped into the yoghurt bowl with a heap of white yoghurt already on it.",
+  "does": "The paw lifts the wooden spoon, heaped with white yoghurt, up out of the yoghurt bowl, carries it sideways until it is over the empty cup, and tips it so the yoghurt slides off the spoon and falls into the cup on 'into your cup'. The yoghurt is seen travelling the whole way from the bowl to the cup. Nothing appears from nowhere and nothing disappears. The mouth opens and closes with every word. After the last word Mango closes the mouth and smiles."
+ },
+ {
+  "n": 5,
+  "name": "2b",
+  "says": "Then drop soft berries on top. Plop, plop, plop!",
+  "picture": "Mango stands behind the light wooden kitchen counter, seen from the belly up. On the counter, left to right: one small clear glass bowl of white yoghurt, one clear plastic cup in the centre filled with white yoghurt, one small clear glass bowl of red strawberries and blue blueberries. One of Mango's paws is reaching into the berry bowl and is holding one red strawberry just above the other berries. There is no spoon.",
+  "does": "The paw lifts the red strawberry up out of the berry bowl, carries it sideways until it is over the cup of yoghurt, and lets it fall onto the yoghurt on the first 'plop'. Then the same paw goes back into the berry bowl, picks up one blue blueberry, carries it over the cup and drops it in on the last 'plop'. Every berry is seen travelling the whole way from the berry bowl to the cup. No berry appears from nowhere and nothing disappears. The mouth opens and closes with every word. After the last word Mango closes the mouth and smiles."
+ }
+]

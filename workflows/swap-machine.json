@@ -124,7 +124,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1100,
+        1320,
         100
       ],
       "parameters": {
@@ -137,11 +137,26 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1320,
+        1540,
         100
       ],
       "parameters": {},
       "notes": "Not built yet: posting needs the owner's one-time TikTok sign-in in the uploader. Until then finished videos wait in swap/finished/.",
+      "notesInFlow": true
+    },
+    {
+      "id": "add-captions-and-end-card",
+      "name": "Add captions and end card",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        100
+      ],
+      "parameters": {
+        "command": "/opt/homebrew/bin/python3 /path/to/n8n-video-pipelines/swap/caption_job.py"
+      },
+      "notes": "raea (runs on the Mac, no GPU): hears the words in each finished swap, draws word-by-word captions, a product tag and an end card, and writes swap/captioned/<id>.mp4. The text is drawn by code, so it is always spelled right. Look: swap/caption_template/edit.tsx.",
       "notesInFlow": true
     }
   ],
@@ -205,7 +220,7 @@
       "main": [
         [
           {
-            "node": "Read result",
+            "node": "Add captions and end card",
             "type": "main",
             "index": 0
           }
@@ -217,6 +232,17 @@
         [
           {
             "node": "Post to TikTok (needs sign-in)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add captions and end card": {
+      "main": [
+        [
+          {
+            "node": "Read result",
             "type": "main",
             "index": 0
           }

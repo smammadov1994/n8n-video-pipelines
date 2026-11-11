@@ -34,6 +34,7 @@ n8n's `Read ...` Code nodes parse that last line and branch on it. Do not print 
 | `skills/episode-director/` | the director rulebook the script writer follows (`SKILL.md`, `LONGFORM.md`) |
 | `swap/prep_swaps.py`, `swap/text_screen.py` | pick and prepare clips for the swap |
 | `swap/swap_job.py` | n8n steps: `prep`, `send`, `collect`, `status` |
+| `swap/caption_job.py`, `swap/caption_template/edit.tsx` | captions, product tag and end card on finished swaps, rendered by raea on the Mac |
 | `swap/box/` | runs on the swap GPU, not on the Mac |
 | `cartoon/` | Mango: `character.txt`, `style.txt`, `<episode>/script.json`, step scripts |
 | `poster/` | YouTube publishing helpers |
@@ -61,7 +62,7 @@ There is no test suite. To check a change, run the single step it touches agains
 - **A misread word is fixed by rewording, not by retrying.** If a line fails the word check four times, change the words (`"a drop"` → `"one drop of water"`).
 - **Only big mistakes fail a clip.** Swapped limbs, giant hands, a changed outfit or background, a second person, text on screen. Jewellery that comes and goes does not. Do not tighten `clip_check.py` without being asked.
 - **The presenter never walks, is never filmed from behind or far away, never touches objects.** Still, talking, in varied places and framings.
-- **No text on screen** in any pipeline. Captions are added by hand afterwards.
+- **The video models never draw text.** Text comes from raea after the fact (`swap/caption_job.py`): it is code, so it is always spelled right. Keep source clips free of burned-in captions.
 - **Swap picker**: one person, face talking, product in hand; no outfit videos, no word-by-word captions. Count only *newly* prepared clips toward the keep limit.
 - **Cartoon**: everything a scene uses is already visible in its start picture; actions are written as things seen happening; no knives, no flame.
 - **Publishing**: public, Short plus full video, one episode every three hours, back off after a failed upload. A new YouTube channel has a daily upload limit until it is phone-verified.

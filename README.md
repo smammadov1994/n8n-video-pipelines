@@ -80,13 +80,15 @@ flowchart LR
   B --> C[Send to swap machine]
   C --> D[Swap on RTX 5090<br/>about 13 minutes per clip]
   D --> E[Collect into swap/finished]
-  E --> F[Post to TikTok<br/>not built yet]
+  E --> G[Captions + end card<br/>raea, on the Mac]
+  G --> F[Post to TikTok<br/>not built yet]
 ```
 
 1. **Pick** ([`swap/prep_swaps.py`](swap/prep_swaps.py)). Each candidate video is screened by a vision model on six frames. It is kept only if there is exactly one person, the face is visible and talking, a product is held or shown, it is not an outfit video, and there are no word-by-word captions. [`swap/text_screen.py`](swap/text_screen.py) then drops clips with text on screen for more than a few seconds and starts the rest after the opening caption.
 2. **Her voice**. The clip is transcribed, and Fish Audio speaks each sentence in the presenter's voice at the moment the creator said it. That track replaces the soundtrack before the swap, so the model lip-syncs her to her own voice.
 3. **Swap** ([`swap/box/run_swap.py`](swap/box/run_swap.py), [`swap/box/queue.sh`](swap/box/queue.sh)). Runs on a second GPU with the OpenJutsu one-click swap workflow (MiniMax H3 ref2va + SAM 3.1 + Qwen3-VL). The queue script swaps every uploaded clip, one at a time.
-4. **Collect**. Finished videos land in `swap/finished/` with a small JSON file holding creator, product and words. No text is added; captions are done by hand afterwards.
+4. **Collect**. Finished videos land in `swap/finished/` with a small JSON file holding creator, product and words.
+5. **Captions and end card** ([`swap/caption_job.py`](swap/caption_job.py)). The video model is never asked to draw text. Instead [raea](https://github.com/shinyobjectz/raea) renders it from code on the Mac: it hears the words in the finished clip, shows them three at a time with the spoken word highlighted, adds a product tag and a closing card, and writes `swap/captioned/`. About a minute per clip, no GPU. The look is one file: [`swap/caption_template/edit.tsx`](swap/caption_template/edit.tsx).
 
 **What it is good and bad at.** Strong on close-up, product-in-hand clips. Weak on outfit videos (she keeps her own clothes), burned-in captions (they get garbled) and full-body turns.
 
@@ -167,7 +169,7 @@ Full steps are in [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 4. **Workflows.** In each file under `workflows/`, replace `/path/to/n8n-video-pipelines` with where you cloned this repository, then `./start.sh import:workflow --input=workflows/<file>` and `./start.sh publish:workflow --id=<id>`.
 5. **YouTube** (optional). `poster/yt.py` drives [dreammis/social-auto-upload](https://github.com/dreammis/social-auto-upload); clone it into `poster/social-auto-upload` and sign in once with `poster/yt.py login`.
 
-You also need `ffmpeg`, `uv`, Python 3.10+, and the `claude` command line tool signed in (it writes scripts and does the vision checks). Start pictures are generated with the Codex CLI.
+You also need `ffmpeg`, `uv`, `raea` (for the caption step), Python 3.10+, and the `claude` command line tool signed in (it writes scripts and does the vision checks). Start pictures are generated with the Codex CLI.
 
 ## What is not in this repository
 
@@ -178,4 +180,4 @@ You also need `ffmpeg`, `uv`, Python 3.10+, and the `claude` command line tool s
 
 ## Models and tools used
 
-MiniMax H3 with HyperFlow Flash (video and audio), OpenJutsu one-click swap, SAM 3.1, Qwen3-VL, Fish Audio (voices), Claude (scripts and checks), Codex image generation (start pictures), n8n, ComfyUI, Vast.ai. Check each model's license before using it for your own purposes.
+MiniMax H3 with HyperFlow Flash (video and audio), OpenJutsu one-click swap, raea (captions and end cards), SAM 3.1, Qwen3-VL, Fish Audio (voices), Claude (scripts and checks), Codex image generation (start pictures), n8n, ComfyUI, Vast.ai. Check each model's license before using it for your own purposes.

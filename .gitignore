@@ -22,3 +22,5 @@ swap_connection.json
 *.cookies
 .DS_Store
 __pycache__/
+swap/captioned/
+swap/caption_work/

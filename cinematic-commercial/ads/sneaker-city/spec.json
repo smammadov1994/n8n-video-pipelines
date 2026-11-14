@@ -1,0 +1,41 @@
+{
+ "name": "sneaker",
+ "style": "Live-action cinematic sportswear commercial shot on anamorphic lenses, photorealistic, shallow depth of field, wet streets, film grain. The city begins in cold desaturated grey and fills with vivid neon colour.",
+ "picture_style": "Style: photorealistic cinematic film still, anamorphic lens, shallow depth of field, natural skin texture, film grain.",
+ "voice": "A woman with a low, calm, confident voice",
+ "pictures": {
+  "runner": {"draw": "A woman runner in her mid twenties standing still on an empty city street before dawn in light drizzle, seen from the knees up, facing the viewer. Dark hair in a high ponytail, plain black lightweight running jacket zipped up, black leggings, calm focused face, breath fogging in the cold. Everything around her is cold grey and desaturated.", "is": "the runner, a woman in her mid twenties with a dark high ponytail, plain black running jacket and black leggings"},
+  "shoe": {"draw": "A product photograph of one pair of plain running shoes on wet dark asphalt, seen from the side at ground level: clean white knit upper, thick white cushioned sole with a thin bright orange stripe along the midsole, white laces, no markings of any kind. Tiny water droplets on the knit, a soft reflection in the wet ground, dark blurred street behind.", "is": "the pair of running shoes, white knit upper, thick white sole with a thin orange stripe, white laces"},
+  "map": {"draw": "An aerial night view straight down onto a dense dark city grid just before sunrise, where only some streets are lit in glowing magenta, cyan and orange light, and those glowing streets together clearly trace the side outline of one running shoe, sole at the bottom, across the whole city. The rest of the city is dark blue-grey. Thin mist, tiny car lights.", "is": "the aerial view of the dark city whose glowing coloured streets trace the outline of a running shoe"}
+ },
+ "clips": [
+  {"sound": "Light rain on asphalt, a distant city hum, one slow breath, then a single hard footstep splashing.",
+   "shots": [
+    {"len": 80, "pic": "runner", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "Before dawn on an empty grey city avenue in drizzle, {runner} stands alone at a crosswalk, still, eyes forward, breath fogging, every building and sign around her dark and colourless."},
+    {"len": 80, "pic": "shoe", "camera": "static",
+     "text": "a ground-level close-up of {shoe} on her feet on the wet asphalt, standing still, rain beading on the white knit, the only clean bright thing in the grey street."},
+    {"len": 83, "camera": "tracking",
+     "text": "a low side view as {runner} pushes off into a run; where her first step lands in a puddle, a ring of vivid magenta and cyan light bursts outward across the wet road and climbs the nearest wall."}
+   ]},
+  {"sound": "Fast rhythmic footsteps on wet pavement, splashes, neon signs buzzing and clicking on one after another.",
+   "shots": [
+    {"len": 80, "pic": "runner", "camera": "tracking",
+     "text": "{runner} runs fast down the avenue seen from the side, ponytail swinging; behind every footfall a wave of neon colour sweeps along the shopfronts and dead signs flicker alive in pink, blue and orange."},
+    {"len": 80, "pic": "shoe", "camera": "static",
+     "text": "a slow-motion ground-level close-up of one of {shoe} striking a puddle, water exploding upward in glowing magenta and cyan droplets that hang in the air."},
+    {"len": 83, "camera": "pedestal_up", "amp": "large", "speed": "slow",
+     "text": "a high wide shot rising above the avenue as the tiny figure of the runner sprints away, block after block of the dark city switching on in colour in her wake under a paling sky."}
+   ]},
+  {"sound": "Wind on a rooftop, slowing breath, the city waking far below, a soft low hum.",
+   "shots": [
+    {"len": 75, "pic": "runner", "camera": "orbit", "amp": "small", "speed": "slow",
+     "text": "{runner} slows to a stop on a rooftop at sunrise, hands on her hips, breathing hard and smiling slightly, the whole city behind her now glowing in full colour under an orange sky."},
+    {"len": 80, "pic": "map", "camera": "pedestal_up", "amp": "small", "speed": "slow",
+     "text": "a view from high above looking straight down: {map}, the route she ran, the glowing lines pulsing gently while the rest of the city stays dark."},
+    {"len": 88, "pic": "shoe", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "say": "Run it awake.",
+     "text": "{shoe} resting side by side on the rooftop ledge, steam rising off them in the cold, the first sunlight catching the orange stripe, the colourful city soft and out of focus behind."}
+   ]}
+ ]
+}

@@ -1,12 +1,13 @@
 # n8n video pipelines
 
-Three video pipelines that run on their own (plus one stand-alone tool, the [talking avatar](#4-talking-avatar)), orchestrated by [n8n](https://n8n.io) on a Mac and rendered on rented RTX 5090s (Vast.ai, ComfyUI, MiniMax H3 / HyperFlow Flash):
+Three video pipelines that run on their own (plus one stand-alone tool, the [talking avatar](#4-talking-avatar), and the hand-run [cinematic commercial pipeline](#5-cinematic-commercial-pipeline)), orchestrated by [n8n](https://n8n.io) on a Mac and rendered on rented RTX 5090s (Vast.ai, ComfyUI, MiniMax H3 / HyperFlow Flash):
 
 | Pipeline | What it makes | Workflow |
 |---|---|---|
 | **Educational presenter** | An AI presenter explains one science question per episode, as a wide video and a vertical Short, and publishes both to YouTube | [`workflows/episode-machine.json`](workflows/episode-machine.json) |
 | **Person swap** | Takes an existing product video, replaces the person with our presenter and gives her one consistent voice | [`workflows/swap-machine.json`](workflows/swap-machine.json) |
 | **Kids cartoon** | "Mango", a round orange cat, teaches children to cook one simple recipe per episode | [`workflows/cartoon-machine.json`](workflows/cartoon-machine.json) |
+| **Cinematic commercial** | A 30-second, nine-shot commercial for one product in one art style, with the product shown in a clever way at the end | no workflow yet, run by hand: [`cinematic-commercial/`](cinematic-commercial/README.md) |
 
 Every step is a small Python script that prints one line of JSON, so n8n decides what happens next and a failed step never kills a run.
 
@@ -154,6 +155,44 @@ Everything about it, including what had to be fixed to fit a 32 GB card, is in [
 
 ---
 
+## 5. Cinematic commercial pipeline
+
+One product, one art style, nine shots, about 30 seconds, and a clever last shot. Codex draws the character, the product and the end picture; the [MiniMax Director](https://github.com/imbutus/ComfyUI-MiniMaxDirector) turns a three-shot script into the prompt layout MiniMax H3 was trained on, so one render gives three shots with real cuts and camera moves and the same look across them.
+
+<p>
+  <img src="docs/media/commercial_paper_craft.gif" width="400" alt="Sparkling water commercial in paper craft, sped up">
+  <img src="docs/media/commercial_dust_bunnies.gif" width="400" alt="Cordless vacuum commercial as a 3D animated film, sped up">
+</p>
+
+<img src="docs/media/commercial_sparkling_water_paper_craft.jpg" width="640" alt="Nine frames from the paper-craft sparkling water commercial, one per shot">
+
+**Examples** (made-up products, no brands)
+
+- [Sparkling water can, paper craft](examples/cinematic-commercial/sparkling_water_paper_craft.mp4): the paper jungle folds shut into a pop-up book with the real can on top
+- [Cordless vacuum, 3D animated film](examples/cinematic-commercial/cordless_vacuum_3d_animation.mp4): a dust bunny waves a white flag
+- [Building bricks, stop motion](examples/cinematic-commercial/building_bricks_stop_motion.mp4): the whole universe is inside the tub
+- [Hot sauce, comic book](examples/cinematic-commercial/hot_sauce_comic_book.mp4): the bottle in a cape on a rooftop
+- [Espresso machine, film noir](examples/cinematic-commercial/espresso_machine_film_noir.mp4): only the coffee is in colour
+- [Instant camera, 1970s home movie](examples/cinematic-commercial/instant_camera_home_movie.mp4): the last shot becomes a photo
+- [Running shoes, neon city](examples/cinematic-commercial/running_shoes_neon_city.mp4): the lit streets trace the shoe
+
+**How it works**
+
+```mermaid
+flowchart LR
+  A[Script file<br/>look · pictures · 3 clips x 3 shots] --> B[Draw pictures<br/>Codex]
+  B --> C[Build timelines<br/>one per clip, checked]
+  C --> D[Render<br/>MiniMax H3 + Director]
+  D --> E[Look at frame sheets]
+  E --> F[Join into final video]
+```
+
+One file per commercial ([`cinematic-commercial/ads/<name>/spec.json`](cinematic-commercial/ads/paper-fizz/spec.json)) holds everything. [`cinematic-commercial/adkit.py`](cinematic-commercial/adkit.py) draws, builds, makes the check sheets and joins; [`cinematic-commercial/box/run_director.py`](cinematic-commercial/box/run_director.py) queues the clips on the GPU. About 16 minutes per 10-second clip on one RTX 5090, about $0.60 per commercial.
+
+What it is for, the exact models and settings, the script format, all seven examples with pictures, and the rules that came from failed renders are in [`cinematic-commercial/README.md`](cinematic-commercial/README.md).
+
+---
+
 ## Repository layout
 
 ```
@@ -165,6 +204,7 @@ swap/                 person-swap picker, sender, collector
 swap/box/             files that run ON the swap GPU (install, queue, swap)
 cartoon/              Mango: character, style, episode scripts, steps
 talking/              talking avatar: setup, 32 GB fixes and run script for LongCat-Video-Avatar 1.5
+cinematic-commercial/ commercial pipeline: adkit.py, the GPU scripts in box/, one script file per commercial in ads/
 poster/               YouTube publisher (browser automation helpers)
 comfyui-mcp/          the ComfyUI driver the scripts import, plus the video workflows
 docs/                 RULEBOOK.md, RUNBOOK.md, pictures for this page
@@ -182,7 +222,8 @@ Full steps are in [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 2. **Driver.** Copy `comfyui-mcp/` to `~/comfyui-mcp/`. Copy the machine's ComfyUI link and run `python3 set_5090.py` (add `--swap` for the swap machine). Add your Fish Audio key to `~/comfyui-mcp/connection.json` as `fish_api_key`.
 3. **n8n.** `npm install`, then `./start.sh start`. Editor at http://localhost:5678.
 4. **Workflows.** In each file under `workflows/`, replace `/path/to/n8n-video-pipelines` with where you cloned this repository, then `./start.sh import:workflow --input=workflows/<file>` and `./start.sh publish:workflow --id=<id>`.
-5. **YouTube** (optional). `poster/yt.py` drives [dreammis/social-auto-upload](https://github.com/dreammis/social-auto-upload); clone it into `poster/social-auto-upload` and sign in once with `poster/yt.py login`.
+5. **Cinematic commercials** (optional). Nothing to import. On the swap machine, clone [ComfyUI-MiniMaxDirector](https://github.com/imbutus/ComfyUI-MiniMaxDirector) into `ComfyUI/custom_nodes`; the rest is in [`cinematic-commercial/README.md`](cinematic-commercial/README.md).
+6. **YouTube** (optional). `poster/yt.py` drives [dreammis/social-auto-upload](https://github.com/dreammis/social-auto-upload); clone it into `poster/social-auto-upload` and sign in once with `poster/yt.py login`.
 
 You also need `ffmpeg`, `uv`, `raea` (for the caption step), Python 3.10+, and the `claude` command line tool signed in (it writes scripts and does the vision checks). Start pictures are generated with the Codex CLI.
 
@@ -195,4 +236,4 @@ You also need `ffmpeg`, `uv`, `raea` (for the caption step), Python 3.10+, and t
 
 ## Models and tools used
 
-MiniMax H3 with HyperFlow Flash (video and audio), OpenJutsu one-click swap, LongCat-Video-Avatar 1.5 (talking avatar), raea (captions and end cards), SAM 3.1, Qwen3-VL, Fish Audio (voices), Claude (scripts and checks), Codex image generation (start pictures), n8n, ComfyUI, Vast.ai. Check each model's license before using it for your own purposes.
+MiniMax H3 with HyperFlow Flash (video and audio), ComfyUI-MiniMaxDirector (multi-shot prompts for the commercials), OpenJutsu one-click swap, LongCat-Video-Avatar 1.5 (talking avatar), raea (captions and end cards), SAM 3.1, Qwen3-VL, Fish Audio (voices), Claude (scripts and checks), Codex image generation (start pictures), n8n, ComfyUI, Vast.ai. Check each model's license before using it for your own purposes.

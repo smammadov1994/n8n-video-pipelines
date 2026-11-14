@@ -1,0 +1,41 @@
+{
+ "name": "shadow",
+ "style": "A shadow-puppet theatre film: crisp black cut-paper silhouettes with delicate cut-out details moving against a softly glowing warm paper screen, layered translucent coloured tissue in amber, rose and deep blue, visible paper grain, gentle hand-moved puppet motion.",
+ "picture_style": "Style: a shadow-puppet theatre image, crisp black cut-paper silhouettes with delicate cut-out details against a softly glowing warm paper screen, visible paper grain.",
+ "voice": "A woman with a hushed, warm, bedtime-story voice",
+ "pictures": {
+  "child": {"draw": "The black cut-paper silhouette of one small child sitting up in bed in profile facing right, with messy hair, a nightshirt and the blanket pulled up to the chin, on a plain softly glowing amber paper screen with nothing else around.", "is": "the black paper silhouette of the small child with messy hair sitting up in bed with the blanket pulled up"},
+  "monster": {"draw": "The black cut-paper silhouette of a tall looming shadow monster on a plain deep blue glowing paper screen: long clawed arms raised, spiky back, two round cut-out eyes and a jagged cut-out mouth, made of ragged torn paper edges.", "is": "the tall black paper shadow monster with long clawed arms, a spiky back and round cut-out eyes"},
+  "lamp": {"draw": "A real photograph, not a silhouette: a small modern bedside lamp standing on a wooden bedside table in a dark child's bedroom at night, a rounded mushroom shape with a frosted white dome shade and a short brushed-brass base, glowing warm amber. Its light throws onto the wall behind it the large soft shadows of two hands making a rabbit shadow puppet and of a small paper star mobile. Part of a bed with a patterned blanket at the edge.", "is": "the small mushroom-shaped bedside lamp with a frosted white dome and brass base glowing amber on a bedside table, throwing a rabbit hand-shadow on the wall"}
+ },
+ "clips": [
+  {"sound": "A dark quiet house at night, wind outside, a floorboard creak, a small frightened gasp.",
+   "shots": [
+    {"len": 80, "pic": "child", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "On a dim deep-blue paper screen {child}, wide awake, head turning left and right, the silhouette of a window with a crescent moon behind."},
+    {"len": 80, "camera": "static",
+     "text": "the black paper silhouettes of ordinary bedroom things, a coat on a hook, a chair with clothes, a branch outside the window, slowly stretching and twisting upward into frightening pointed shapes."},
+    {"len": 83, "pic": "monster", "camera": "tilt_up", "amp": "small", "speed": "slow",
+     "text": "{monster} rising up over the little bed, its long arms spreading across the whole blue screen."}
+   ]},
+  {"sound": "A soft click, a warm gentle hum, then a surprised giggle and a playful little squeak.",
+   "shots": [
+    {"len": 75, "pic": "child", "camera": "static",
+     "text": "{child} reaching one small silhouette hand out to the side, and a warm amber glow blooming from the edge of the screen and washing the deep blue away."},
+    {"len": 85, "pic": "monster", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "in the warm amber light {monster} shrinking and softening, its claws curling into round paws and its spikes into floppy ears, until it is a plump friendly paper bear silhouette giving a shy wave."},
+    {"len": 83, "pic": "child", "camera": "truck_right", "amp": "small", "speed": "slow",
+     "text": "{child} now laughing and bouncing on the bed while friendly paper silhouettes parade across the glowing amber screen: the bear, a rabbit, a giraffe and a little whale swimming through paper stars."}
+   ]},
+  {"sound": "Quiet bedtime calm, slow sleepy breathing, a faint lullaby hum of the lamp.",
+   "shots": [
+    {"len": 75, "pic": "child", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{child} lying down and falling asleep under the blanket while the paper bear silhouette sits beside the bed keeping watch, paper stars turning slowly above."},
+    {"len": 80, "pic": "lamp", "camera": "dolly_out", "amp": "large", "speed": "slow",
+     "text": "the camera pulling back from the glowing paper screen until it is seen to be a real bedroom wall at night, the shadows on it cast by {lamp}."},
+    {"len": 88, "pic": "lamp", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "say": "Make friends with the dark.", "how": "whispers",
+     "text": "a close view of {lamp}, its amber light breathing gently, the soft bear-shaped shadow on the wall behind it giving one last small wave."}
+   ]}
+ ]
+}

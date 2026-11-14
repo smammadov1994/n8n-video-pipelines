@@ -1,0 +1,40 @@
+{
+ "name": "poster",
+ "style": "A 1930s Art Deco travel poster come to life: flat bold shapes, strong geometric composition, limited palette of teal, cream, coral and gold, stippled lithograph texture, long stylised shadows, simple elegant animation.",
+ "picture_style": "Style: a 1930s Art Deco travel poster illustration, flat bold shapes, limited palette of teal, cream, coral and gold, stippled lithograph texture.",
+ "voice": "A woman with an elegant, warm, inviting voice",
+ "pictures": {
+  "case": {"draw": "One upright hard-shell cabin suitcase with four small wheels and a raised telescopic handle, coral red with vertical ribbed lines and gold corner caps, three-quarter view, on a plain flat cream background with one long teal shadow. Completely clean, no stickers.", "is": "the upright coral-red ribbed suitcase with gold corner caps, four small wheels and a raised handle"},
+  "door": {"draw": "The inside of a stylish hallway by an open front door with morning light streaming in. In the middle stands an upright coral-red ribbed hard-shell suitcase with gold corner caps and a raised handle, now covered all over with round and shield-shaped travel stickers showing tiny pictures of a tower, pyramids, snowy mountains, a palm beach and a pagoda. A hat and a coat hang on a hook beside the door. No lettering.", "is": "the coral-red suitcase covered in picture travel stickers standing in a hallway by an open front door in morning light"}
+ },
+ "clips": [
+  {"sound": "A light breeze, small suitcase wheels rolling on stone, a far-off accordion, pigeons taking off.",
+   "shots": [
+    {"len": 80, "pic": "case", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{case} standing alone in the middle of a wide cream-coloured city square at dawn beneath a tall stylised iron lattice tower, long teal shadows stretching across the paving."},
+    {"len": 80, "pic": "case", "camera": "tracking",
+     "text": "{case} rolling by itself along a riverside boulevard past geometric plane trees and a striped cafe awning, a flock of flat white pigeons scattering upward as it passes."},
+    {"len": 83, "camera": "pedestal_up", "amp": "large", "speed": "slow",
+     "text": "the little coral suitcase rolling up a gangway onto a huge stylised ocean liner with three gold funnels, steam rising in flat curling shapes into a teal sky."}
+   ]},
+  {"sound": "Hot desert wind, then crisp mountain air and a distant cowbell, then warm waves on a beach.",
+   "shots": [
+    {"len": 80, "pic": "case", "camera": "truck_right", "amp": "small", "speed": "slow",
+     "text": "{case} rolling across golden sand dunes at sunset in front of three great geometric pyramids, a line of flat camel silhouettes on the horizon."},
+    {"len": 80, "pic": "case", "camera": "tilt_up", "amp": "small", "speed": "slow",
+     "text": "{case} riding alone in a small open cable car up toward jagged snow-white peaks against a deep teal sky, tiny pine trees far below."},
+    {"len": 83, "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "the coral suitcase resting upright on a cream beach under a single leaning palm tree, stylised waves rolling in as flat teal bands, a gold sun sinking into the sea."}
+   ]},
+  {"sound": "A quiet hallway, a clock, a door opening, birds and a taxi horn outside.",
+   "shots": [
+    {"len": 75, "camera": "static",
+     "text": "the tower, the pyramids, the snowy peaks, the palm beach and a pagoda shrinking one after another into small round picture stickers that fly through a cream sky like a flock of birds."},
+    {"len": 80, "pic": "door", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{door}, the last round sticker landing on its side and pressing itself flat."},
+    {"len": 88, "pic": "door", "camera": "static",
+     "say": "Where to next?",
+     "text": "a close view of the sticker-covered coral suitcase by the open door, its handle rising by itself with a click and its wheels turning toward the bright doorway."}
+   ]}
+ ]
+}

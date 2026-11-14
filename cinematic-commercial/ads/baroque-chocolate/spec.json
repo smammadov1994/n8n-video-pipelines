@@ -1,0 +1,41 @@
+{
+ "name": "baroque",
+ "style": "A 17th-century Dutch Golden Age oil painting come to life: deep chiaroscuro, candlelight against near-black shadow, rich glazes, visible brushwork and fine craquelure in the varnish, everything moving slowly and gently as painted figures inside gilded frames.",
+ "picture_style": "Style: a 17th-century Dutch Golden Age oil painting, deep chiaroscuro, candlelight, rich glazes, visible brushwork and fine craquelure.",
+ "voice": "A man with a rich, warm, slightly mischievous voice",
+ "pictures": {
+  "noble": {"draw": "A formal half-length oil portrait of a stern nobleman of about fifty against a plain dark brown background: a large white lace ruff collar, black velvet doublet, a neat pointed grey beard and an upturned moustache, pale face lit from the left, eyes looking at the viewer. No frame, plain background.", "is": "the stern painted nobleman with a white lace ruff, black velvet doublet and a pointed grey beard"},
+  "still": {"draw": "An oil still life on a dark table against a plain near-black background, lit by one candle: a silver goblet, a peeled lemon with a curling rind, dark grapes, a pewter plate, and in the centre, catching the light, one bar of dark chocolate half unwrapped from plain gold foil, its squares glossy, one square broken off beside it. No lettering.", "is": "the candlelit still life with a silver goblet, a peeled lemon, grapes and a bar of dark chocolate half unwrapped from gold foil"},
+  "after": {"draw": "Morning light in an old museum gallery with a dark green wall. Two oil paintings hang side by side in ornate gilded frames. Left: a portrait of a nobleman with a white lace ruff, black doublet and pointed grey beard, now looking away with an innocent expression and a small smear of chocolate on his moustache. Right: a still life with a silver goblet, lemon and grapes where a crumpled empty gold foil wrapper and a few chocolate crumbs lie on the pewter plate. Soft daylight, polished wooden floor.", "is": "the two framed paintings side by side in the morning gallery, the nobleman looking away with chocolate on his moustache and the still life holding only an empty gold wrapper and crumbs"}
+ },
+ "clips": [
+  {"sound": "A silent museum at night, a slow clock, a candle flame fluttering, old wood creaking.",
+   "shots": [
+    {"len": 80, "pic": "still", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "In a dark museum gallery at night a gilded frame holds {still}, the painted candle flame flickering gently and a soft gleam sliding across the chocolate."},
+    {"len": 80, "pic": "noble", "camera": "static",
+     "text": "in the next gilded frame, {noble} holding perfectly still, then only his painted eyes sliding slowly sideways toward the neighbouring picture."},
+    {"len": 83, "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "an extreme close-up of the painted chocolate bar in its gold foil, candlelight glowing on the glossy squares, fine cracks in the old varnish, a thin curl of painted steam-like aroma rising from the broken square."}
+   ]},
+  {"sound": "A tiny painted gulp, canvas creaking as it stretches, a frame rattling softly, a stifled cough echoing in an empty hall.",
+   "shots": [
+    {"len": 80, "pic": "noble", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{noble} licking his lips, his stern face softening, then leaning slowly sideways inside his frame until his lace ruff presses against its gilded edge."},
+    {"len": 80, "camera": "truck_right", "amp": "small", "speed": "slow",
+     "text": "a long gallery wall of old portraits in gilded frames at night, every painted figure, a lady with pearls, a boy with a dog, an old scholar, leaning out and craning toward the same candlelit still life at the end of the wall."},
+    {"len": 83, "pic": "still", "camera": "static",
+     "text": "{still}, and from the left edge of the frame the sleeve of a black velvet arm with a lace cuff slowly reaching into the picture toward the chocolate as the candle gutters and the canvas goes dark."}
+   ]},
+  {"sound": "Morning birds outside tall windows, footsteps far off on a wooden floor, one small satisfied sigh.",
+   "shots": [
+    {"len": 75, "camera": "pedestal_down", "amp": "small", "speed": "slow",
+     "text": "morning sunlight spreading through tall windows across the empty museum gallery, dust floating, the row of gilded frames glowing on the dark green wall."},
+    {"len": 80, "pic": "after", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{after}."},
+    {"len": 88, "pic": "noble", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "say": "Irresistible. Since always.",
+     "text": "a close-up of {noble} in his gilded frame, gazing innocently upward, a small smear of chocolate on his moustache; his eyes flick to the viewer and he gives one slow wink."}
+   ]}
+ ]
+}

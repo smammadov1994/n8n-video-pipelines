@@ -1,0 +1,41 @@
+{
+ "name": "noir",
+ "style": "A 1940s film noir detective picture in high-contrast black and white, hard shadows from venetian blinds, wet streets, deep blacks, film grain, low angles. Only the coffee and its steam are ever in colour, a warm glowing amber, until the last moments.",
+ "picture_style": "Style: a still from a 1940s black-and-white film noir, high contrast, hard venetian-blind shadows, film grain. Black and white only unless colour is asked for.",
+ "voice": "A man with a deep, dry, gravelly narrator voice",
+ "pictures": {
+  "detective": {"draw": "A tired private detective in his forties sitting at a cluttered wooden desk in a dark office at night, seen from the waist up, facing the viewer: rumpled trench coat, loosened tie, fedora pushed back, heavy eyelids, stubble. Stripes of light from venetian blinds fall across him. Rain on the window behind.", "is": "the detective, a tired man in his forties in a rumpled trench coat, loosened tie and fedora"},
+  "machine": {"draw": "A compact modern espresso machine standing on a kitchen counter in a dark room: a slim rounded matte body, a single chrome spout, one small round button glowing softly, a small clear glass cup under the spout. The picture is black and white with hard shadows, except the button glow and a thin wisp of steam, which are warm amber.", "is": "the compact espresso machine with a slim rounded matte body, a chrome spout and one softly glowing round button"},
+  "board": {"draw": "Full warm morning colour. A detective's cork evidence board on an office wall covered with pinned photographs and paper scraps, with many red strings running from every pin and all converging downward on one object standing on the desk in front of the board: a compact slim matte espresso machine with a chrome spout, a small glass cup of espresso with golden crema beside it, steam rising. Golden sunlight through venetian blinds.", "is": "the evidence board whose red strings all lead to the espresso machine and a steaming cup on the desk, in full warm colour"}
+ },
+ "clips": [
+  {"sound": "Heavy rain on a window, a slow ceiling fan, a clock ticking, a weary exhale.",
+   "shots": [
+    {"len": 85, "pic": "detective", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "In a dark office before dawn {detective} sits slumped at his cluttered desk with his chin on his fist, eyes nearly shut, blind shadows striped across his face, rain running down the window behind him."},
+    {"len": 75, "camera": "static",
+     "text": "a close-up of an empty chipped white mug on the desk beside a stack of case files, a dry brown ring at the bottom, a fly walking along its rim."},
+    {"len": 83, "pic": "detective", "camera": "pan_right", "amp": "small", "speed": "slow",
+     "text": "{detective} lifting his head and turning toward the door as a thin ribbon of glowing amber steam, the only colour in the room, drifts in through the keyhole and curls across the black-and-white office."}
+   ]},
+  {"sound": "Rain in an alley, slow footsteps on wet cobblestones, a door creaking open, a low electric hum.",
+   "shots": [
+    {"len": 80, "pic": "detective", "camera": "tracking",
+     "text": "{detective} walking down a narrow rain-soaked alley at night with his collar up, following the thin glowing amber ribbon of steam that floats ahead of him through the black-and-white dark."},
+    {"len": 75, "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "the amber steam slipping under a door with a frosted glass panel; the door swings slowly inward on its own, spilling a hard wedge of light across the wet ground."},
+    {"len": 88, "pic": "machine", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "a dark empty kitchen where {machine} stands alone on the counter in a shaft of light, its button glowing amber, the ribbon of steam rising from the small glass cup beneath its spout."}
+   ]},
+  {"sound": "A soft machine purr, liquid pouring, one slow sip, then birdsong and morning traffic far away.",
+   "shots": [
+    {"len": 75, "pic": "machine", "camera": "static",
+     "text": "an extreme close-up of the chrome spout of {machine} as a thin stream of espresso pours into the small glass cup, the coffee a rich glowing amber-brown with golden crema while everything else stays black and white."},
+    {"len": 80, "pic": "detective", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{detective} holding the small glass cup at his lips, eyes opening wide; warm natural colour spreads outward from the cup across his face, his coat and then the whole room, the black and white melting into a golden morning."},
+    {"len": 88, "pic": "board", "camera": "pedestal_down", "amp": "small", "speed": "slow",
+     "say": "Case closed.", "how": "says dryly",
+     "text": "{board}, the camera drifting down along the red strings to rest on the machine and the steaming cup in the morning sun."}
+   ]}
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "name": "paper",
+ "style": "A handmade paper-craft diorama filmed for real: everything cut and folded from coloured paper and card in layers, visible paper fibres and torn edges, soft shadows between the layers, gentle stop-frame movement like a pop-up book coming alive.",
+ "picture_style": "Style: a photograph of a handmade layered paper-craft diorama, everything cut and folded from coloured paper and card, visible paper fibres, soft shadows between layers.",
+ "voice": "A woman with a bright, playful, refreshing voice",
+ "pictures": {
+  "desert": {"draw": "A dry desert made of layered cut paper in dusty beige, tan and pale orange: cracked paper ground, drooping wilted paper cactus with curled brown edges, a huge flat paper sun with paper heat rays, a small paper lizard lying flat on a rock, paper tumbleweed.", "is": "the dry paper desert with a wilted paper cactus, a huge paper sun and a small paper lizard on a rock"},
+  "can": {"draw": "One tall slim drinks can made of real shiny aluminium, pale mint green with a simple white wave band around the middle and small silver water droplets on it, standing upright in the middle of a beige cut-paper desert. It is the only real, glossy object in a world of matte paper. No lettering on the can.", "is": "the tall slim pale mint-green aluminium can with a white wave band and cold water droplets on it"},
+  "book": {"draw": "A large closed handmade pop-up book with a plain green cloth cover lying on a white table, with lush folded paper jungle leaves, paper flowers and a paper waterfall bursting out from between its pages at the edges. On top of the closed book stands a tall slim pale mint-green aluminium can with a white wave band, covered in cold droplets, with a few paper bubbles floating above it.", "is": "the closed pop-up book with paper jungle leaves spilling from its pages and the mint-green can standing on top of it"}
+ },
+ "clips": [
+  {"sound": "Dry wind, paper rustling and creaking, a slow hollow rolling sound of an empty can on card.",
+   "shots": [
+    {"len": 85, "pic": "desert", "camera": "truck_right", "amp": "small", "speed": "slow",
+     "text": "{desert}, paper heat rays quivering, the wilted cactus sagging a little further."},
+    {"len": 75, "camera": "static",
+     "text": "a close-up of the small flat paper lizard on its rock, its paper tongue hanging out, one paper eyelid drooping in the heat."},
+    {"len": 83, "pic": "can", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{can} standing upright in the middle of the paper desert, its long cool shadow falling across the cracked paper ground, real droplets sliding down its side while the paper lizard lifts its head to look."}
+   ]},
+  {"sound": "A crisp metallic crack and hiss of a can opening, rising fizz, paper unfolding with soft snaps and rustles, running water.",
+   "shots": [
+    {"len": 75, "pic": "can", "camera": "static",
+     "text": "a close-up of the top of {can} as its ring pull lifts by itself with a small burst of mist and a stream of round white and pale green paper bubbles rises out of the opening."},
+    {"len": 85, "pic": "desert", "camera": "pedestal_up", "amp": "small", "speed": "slow",
+     "text": "paper bubbles drifting across {desert} and wherever one lands the paper unfolds: the cactus straightens and bursts into pink paper flowers, green paper grass springs up through the cracks, a blue paper stream unrolls across the ground."},
+    {"len": 83, "camera": "dolly_out", "amp": "large", "speed": "slow",
+     "text": "the whole desert transformed into a lush layered paper jungle with tall folded palm leaves, a tumbling paper waterfall and paper birds on strings, the little paper lizard now bright green and leaping happily from leaf to leaf."}
+   ]},
+  {"sound": "Jungle birds and a waterfall, then the soft thump of a heavy book closing and one last gentle fizz.",
+   "shots": [
+    {"len": 80, "camera": "dolly_out", "amp": "large", "speed": "slow",
+     "text": "the camera pulling back from the paper jungle until it is seen to be standing up out of the open pages of a huge pop-up book on a white table, the paper waterfall pouring across the spread."},
+    {"len": 75, "camera": "static",
+     "text": "the cover of the pop-up book swinging slowly shut on its own, the paper jungle folding flat between the pages, a few leaves and flowers left sticking out at the edges."},
+    {"len": 88, "pic": "book", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "say": "Open something.",
+     "text": "{book}, droplets running down the can, a single paper bubble rising from it."}
+   ]}
+ ]
+}

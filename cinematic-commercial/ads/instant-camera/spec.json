@@ -1,0 +1,41 @@
+{
+ "name": "camera",
+ "style": "A 1970s Super 8 home movie: warm faded colours, soft focus, heavy film grain, light leaks and flares at the frame edges, slight gate weave, golden summer light.",
+ "picture_style": "Style: a frame from a 1970s Super 8 home movie, warm faded colours, soft focus, heavy grain, orange light leaks at the edges.",
+ "voice": "A young woman with a soft, smiling, nostalgic voice",
+ "pictures": {
+  "girl": {"draw": "A young woman of about twenty on a sunny wooden pier by the sea in summer, seen from the waist up, laughing, holding a boxy cream-coloured instant camera with a single teal stripe in both hands at chest height. Long wavy auburn hair, a white cotton sundress, freckles, a woven bracelet.", "is": "the young woman with long wavy auburn hair, freckles and a white cotton sundress"},
+  "cam": {"draw": "One boxy cream-coloured instant film camera with a single teal stripe across its front, a large round lens, a small square flash and a wide slot at the bottom front where photos come out, sitting on weathered wooden pier boards in summer sunlight, sea sparkling out of focus behind.", "is": "the boxy cream-coloured instant camera with a single teal stripe, a large round lens and a photo slot at the front"},
+  "table": {"draw": "Seen from directly above: a worn wooden table in warm evening light covered with a loose scatter of white-bordered square instant photographs of summer moments (friends jumping off a pier, a campfire, a wet dog, a sunset), with the boxy cream-coloured instant camera with a teal stripe lying among them and one empty space in the middle of the table.", "is": "the wooden table seen from above, scattered with white-bordered instant photos, with the cream instant camera lying among them"}
+ },
+ "clips": [
+  {"sound": "Waves under a wooden pier, gulls, laughter, a mechanical shutter click and the whirr of a photo sliding out.",
+   "shots": [
+    {"len": 80, "pic": "girl", "camera": "handheld",
+     "text": "On a sunny wooden pier {girl} lifts a boxy cream instant camera to her eye, grinning, hair blowing across her face, the sea glittering behind her."},
+    {"len": 80, "camera": "static",
+     "text": "three friends in swimsuits running down the pier away from the camera and leaping off the end together, arms and legs flung wide against the bright sky, a burst of spray rising."},
+    {"len": 83, "pic": "cam", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "a close-up of {cam} as a square white-bordered photograph slides smoothly out of the front slot, its grey surface slowly developing into a picture of three friends in mid-air over the sea."}
+   ]},
+  {"sound": "A crackling campfire at dusk, soft guitar strumming far off, a dog shaking itself, wind on a string of paper.",
+   "shots": [
+    {"len": 80, "pic": "girl", "camera": "handheld",
+     "text": "At dusk on the beach {girl} sits by a campfire wrapped in a blanket, laughing with her head thrown back, sparks rising, friends as warm blurred shapes around her."},
+    {"len": 75, "camera": "static",
+     "text": "a shaggy golden dog standing at the water's edge shaking itself dry in slow motion, a halo of droplets catching the low orange sun."},
+    {"len": 88, "camera": "truck_right", "amp": "small", "speed": "slow",
+     "text": "a row of white-bordered square instant photographs clipped to a string with wooden clothespins, fluttering gently in the evening wind in front of a glowing orange sunset over the sea."}
+   ]},
+  {"sound": "A quiet room, a clock, the soft slide of a photograph on wood, one shutter click.",
+   "shots": [
+    {"len": 75, "pic": "table", "camera": "pedestal_down", "amp": "small", "speed": "slow",
+     "text": "{table}, the camera slowly lowering toward the empty space in the middle of the photographs."},
+    {"len": 80, "pic": "girl", "camera": "dolly_out", "amp": "small", "speed": "slow",
+     "text": "{girl} on the pier smiling straight into the lens, alive and moving, while a white border closes in around her from all four sides until she is a square instant photograph, still gently moving inside its frame."},
+    {"len": 88, "pic": "cam", "camera": "static",
+     "say": "Keep it.", "how": "says softly",
+     "text": "the finished white-bordered photograph of the smiling young woman lying in the middle of the wooden table among the other photos, with {cam} resting beside it in the warm evening light."}
+   ]}
+ ]
+}

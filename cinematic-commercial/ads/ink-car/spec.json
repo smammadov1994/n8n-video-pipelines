@@ -1,0 +1,41 @@
+{
+ "name": "ink",
+ "style": "A living Japanese sumi-e ink wash painting on warm rice paper: black ink in soft wet washes and dry brush strokes, lots of empty paper, ink bleeding and blooming as it moves, visible paper grain. Black ink only, except one small touch of soft green.",
+ "picture_style": "Style: a Japanese sumi-e ink wash painting on warm off-white rice paper, black ink in soft wet washes and dry brush strokes, lots of empty paper, visible paper grain.",
+ "voice": "A man with a slow, quiet, peaceful voice",
+ "pictures": {
+  "car": {"draw": "One sleek modern electric car painted in a few confident black ink brush strokes, exact side view facing right, low smooth roofline, no exhaust pipe, two simple round wheels, in the middle of plain empty rice paper with nothing else around it.", "is": "the sleek modern car painted in a few black ink brush strokes, side view, low smooth roofline"},
+  "land": {"draw": "A wide misty mountain landscape in ink wash: layered grey peaks fading into fog, a few dark pine trees on a cliff, a thin winding mountain road drawn as a single pale line, a small lake, three tiny cranes flying. Large areas of empty paper.", "is": "the misty ink mountain landscape with pine trees, a lake and a thin winding road"},
+  "end": {"draw": "On plain empty rice paper: a sleek modern car painted in a few black ink brush strokes, side view facing right, parked under one ink pine branch. A single long flowing black ink line curls from the rear of the car across the paper like a charging cable and ends at the tip of a real bamboo calligraphy brush lying on the paper at the left. One small soft green ink leaf glows faintly on the car's side. Nothing else.", "is": "the ink car parked under a pine branch, joined by one long flowing ink line to a real bamboo brush lying on the paper, with one small green leaf on its side"}
+ },
+ "clips": [
+  {"sound": "Near silence, a soft wet brush gliding on paper, a faint breath of wind, one distant temple bell.",
+   "shots": [
+    {"len": 80, "camera": "static",
+     "text": "Blank warm rice paper. The wet black tip of a bamboo brush enters from the left and draws one long, slow, flowing line across the page, ink blooming softly at its edges."},
+    {"len": 80, "pic": "land", "camera": "dolly_out", "amp": "small", "speed": "slow",
+     "text": "the drawn line becoming the thin winding road in {land}, grey peaks and pines seeping into the paper around it as mist drifts between the mountains."},
+    {"len": 83, "pic": "car", "camera": "tracking",
+     "text": "{car} gliding silently along the winding ink road, small in the landscape, leaving no smoke and no mark behind it, the mist closing softly after it passes."}
+   ]},
+  {"sound": "Wind in pine needles, the cry of cranes, water lapping, the faint hum of something passing quietly.",
+   "shots": [
+    {"len": 80, "pic": "car", "camera": "tracking",
+     "text": "{car} passing beneath dark ink pine branches on a cliff road, its brush-stroke wheels turning, loose pine needles lifting gently in its wake."},
+    {"len": 80, "pic": "land", "camera": "pan_right", "amp": "small", "speed": "slow",
+     "text": "three ink cranes taking off from the still lake in {land} and flying alongside the tiny car on the far shore, their reflections rippling in pale grey wash."},
+    {"len": 83, "camera": "pedestal_up", "amp": "small", "speed": "slow",
+     "text": "the small ink car cresting a mountain pass above a sea of fog as a pale ink sun rises behind the peaks, the road behind it still clean and white."}
+   ]},
+  {"sound": "Stillness, a single drop of water, the soft tap of a wooden brush laid down on paper.",
+   "shots": [
+    {"len": 75, "pic": "car", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{car} slowing to a stop beneath a single ink pine branch on empty paper, the mountains fading away into blank rice paper around it."},
+    {"len": 80, "pic": "end", "camera": "dolly_out", "amp": "small", "speed": "slow",
+     "text": "the camera drawing back to show that the road it travelled is one unbroken ink line running from the car all the way back to the brush that painted it: {end}."},
+    {"len": 88, "camera": "static",
+     "say": "Leave nothing behind.", "how": "says quietly",
+     "text": "the ink car resting still on the paper, the long ink line settling like a cable into its side, and one small soft green leaf slowly blooming on the car, the only colour on the page."}
+   ]}
+ ]
+}

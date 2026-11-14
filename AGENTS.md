@@ -10,6 +10,8 @@ Three unattended video pipelines orchestrated by n8n and rendered on rented RTX 
 - **Person swap**: `workflows/swap-machine.json` → `swap/swap_job.py`
 - **Kids cartoon**: `workflows/cartoon-machine.json` → `cartoon/cartoon_job.py`
 
+One more pipeline is run by hand, with no workflow: **Cinematic commercial**, `cinematic-commercial/adkit.py` and `cinematic-commercial/box/run_director.py`. Its own `README.md` is the reference.
+
 Read `README.md` for the picture, `docs/RULEBOOK.md` for every content rule, `docs/RUNBOOK.md` for machine setup.
 
 ## The one contract every step follows
@@ -38,6 +40,9 @@ n8n's `Read ...` Code nodes parse that last line and branch on it. Do not print 
 | `swap/box/` | runs on the swap GPU, not on the Mac |
 | `cartoon/` | Mango: `character.txt`, `style.txt`, `<episode>/script.json`, step scripts |
 | `poster/` | YouTube publishing helpers |
+| `cinematic-commercial/adkit.py` | commercials: `draw` (Codex pictures), `build` (director timelines), `sheet` (frames to check), `join` |
+| `cinematic-commercial/ads/<name>/spec.json` | one commercial: look, pictures, three clips of three shots |
+| `cinematic-commercial/box/` | runs on the GPU: queue director clips, drop a queued clip |
 | `comfyui-mcp/` | ComfyUI client (`server.py`), transcription, and the video workflow JSON files |
 
 State on disk, all outside git: `episodes/<nn-slug>/` (one folder per episode), `output/*.json` (ready list, needs-a-look list, posting state), `swap/ready|sent|finished/`, `cartoon/<episode>/{pictures,voice,clips}`.
@@ -66,6 +71,7 @@ There is no test suite. To check a change, run the single step it touches agains
 - **Swap picker**: one person, face talking, product in hand; no outfit videos, no word-by-word captions. Count only *newly* prepared clips toward the keep limit.
 - **Cartoon**: everything a scene uses is already visible in its start picture; actions are written as things seen happening; no knives, no flame.
 - **Publishing**: public, Short plus full video, one episode every three hours, back off after a failed upload. A new YouTube channel has a daily upload limit until it is phone-verified.
+- **Commercials**: never film a small object being picked up; one product picture used in every shot it appears in; a character's picture in every clip it is in; people and products drawn on plain backgrounds; no lettering; no brand names or logos. The full list is in `cinematic-commercial/README.md`.
 - **The machine keeps its caches.** Takes are cached by line and direction. When a picture changes, move the old take files aside or the old clip is reused.
 
 ## Safety

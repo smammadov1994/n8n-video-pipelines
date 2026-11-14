@@ -1,0 +1,41 @@
+{
+ "name": "dust",
+ "style": "A polished 3D computer-animated family film: soft rounded shapes, expressive big-eyed characters, subsurface glow, warm cinematic lighting, shallow depth of field, tiny floating dust particles catching the light.",
+ "picture_style": "Style: a frame from a polished 3D computer-animated family film, soft rounded shapes, big expressive eyes, warm cinematic lighting, shallow depth of field.",
+ "voice": "A man with a calm, amused, friendly voice",
+ "pictures": {
+  "bunny": {"draw": "One small round fluffy grey dust-bunny creature, a ball of soft grey fluff the size of a walnut with two big round shiny eyes, tiny stubby feet and no mouth visible, standing on a wooden floor under a sofa and looking up curiously. Dim warm light, dust motes in the air.", "is": "the small round fluffy grey dust-bunny creature with two big shiny eyes and tiny feet"},
+  "village": {"draw": "The dark space under a living-room sofa seen at floor level, turned into a tiny cosy village by a crowd of small round fluffy grey dust-bunny creatures with big eyes: little houses made of a lost sock, a bottle cap, a coin, a crayon and a hair clip, a string of crumbs like lanterns, sofa legs like huge pillars, a bright strip of daylight at the far edge.", "is": "the cosy dust-bunny village under the sofa, with houses made of a lost sock, a bottle cap, a coin and a crayon"},
+  "vac": {"draw": "A bright clean living room in morning sun with a spotless shining wooden floor. A slim modern cordless stick vacuum cleaner, matte graphite with one copper-coloured band and a clear dust bin, stands upright in its wall dock beside a sofa. From behind the nearest sofa leg one small round fluffy grey dust-bunny creature with big eyes peeks out holding a tiny white flag on a toothpick.", "is": "the slim cordless stick vacuum, graphite with a copper band, standing in its wall dock in a spotless sunny living room, with one dust bunny peeking from behind a sofa leg holding a tiny white flag"}
+ },
+ "clips": [
+  {"sound": "Tiny squeaky chatter, soft pattering feet, a cosy hush, then a deep distant rumble through the floor.",
+   "shots": [
+    {"len": 85, "pic": "village", "camera": "truck_right", "amp": "small", "speed": "slow",
+     "text": "{village}, dozens of dust bunnies bustling happily between the little houses, two of them rolling a crumb along like a boulder."},
+    {"len": 75, "pic": "bunny", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{bunny} lounging contentedly on a lost button like a sunbed, eyes half closed, fluff rising and falling as it breathes."},
+    {"len": 83, "camera": "static",
+     "text": "the whole village freezing at once as the floor trembles, crumbs bouncing, every dust bunny turning its big eyes toward the bright strip of daylight at the edge of the sofa where a tall dark shape glides into view."}
+   ]},
+  {"sound": "A smooth rising electric whirr, panicked tiny squeaks, a rushing whoosh of air, then sudden silence.",
+   "shots": [
+    {"len": 75, "pic": "bunny", "camera": "dolly_in", "amp": "small", "speed": "fast",
+     "text": "{bunny} sitting bolt upright with enormous terrified eyes, fluff standing on end, a bright white light sweeping across it."},
+    {"len": 85, "pic": "village", "camera": "tracking",
+     "text": "dust bunnies scattering in comic panic through {village}, tumbling over each other, as a low sleek graphite vacuum head with a glowing light bar slides smoothly in under the sofa and the fluffy crowd lifts off the floor toward it."},
+    {"len": 83, "camera": "pedestal_up", "amp": "small", "speed": "slow",
+     "text": "the space under the sofa now completely empty and spotless, the wooden floor gleaming, the sock, the coin and the crayon lying neatly in a row, one last dust mote drifting down in a sunbeam."}
+   ]},
+  {"sound": "A quiet sunny room, birds outside, a soft click of a dock, one tiny defeated squeak.",
+   "shots": [
+    {"len": 80, "camera": "pedestal_up", "amp": "large", "speed": "slow",
+     "text": "the camera rising from floor level up past the sofa into a bright spotless living room in morning sun, the wooden floor shining like a mirror."},
+    {"len": 75, "pic": "vac", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{vac}, sunlight glinting on the copper band."},
+    {"len": 88, "pic": "bunny", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "say": "Nowhere left to hide.",
+     "text": "a close-up at floor level of {bunny} peeking out from behind the sofa leg, slowly waving a tiny white flag on a toothpick, eyes wide, the vacuum standing out of focus in the background."}
+   ]}
+ ]
+}

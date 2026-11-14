@@ -1,0 +1,100 @@
+{
+ "name": "brick",
+ "style": "Stop-motion animation made entirely of small glossy plastic toy building bricks, slightly stuttering hand-animated movement, macro lens, shallow depth of field, visible studs and fingerprints on the plastic, warm practical lighting on a miniature set.",
+ "picture_style": "Style: a photograph of a real miniature set built from small glossy plastic toy building bricks for a stop-motion film, macro lens, shallow depth of field, soft warm studio light.",
+ "voice": "A young boy with a quiet, amazed voice",
+ "pictures": {
+  "figure": {
+   "draw": "One small blocky plastic toy figure standing on a plain light grey brick floor against a plain grey brick wall, seen from head to foot, facing the viewer: a simple round green head with two dot eyes and a flat bored mouth, a plain blue rectangular torso, short white legs, mitten-like hands, no hair or hat. Generic toy design.",
+   "is": "the small blocky toy figure with a round green head, dot eyes, blue torso and white legs"
+  },
+  "bucket": {
+   "draw": "A plain round red plastic toy tub with no label, lid off, filled to the top with a jumble of small colourful plastic building bricks in red, blue, yellow, green and white, standing on a warm wooden bedroom floor in late afternoon sunlight, a few loose bricks scattered beside it, soft out-of-focus bed and curtain behind. Real photograph, child's-eye height.",
+   "is": "the plain red toy tub filled with colourful building bricks on a wooden bedroom floor"
+  },
+  "space": {
+   "draw": "Outer space built entirely from toy building bricks: a black brick backdrop dotted with tiny white single-stud stars, three chunky round planets made of coloured bricks, one with a brick ring, and a small red-and-white brick rocket with a brick flame flying between them.",
+   "is": "outer space built from bricks, with brick planets, stud stars and a small red-and-white brick rocket"
+  }
+ },
+ "clips": [
+  {
+   "sound": "A dull quiet room, a clock ticking, then one bright plastic click, then many quick clicks.",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "figure",
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "text": "In an empty grey brick room {figure} sits slumped on a single grey brick, alone and bored, grey light from a small brick window."
+    },
+    {
+     "len": 75,
+     "camera": "static",
+     "text": "a close-up of the grey brick floor as one shiny red brick drops in from above, bounces twice and settles in a pool of warm light."
+    },
+    {
+     "len": 88,
+     "pic": "figure",
+     "camera": "pedestal_up",
+     "amp": "small",
+     "speed": "slow",
+     "text": "{figure} standing up with a wide smile as colourful bricks pop into place one by one in front of him, clicking together into a rising rainbow staircase that climbs out through the ceiling."
+    }
+   ]
+  },
+  {
+   "sound": "Rapid plastic clicking and snapping, a whoosh of wind, a toy rocket rumble building.",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "figure",
+     "camera": "tracking",
+     "text": "{figure} running up the rainbow brick staircase as a tall brick castle with towers and flags assembles itself brick by brick around him against a blue brick sky."
+    },
+    {
+     "len": 80,
+     "camera": "tracking",
+     "text": "the toy figure riding on the back of a long green brick dragon as it glides over an ocean made of rippling blue and white studs, brick clouds drifting past."
+    },
+    {
+     "len": 83,
+     "pic": "space",
+     "camera": "tilt_up",
+     "amp": "large",
+     "speed": "fast",
+     "text": "a red-and-white brick rocket snapping together around the figure and launching straight up on a column of orange and yellow brick flame, bursting through the brick clouds into {space}."
+    }
+   ]
+  },
+  {
+   "sound": "Deep quiet of space, a soft hum, then the warm room tone of a bedroom and bricks rattling gently in a tub.",
+   "shots": [
+    {
+     "len": 75,
+     "pic": "space",
+     "camera": "orbit",
+     "amp": "small",
+     "speed": "slow",
+     "text": "{space}, the small rocket drifting past a ringed brick planet while {figure} floats beside it waving happily."
+    },
+    {
+     "len": 80,
+     "pic": "bucket",
+     "camera": "dolly_out",
+     "amp": "large",
+     "speed": "slow",
+     "text": "the camera pulling back and up out of the brick universe until all of it is seen to be the jumble of bricks inside {bucket}, the dark space becoming the shadow between the bricks."
+    },
+    {
+     "len": 88,
+     "camera": "static",
+     "say": "Everything is in there.",
+     "text": "the red tub of bricks sitting still on the sunlit wooden floor, {figure} standing on top of the pile with one arm raised, dust motes drifting in the warm light.",
+     "pic": "figure"
+    }
+   ]
+  }
+ ]
+}

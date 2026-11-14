@@ -1,0 +1,93 @@
+{
+ "name": "pixel",
+ "style": "A 16-bit side-scrolling video game in crisp pixel art: chunky square pixels, a limited bright colour palette, parallax scrolling backgrounds, simple looping sprite animation, no user interface text or numbers on screen.",
+ "picture_style": "Style: crisp 16-bit video game pixel art, chunky square pixels, limited bright colour palette. No user interface, no score, no letters or numbers.",
+ "voice": "A man with an energetic, deep arcade announcer voice",
+ "pictures": {
+  "knight": {
+   "draw": "One small pixel-art game hero standing on a grassy platform, side view facing right: a tiny knight in silver armour with a red plume on the helmet, a short blue cape and a small sword, about 32 pixels tall, against a bright blue pixel sky with square clouds and distant pixel hills.",
+   "is": "the tiny pixel-art knight in silver armour with a red plume and a short blue cape"
+  },
+  "boss": {
+   "draw": "A pixel-art boss arena inside a dark purple castle hall with torches: on the right a huge green pixel dragon with orange wings and glowing yellow eyes breathing a line of square flame pixels, on the left a small empty stone platform. Side view.",
+   "is": "the castle boss hall with the huge green pixel dragon breathing square flames"
+  },
+  "desk": {
+   "draw": "A real photograph, not pixel art: a tidy dark wooden desk at night lit by a monitor. On the monitor a 16-bit pixel-art game shows a castle and a bright blue sky. In front of it sits a compact mechanical keyboard with chunky cream and grey keycaps, a red escape key and soft warm white light glowing under the keys. Standing on the wide space bar is a tiny pixel-art knight in silver armour with a red plume and blue cape, as if he stepped out of the screen, raising his sword. No letters visible on the keys.",
+   "is": "the real desk at night with the mechanical keyboard of cream and grey keycaps glowing under the keys, the game on the monitor behind, and the tiny pixel knight standing on the space bar"
+  }
+ },
+ "clips": [
+  {
+   "sound": "Bright chiptune blips, a bouncy jump sound for every hop, coins chiming, crisp mechanical key clicks in rhythm.",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "knight",
+     "camera": "tracking",
+     "text": "{knight} running to the right across grassy pixel platforms under a blue sky, cape bobbing, hopping over small gaps as the hills scroll past behind him."
+    },
+    {
+     "len": 80,
+     "pic": "knight",
+     "camera": "tracking",
+     "text": "{knight} bouncing up a staircase of floating stone blocks, collecting a row of spinning gold coins, then leaping across a wide gap over pixel water."
+    },
+    {
+     "len": 83,
+     "camera": "tracking",
+     "text": "the tiny knight sprinting through a dark pixel forest at night as square bats swoop past, sliding under a low branch and jumping onto a moving platform toward a purple castle gate."
+    }
+   ]
+  },
+  {
+   "sound": "Low ominous chiptune, a dragon roar made of square waves, flame crackle, fast mechanical key clicks, a bright victory jingle.",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "boss",
+     "camera": "static",
+     "text": "{boss}, the tiny silver knight with the red plume and blue cape dropping onto the stone platform on the left and raising his little sword as the dragon rears up."
+    },
+    {
+     "len": 80,
+     "camera": "static",
+     "text": "{knight} leaping high over a line of square flame pixels inside the purple castle hall, landing on the green dragon's snout and striking it, the dragon flashing white with each hit.",
+     "pic": "knight"
+    },
+    {
+     "len": 83,
+     "camera": "static",
+     "text": "the green dragon bursting into a shower of gold coins and sparkling pixels while the tiny silver knight with the red plume stands in the middle of the hall with his sword raised in triumph, torches flaring."
+    }
+   ]
+  },
+  {
+   "sound": "The chiptune fading into a quiet room at night, the soft thock of mechanical keys, a monitor hum.",
+   "shots": [
+    {
+     "len": 75,
+     "pic": "knight",
+     "camera": "static",
+     "text": "{knight} standing still on a platform, turning to face the viewer and walking straight toward the camera, growing larger, until he steps over the edge of the picture."
+    },
+    {
+     "len": 80,
+     "pic": "desk",
+     "camera": "dolly_out",
+     "amp": "large",
+     "speed": "slow",
+     "text": "the camera pulling back out of the game until the pixel world is only a glowing monitor in a dark real room: {desk}."
+    },
+    {
+     "len": 88,
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "say": "Press start.",
+     "text": "a close-up of the glowing mechanical keyboard on the real desk, the tiny pixel knight standing on the wide space bar and hopping once, the key sinking and springing back under him with a soft glow."
+    }
+   ]
+  }
+ ]
+}

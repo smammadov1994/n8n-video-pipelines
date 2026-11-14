@@ -24,3 +24,11 @@ swap_connection.json
 __pycache__/
 swap/captioned/
 swap/caption_work/
+cinematic-commercial/vendor/
+cinematic-commercial/ads/*/clips/
+cinematic-commercial/ads/*/old/
+cinematic-commercial/ads/*/_draw/
+cinematic-commercial/ads/*/*.png
+cinematic-commercial/ads/*/*_[0-9].json
+cinematic-commercial/ads/*/*.prompt.txt
+cinematic-commercial/ads/*/final.mp4

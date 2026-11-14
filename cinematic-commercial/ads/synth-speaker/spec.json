@@ -1,0 +1,104 @@
+{
+ "name": "synth",
+ "style": "1980s synthwave retro-futurism: glowing magenta and cyan neon, a chrome horizon, an endless laser grid floor, a huge striped sunset sun, palm silhouettes, scan lines and soft VHS bloom, smooth gliding motion.",
+ "picture_style": "Style: 1980s synthwave retro-futurist illustration, glowing magenta and cyan neon, laser grid, chrome highlights, soft VHS bloom and scan lines.",
+ "voice": "A man with a smooth, low, late-night radio voice",
+ "pictures": {
+  "speaker": {
+   "draw": "An ordinary realistic studio product photograph, NOT neon and NOT synthwave: one compact portable wireless speaker standing on a plain matte grey table against a plain flat mid-grey wall with nothing else in the picture. The speaker is a short upright cylinder wrapped in dark charcoal fabric mesh, with a matte black top carrying one thin ring light glowing soft magenta, and on its front a large perfectly round speaker cone with fine horizontal stripes. Three-quarter front view, soft neutral daylight. No grid, no sunset, no glow in the background.",
+   "is": "the compact cylindrical wireless speaker in charcoal fabric with a glowing magenta ring on top and a large round striped speaker cone on its front",
+   "style": "Style: a plain realistic photograph in neutral natural light, muted colours."
+  },
+  "room": {
+   "draw": "An ordinary realistic photograph, NOT neon and NOT synthwave: a plain, dull small bedroom at dusk in flat grey-beige light. An unmade single bed with plain beige sheets, a bare wooden desk with a closed laptop, beige walls, and a window showing only flat overcast grey sky and a grey building. On the desk stands a compact cylindrical wireless speaker in charcoal fabric, switched off and dark. No coloured light anywhere, no pink, no purple, no glow.",
+   "is": "the dull grey-beige bedroom at dusk with the small speaker standing switched off on the desk",
+   "style": "Style: a plain realistic photograph in neutral natural light, muted colours."
+  },
+  "sun": {
+   "draw": "A synthwave landscape: an endless glowing cyan laser grid floor running to a chrome horizon, black palm tree silhouettes on both sides, a magenta and purple sky with stars, and in the centre a huge perfectly round sunset sun in orange and magenta cut by fine dark horizontal stripes.",
+   "is": "the synthwave grid landscape with palm silhouettes and a huge round striped sunset sun"
+  }
+ },
+ "clips": [
+  {
+   "sound": "A silent dull room, a clock, then one soft electronic chime and a low synth bass note swelling.",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "room",
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "text": "{room}, nothing moving, the grey light fading."
+    },
+    {
+     "len": 75,
+     "pic": "speaker",
+     "camera": "static",
+     "text": "a close-up of {speaker} on the desk as the ring on its top blinks once and then glows steady magenta, the round cone on its front beginning to pulse."
+    },
+    {
+     "len": 88,
+     "camera": "dolly_out",
+     "amp": "small",
+     "speed": "slow",
+     "text": "rings of magenta and cyan light spreading out from the speaker across the desk and the floor, the bedroom floorboards turning into a glowing laser grid and the beige walls dissolving into a starry purple sky."
+    }
+   ]
+  },
+  {
+   "sound": "A driving synthwave beat, arpeggiated synthesizers, a sports car engine purring, wind rushing.",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "sun",
+     "camera": "dolly_in",
+     "amp": "large",
+     "speed": "fast",
+     "text": "the camera racing low over the grid floor of {sun}, neon lines streaking past, palm silhouettes flicking by on both sides."
+    },
+    {
+     "len": 80,
+     "camera": "tracking",
+     "text": "a low wedge-shaped chrome sports car with glowing magenta tail lights speeding along a neon highway toward the horizon, reflections of the grid sliding over its body."
+    },
+    {
+     "len": 83,
+     "pic": "sun",
+     "camera": "pedestal_up",
+     "amp": "small",
+     "speed": "slow",
+     "text": "the chrome car cresting a hill and soaring off the end of the road into the sky straight toward the huge striped sun of {sun}, a trail of cyan light behind it."
+    }
+   ]
+  },
+  {
+   "sound": "The beat softening and echoing, a long shimmering synth chord, then the quiet of a room with music still playing softly.",
+   "shots": [
+    {
+     "len": 75,
+     "pic": "sun",
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "text": "the huge round striped sun of {sun} filling the frame, its horizontal stripes pulsing gently in time like a speaker cone."
+    },
+    {
+     "len": 80,
+     "pic": "speaker",
+     "camera": "dolly_out",
+     "amp": "large",
+     "speed": "slow",
+     "text": "the camera pulling back and the striped sun turning out to be the round striped cone on the front of {speaker}, the neon sky shrinking into a glow around it."
+    },
+    {
+     "len": 88,
+     "pic": "speaker",
+     "camera": "static",
+     "say": "Turn it up.",
+     "text": "{speaker} standing on the bedroom desk at night, its ring glowing magenta, the cone pulsing, and the whole dull room now washed in soft moving magenta and cyan light."
+    }
+   ]
+  }
+ ]
+}

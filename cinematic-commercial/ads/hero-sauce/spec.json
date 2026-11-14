@@ -1,0 +1,41 @@
+{
+ "name": "sauce",
+ "style": "A vintage American comic book brought to life: bold black ink outlines, flat saturated colours, halftone dot shading, speed lines and jagged starburst shapes, limited 2D animation on slightly yellowed paper. No lettering or speech bubbles anywhere.",
+ "picture_style": "Style: a vintage American comic book panel, bold black ink outlines, flat saturated colours, halftone dot shading on slightly yellowed paper.",
+ "voice": "A man with a big, booming, cheerful announcer voice",
+ "pictures": {
+  "guy": {"draw": "An ordinary office worker in his thirties sitting at a plain desk under flat office light, seen from the waist up, facing the viewer: short brown hair, round glasses, pale blue shirt, loosened grey tie, a bored half-asleep expression, holding a limp beige sandwich. The whole panel is drawn in dull greys and beige.", "is": "the office worker, a man in his thirties with short brown hair, round glasses, a pale blue shirt and a grey tie"},
+  "bottle": {"draw": "One tall squeezable bottle of hot sauce standing on a grey office desk: a bright red bottle with a green pointed nozzle cap and a plain blank cream label with a single small flame shape on it, a white highlight down its side. It is the only brightly coloured thing in a grey panel, with small sparkle lines around it.", "is": "the bright red squeezable hot sauce bottle with a green pointed cap and a blank cream label with one small flame shape"},
+  "hero": {"draw": "Night over a comic-book city. On a rooftop ledge in the foreground stands a tall bright red squeezable hot sauce bottle with a green pointed cap and a blank cream label with one small flame shape, wearing a small yellow cape that flaps in the wind like a superhero. Behind it a searchlight beam from the city projects the round silhouette of the same bottle onto the night clouds. Saturated colours, dramatic low angle.", "is": "the hot sauce bottle standing on a rooftop ledge at night wearing a small yellow cape, with a searchlight projecting its silhouette on the clouds"}
+ },
+ "clips": [
+  {"sound": "A dull office hum, a slow clock, a long bored sigh, then a bright cartoon glint chime.",
+   "shots": [
+    {"len": 80, "pic": "guy", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "In a grey office drawn in dull greys and beige, {guy} sits at his desk staring blankly at a limp beige sandwich in his hands, shoulders sagging."},
+    {"len": 75, "camera": "static",
+     "text": "a close-up of the limp beige sandwich on a paper plate, a tiny grey cloud of boredom rising from it."},
+    {"len": 88, "pic": "bottle", "camera": "dolly_in", "amp": "small", "speed": "fast",
+     "text": "{bottle} sliding into the panel across the grey desk and stopping upright beside the plate, sparkle lines bursting around it, the only colour in the room."}
+   ]},
+  {"sound": "One heavy drip, a huge cartoon whoosh and crackle of flame, a triumphant gulp.",
+   "shots": [
+    {"len": 75, "pic": "bottle", "camera": "static",
+     "text": "an extreme close-up of the green nozzle of {bottle} tipped downward as one fat glossy red drop swells, lets go and falls in slow motion."},
+    {"len": 80, "camera": "zoom_out",  "amp": "large", "speed": "fast",
+     "text": "the red drop hitting the beige sandwich and detonating in a giant red, orange and yellow jagged starburst of halftone dots and speed lines that fills the whole panel with colour."},
+    {"len": 88, "pic": "guy", "camera": "dolly_in", "amp": "small", "speed": "fast",
+     "text": "{guy} biting the sandwich, eyes huge behind his glasses, hair blown straight back, small jets of flame shooting from both ears, the grey office behind him turning into spinning red and yellow sunburst rays."}
+   ]},
+  {"sound": "A rocket roar fading into high wind, a cape flapping, a single heroic brass stab.",
+   "shots": [
+    {"len": 75, "pic": "guy", "camera": "tilt_up", "amp": "large", "speed": "fast",
+     "text": "{guy} blasting straight up through the office roof on a trail of fire, tie streaming, fist raised, bricks and papers flying outward against a bright yellow sky."},
+    {"len": 75, "camera": "tracking",
+     "text": "the office worker soaring over the colourful comic-book city at sunset with one fist out and a trail of flame behind him, tiny cheering crowds on the rooftops below."},
+    {"len": 93, "pic": "hero", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "say": "Every lunch needs a hero.",
+     "text": "{hero}, the little cape snapping in the wind as the searchlight sweeps the clouds."}
+   ]}
+ ]
+}

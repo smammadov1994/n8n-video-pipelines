@@ -1,0 +1,41 @@
+{
+ "name": "felt",
+ "style": "Stop-motion animation with needle-felted wool puppets on a handmade felt set: fuzzy fibres catching the light, soft rounded shapes, tiny stitched details, gentle slightly stuttering hand-animated movement, warm soft daylight, macro lens.",
+ "picture_style": "Style: a photograph of needle-felted wool puppets on a handmade felt miniature set for a stop-motion film, fuzzy wool fibres visible, soft warm daylight, macro lens.",
+ "voice": "A woman with a gentle, cosy, smiling voice",
+ "pictures": {
+  "sheep": {"draw": "One small needle-felted wool sheep puppet standing on a plain cream felt surface against a plain pale background, side view turned slightly to the viewer: a round fluffy bright white wool body, a dark grey felt face with two small black bead eyes, four short dark legs, tiny pink ears.", "is": "the small needle-felted sheep with a round fluffy white wool body, dark grey face and black bead eyes"},
+  "muddy": {"draw": "One small needle-felted wool sheep puppet standing on plain brown felt against a plain pale background: its round wool body is matted, flat and dirty grey-brown with clumps of brown felt mud stuck to it, a dark grey felt face with two small black bead eyes looking sad, four short dark legs, tiny drooping pink ears.", "is": "the same small felted sheep, now matted and dirty grey-brown with clumps of felt mud, looking sad"},
+  "bottle": {"draw": "A sunny laundry-room windowsill made of felt and wood. On it stands one real plastic laundry detergent bottle, soft lavender colour with a white screw cap and a plain blank white label with a single small cloud shape, next to a neat stack of folded felt towels. Floating just above the bottle's cap, like a little cloud, is a small needle-felted sheep with an enormous fluffy bright white wool body, dark grey face and black bead eyes. Blue felt sky outside the window.", "is": "the lavender detergent bottle with a white cap on a sunny windowsill, with the very fluffy white felted sheep floating above its cap like a little cloud"}
+ },
+ "clips": [
+  {"sound": "Birdsong in a meadow, a happy little bleat, a wet squelch, then a small sad bleat.",
+   "shots": [
+    {"len": 80, "pic": "sheep", "camera": "tracking",
+     "text": "{sheep} trotting happily across a green felt meadow dotted with felt daisies under a blue felt sky with cotton-wool clouds."},
+    {"len": 80, "pic": "sheep", "camera": "static",
+     "text": "{sheep} stopping at the edge of a big brown felt mud puddle, wiggling its tail, then jumping in with a splash of brown felt drops."},
+    {"len": 83, "pic": "muddy", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{muddy}, standing in the middle of the puddle, ears drooping, a felt butterfly flying away from it."}
+   ]},
+  {"sound": "Tiny hoof steps on a wooden floor, a round door clicking shut, water sloshing and a gentle washing-machine hum, soft bubbles popping.",
+   "shots": [
+    {"len": 80, "pic": "muddy", "camera": "tracking",
+     "text": "{muddy} plodding sadly into a tiny felt laundry room and stopping in front of a small white felt washing machine with a round glass door standing open."},
+    {"len": 80, "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "the round door of the little felt washing machine closed, and behind the glass a swirl of white wool bubbles and lavender foam turning slowly round and round with two black bead eyes drifting past in the suds."},
+    {"len": 83, "pic": "sheep", "camera": "pedestal_up", "amp": "small", "speed": "slow",
+     "text": "the round door swinging open and {sheep} stepping out, brilliantly white and twice as fluffy as before, so light that its feet lift off the floor and it floats gently upward."}
+   ]},
+  {"sound": "A soft breeze through an open window, a contented bleat, a warm quiet room.",
+   "shots": [
+    {"len": 75, "pic": "sheep", "camera": "tracking",
+     "text": "{sheep}, enormously fluffy, drifting through the air across the felt laundry room like a small cloud, legs dangling, past a line of felt socks."},
+    {"len": 80, "pic": "bottle", "camera": "dolly_in", "amp": "small", "speed": "slow",
+     "text": "{bottle}, the sheep bobbing gently in the sunlight."},
+    {"len": 88, "pic": "bottle", "camera": "static",
+     "say": "Soft as new.", "how": "says softly",
+     "text": "a close view of the lavender detergent bottle on the windowsill as the fluffy white sheep settles down onto its white cap and closes its bead eyes, a few loose wool fibres drifting in the sunbeam."}
+   ]}
+ ]
+}

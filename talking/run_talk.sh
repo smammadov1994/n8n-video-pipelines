@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # On the rented machine: make one talking clip from a picture and a voice file.
-#   bash /workspace/run_talk.sh <picture> <voice.wav> "<description of person, room, action>" [name] [segments] [480p|720p]
+#   bash /workspace/run_talk.sh <picture> <voice.wav> "<description of person, room, action>" [name] [segments] [480p|720p] [strength]
 # One segment is a few seconds; more segments continue the same shot for longer voice files.
+# strength: how hard the face reacts to the voice. 1.0 = as the model ships (tends to look like shouting),
+# 0.45 = the calm setting chosen on 2026-11-14 and the default here. See README "Keeping the speaker calm".
 set -euo pipefail
 PIC=$1; WAV=$2; PROMPT=$3; NAME=${4:-talk}; SEGS=${5:-1}; RES=${6:-480p}
+export AUDIO_STRENGTH=${7:-${AUDIO_STRENGTH:-0.45}}
 cd /workspace/LongCat-Video
 source .venv/bin/activate
 mkdir -p jobs

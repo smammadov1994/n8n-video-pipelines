@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
-"""Make LongCat-Video-Avatar 1.5 fit a 32 GB card (RTX 5090). Run inside the LongCat-Video folder.
+"""Make LongCat-Video-Avatar 1.5 fit a 32 GB card (RTX 5090), and add a calm dial. Run inside the LongCat-Video folder.
 
 Out of the box the program puts every part on the card at once and runs out of memory.
-Two small edits fix it, and with them the card sits at about 16 GB before sampling:
+Three small edits fix it, and with them the card sits at about 16 GB before sampling:
 
 1. The text encoder stays in main memory when TEXT_ENCODER_ON_CPU=1 is set; only its result goes to the card.
 2. The voice encoder (Whisper) and the vocal separator are taken off the card once the voice has been read.
+3. For clips longer than one segment, the data carried over from the previous segment (the "kv cache") is kept
+   in main memory instead of on the card. Without this the second segment runs out of memory.
+
+A fourth edit is not about memory. It adds an expression dial, read from AUDIO_STRENGTH (1.0 = unchanged).
+In the fast 8-step mode the program locks its own guidance settings, so there is no shipped way to make the
+speaker less intense. The dial pulls the voice signal toward its average over the clip, so the face reacts
+less to each loud syllable. run_talk.sh sets it to 0.45.
 
 Safe to run twice: an edit that is already there is skipped. A changed upstream file stops with a clear message.
 """
@@ -42,3 +49,15 @@ edit("run_demo_avatar_single_audio_to_video.py",
      "    import gc; gc.collect(); torch.cuda.empty_cache()\n"
      "    print(f'[INFO] card memory before sampling: {torch.cuda.memory_allocated()/2**30:.1f} GB', flush=True)\n",
      "card memory before", first=True)  # the same line appears again inside the segment loop; only the first is wanted
+edit("run_demo_avatar_single_audio_to_video.py", "offload_kv_cache=False", "offload_kv_cache=True", "offload_kv_cache=True")
+edit("run_demo_avatar_single_audio_to_video.py",
+     "        if torch.isnan(full_audio_emb).any():\n",
+     "        # Expression strength: 1.0 = as heard. Lower pulls every moment toward the clip average,\n"
+     "        # so the face reacts less to each loud syllable.\n"
+     "        _s = float(os.environ.get('AUDIO_STRENGTH', '1.0'))\n"
+     "        if _s != 1.0:\n"
+     "            _m = full_audio_emb.mean(dim=0, keepdim=True)\n"
+     "            full_audio_emb = _m + _s * (full_audio_emb - _m)\n"
+     "            print(f'[INFO] audio strength {_s}', flush=True)\n"
+     "        if torch.isnan(full_audio_emb).any():\n",
+     "AUDIO_STRENGTH")

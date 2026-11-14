@@ -1,6 +1,6 @@
 # n8n video pipelines
 
-Three video pipelines that run on their own, orchestrated by [n8n](https://n8n.io) on a Mac and rendered on rented RTX 5090s (Vast.ai, ComfyUI, MiniMax H3 / HyperFlow Flash):
+Three video pipelines that run on their own (plus one stand-alone tool, the [talking avatar](#4-talking-avatar)), orchestrated by [n8n](https://n8n.io) on a Mac and rendered on rented RTX 5090s (Vast.ai, ComfyUI, MiniMax H3 / HyperFlow Flash):
 
 | Pipeline | What it makes | Workflow |
 |---|---|---|
@@ -140,6 +140,20 @@ The full account of what was tried is in [`cartoon/REPORT.md`](cartoon/REPORT.md
 
 ---
 
+## 4. Talking avatar
+
+Not a pipeline yet, a stand-alone tool: one picture of someone and one voice recording go in, a video of them saying those words comes out. It uses a different model from everything above (LongCat-Video-Avatar 1.5) and runs in its own program beside ComfyUI.
+
+<img src="docs/media/talking_frames.jpg" width="640" alt="Four frames from the first talking avatar test">
+
+- Example: [first test, 3.7 seconds](examples/talking/first_test.mp4)
+- The other models here decide what the picture shows and the mouth has to be checked afterwards. This one takes the voice as fixed and makes the face follow it, for any length.
+- It only does speakers. Shots without a speaker stay with the general models.
+
+Everything about it, including what had to be fixed to fit a 32 GB card, is in [`talking/README.md`](talking/README.md).
+
+---
+
 ## Repository layout
 
 ```
@@ -150,6 +164,7 @@ her/                  the presenter's master picture and stock studio sets
 swap/                 person-swap picker, sender, collector
 swap/box/             files that run ON the swap GPU (install, queue, swap)
 cartoon/              Mango: character, style, episode scripts, steps
+talking/              talking avatar: setup, 32 GB fixes and run script for LongCat-Video-Avatar 1.5
 poster/               YouTube publisher (browser automation helpers)
 comfyui-mcp/          the ComfyUI driver the scripts import, plus the video workflows
 docs/                 RULEBOOK.md, RUNBOOK.md, pictures for this page
@@ -180,4 +195,4 @@ You also need `ffmpeg`, `uv`, `raea` (for the caption step), Python 3.10+, and t
 
 ## Models and tools used
 
-MiniMax H3 with HyperFlow Flash (video and audio), OpenJutsu one-click swap, raea (captions and end cards), SAM 3.1, Qwen3-VL, Fish Audio (voices), Claude (scripts and checks), Codex image generation (start pictures), n8n, ComfyUI, Vast.ai. Check each model's license before using it for your own purposes.
+MiniMax H3 with HyperFlow Flash (video and audio), OpenJutsu one-click swap, LongCat-Video-Avatar 1.5 (talking avatar), raea (captions and end cards), SAM 3.1, Qwen3-VL, Fish Audio (voices), Claude (scripts and checks), Codex image generation (start pictures), n8n, ComfyUI, Vast.ai. Check each model's license before using it for your own purposes.

@@ -31,7 +31,7 @@ import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SHOWS = HERE / "shows"
+SHOWS = Path(os.environ.get("CARTOON_SHOWS") or HERE / "shows")     # CARTOON_SHOWS: another folder of shows (one per user of a UI, for example)
 CODEX = os.environ.get("CODEX_BIN", "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex")
 DEFAULT_VOICE = {"id": "44a7a443f7404ef6b8565022b150d2ed", "name": "Kids (Fish library): young, cheerful, clear",
                  "speed": 0.9, "tone": "(cheerful, warm, friendly) "}

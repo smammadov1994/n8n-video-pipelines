@@ -1,8 +1,10 @@
 """On the GPU box: queue director clips.   python3 run_director.py SEED timeline1.json [timeline2.json ...]   (FRONT=1 puts them at the head of the queue)
-Each clip is saved as ComfyUI/output/video/<timeline name>_00001_.mp4. Plain 20-step path of the pack's workflow, 1344x768."""
+Each clip is saved as ComfyUI/output/video/<timeline name>_00001_.mp4. Plain 20-step path of the pack's workflow,
+1344x768, or 768x1344 with SHAPE=tall in front of the command (for a script whose "shape" is "tall")."""
 import json, os, sys, urllib.request
 from pathlib import Path
 seed = int(sys.argv[1])
+W, H = (768, 1344) if os.environ.get("SHAPE") == "tall" else (1344, 768)
 for path in sys.argv[2:]:
     tl = Path(path).read_text()
     g = {
@@ -10,7 +12,7 @@ for path in sys.argv[2:]:
      "3": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors", "type": "minimax", "device": "default"}},
      "4": {"class_type": "VAELoader", "inputs": {"vae_name": "minimax_h3_video_vae_int8_convrot.safetensors"}},
      "5": {"class_type": "VAELoader", "inputs": {"vae_name": "minimax_h3_audio_vae_fp32.safetensors"}},
-     "6": {"class_type": "MiniMaxDirector", "inputs": {"clip": ["3", 0], "vae": ["4", 0], "audio_vae": ["5", 0], "timeline": tl, "width": 1344, "height": 768, "ref_image_size": "max"}},
+     "6": {"class_type": "MiniMaxDirector", "inputs": {"clip": ["3", 0], "vae": ["4", 0], "audio_vae": ["5", 0], "timeline": tl, "width": W, "height": H, "ref_image_size": "max"}},
      "7": {"class_type": "RandomNoise", "inputs": {"noise_seed": seed}},
      "8": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": "res_multistep"}},
      "9": {"class_type": "BasicScheduler", "inputs": {"model": ["2", 0], "scheduler": "simple", "steps": 20, "denoise": 1.0}},

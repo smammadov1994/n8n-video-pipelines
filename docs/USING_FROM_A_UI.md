@@ -59,6 +59,45 @@ A UI can show these as a form. A chat assistant asks them in words.
 | `person-swap` | partial: needs the swap GPU connected | `swap_step` (`prep`, `send`, `collect`, `status`), `swap_status` |
 | `talking-avatar` | by hand | none yet; the skill says how it is run |
 
+## Steps, as data (for a node canvas)
+
+`start_pipeline` also returns `steps` and `canvas`, so a workflow UI can draw a pipeline without
+knowing it in advance.
+
+```json
+{"id": "film", "title": "Film it", "tool": "commercial_step", "args": {"step": "render"}, "job": "render",
+ "minutes": 50, "gpu": true, "video_seconds": 30, "approve": false,
+ "say": "Three clips of about ten seconds, around 16 minutes each."}
+```
+
+- `tool` and `args` are what to call; `job` is the name to give the status tool and `stop_step`.
+- `minutes` is roughly how long it takes; `gpu` says whether it costs GPU time; `video_seconds` is what a price can be worked out from.
+- `show` names the thing to put in front of the person when the step ends (`script`, `pictures_strip`, `frame_sheets`, `final`, `character_sheet`); the pipeline's `get` tool returns it.
+- `approve: true` means: stop here and let the person look before going on.
+
+`canvas` says which node of a "subject, on camera, what to make, script, film, final" workflow
+supplies each answer and runs each step. For the cinematic commercial:
+
+| Canvas node | Supplies | Runs |
+|---|---|---|
+| The subject | the product and its picture | |
+| On camera (optional) | the person's own character or avatar, to star in it | |
+| What to make: "Commercial" | the art style, wide or tall | |
+| The script | story idea, closing line | write the script, draw the pictures |
+| Film it | | prepare the shots, film, frame sheets to look over |
+| Final video | | join |
+
+Made for that use:
+
+- **Tall videos.** `shape: "tall"` gives 9:16 (768x1344) for phones; `wide` is 16:9.
+- **The person's own pictures.** A product picture and a character picture can both be handed in; only what is missing is drawn.
+- **A folder per user.** Start the server with `ADS_HOME` and `CARTOON_SHOWS` set to that user's folders. Nothing is shared between users and the repository's own examples stay out of their list.
+- **A stop button.** `stop_step(pipeline, job, name)` ends a running step and keeps what it finished.
+
+<img src="media/commercial_own_pictures.jpg" width="420" alt="A user's own character, their own product photo, and the ending the pipeline drew from them">
+
+*Tested this way: a character picture and a product photo handed in, tall shape. The pipeline wrote the script, kept both pictures, and drew only the ending (right): the character inside a world that is the product.*
+
 ## How slow steps work
 
 Drawing, writing and filming take from a minute to an hour. A tool that starts one returns at once:

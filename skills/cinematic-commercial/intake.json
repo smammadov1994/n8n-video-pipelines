@@ -22,6 +22,12 @@
    "required": false
   },
   {
+   "id": "hero_image_path",
+   "ask": "Should your own character or avatar star in it? If so, its picture. (optional)",
+   "kind": "image",
+   "required": false
+  },
+  {
    "id": "art_style",
    "ask": "What art style?",
    "kind": "choice_or_text",
@@ -44,6 +50,17 @@
    ]
   },
   {
+   "id": "shape",
+   "ask": "Wide or tall?",
+   "kind": "choice",
+   "options": [
+    "wide",
+    "tall"
+   ],
+   "default": "wide",
+   "required": false
+  },
+  {
    "id": "idea",
    "ask": "Any idea for the story or the ending? (optional; one is proposed if you leave this empty)",
    "kind": "text",
@@ -61,6 +78,133 @@
   "commercial_status",
   "commercial_get",
   "commercial_save",
-  "commercial_step"
- ]
+  "commercial_step",
+  "stop_step"
+ ],
+ "steps": [
+  {
+   "id": "script",
+   "title": "Write the script",
+   "tool": "commercial_write",
+   "job": "write",
+   "minutes": 2,
+   "gpu": false,
+   "show": "script",
+   "approve": true,
+   "say": "Nine shots and the closing line. Change anything before pictures are drawn."
+  },
+  {
+   "id": "pictures",
+   "title": "Draw the pictures",
+   "tool": "commercial_step",
+   "args": {
+    "step": "draw"
+   },
+   "job": "draw",
+   "minutes": 3,
+   "gpu": false,
+   "show": "pictures_strip",
+   "approve": true,
+   "say": "The character, the product and the ending. The video copies these."
+  },
+  {
+   "id": "build",
+   "title": "Prepare the shots",
+   "tool": "commercial_step",
+   "args": {
+    "step": "build"
+   },
+   "job": "build",
+   "minutes": 0.2,
+   "gpu": false,
+   "approve": false
+  },
+  {
+   "id": "film",
+   "title": "Film it",
+   "tool": "commercial_step",
+   "args": {
+    "step": "render"
+   },
+   "job": "render",
+   "minutes": 50,
+   "gpu": true,
+   "video_seconds": 30,
+   "approve": false,
+   "say": "Three clips of about ten seconds, around 16 minutes each."
+  },
+  {
+   "id": "check",
+   "title": "Look it over",
+   "tool": "commercial_step",
+   "args": {
+    "step": "sheet"
+   },
+   "job": "sheet",
+   "minutes": 0.2,
+   "gpu": false,
+   "show": "frame_sheets",
+   "approve": true,
+   "say": "Twelve frames from each clip. Refilm a clip if something changed that should not have."
+  },
+  {
+   "id": "join",
+   "title": "Finish",
+   "tool": "commercial_step",
+   "args": {
+    "step": "join"
+   },
+   "job": "join",
+   "minutes": 0.5,
+   "gpu": false,
+   "show": "final",
+   "approve": false
+  }
+ ],
+ "canvas": {
+  "note": "Which canvas node of a subject / on camera / what to make / script / film / final workflow supplies each answer, and which step each node runs.",
+  "subject": {
+   "fills": [
+    "product",
+    "product_image_path"
+   ]
+  },
+  "on_camera": {
+   "fills": [
+    "hero_image_path"
+   ],
+   "optional": true
+  },
+  "what_to_make": {
+   "fills": [
+    "art_style",
+    "shape"
+   ],
+   "option": "Commercial"
+  },
+  "script": {
+   "fills": [
+    "idea",
+    "tagline"
+   ],
+   "runs": [
+    "script",
+    "pictures"
+   ]
+  },
+  "film": {
+   "runs": [
+    "build",
+    "film",
+    "check"
+   ],
+   "price_from": "video_seconds"
+  },
+  "final": {
+   "runs": [
+    "join"
+   ],
+   "takes": "final"
+  }
+ }
 }

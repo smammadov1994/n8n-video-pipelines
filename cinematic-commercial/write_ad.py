@@ -2,7 +2,11 @@
 
     python3 write_ad.py <name> --product "a tall slim mint-green can of sparkling water" --style "handmade paper craft"
                         [--idea "a dry paper desert comes alive when the can opens"] [--tagline "Open something."]
-                        [--picture /path/to/product.png] [--redo]
+                        [--picture /path/to/product.png] [--hero-picture /path/to/star.png] [--shape wide|tall] [--redo]
+
+--shape tall makes a 9:16 commercial (768x1344) for phones; wide is 16:9 (1344x768).
+--hero-picture puts the person's own character or avatar in the ad as its star.
+ADS_HOME, if set, is the folder the commercials live in instead of ads/ (one per user of a UI, for example).
 
 A model writes the look, the pictures to draw and three clips of three shots, following the rules in README.md.
 The result is checked (clip lengths, camera names, every named picture attached in its clip) before it is saved.
@@ -17,6 +21,8 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ADS = Path(os.environ.get("ADS_HOME") or HERE / "ads")
+SIZES = {"wide": (1344, 768), "tall": (768, 1344)}
 CAMERAS = ["static", "dolly_in", "dolly_out", "zoom_in", "zoom_out", "pan_left", "pan_right", "truck_left", "truck_right",
            "tilt_up", "tilt_down", "pedestal_up", "pedestal_down", "orbit", "tracking", "handheld"]
 
@@ -27,6 +33,7 @@ The product: {product}
 The art style: {style}
 The idea, if the person gave one: {idea}
 The closing line, if the person gave one: {tagline}
+The picture shape: {shape}
 {own_picture}
 
 Write a small story that makes sense and ends by showing the product in a clever way: the product is the answer to the
@@ -131,29 +138,36 @@ def main():
     a = argparse.ArgumentParser()
     a.add_argument("name"); a.add_argument("--product", required=True); a.add_argument("--style", required=True)
     a.add_argument("--idea", default=""); a.add_argument("--tagline", default=""); a.add_argument("--picture", default="")
+    a.add_argument("--hero-picture", default=""); a.add_argument("--shape", default="wide", choices=list(SIZES))
     a.add_argument("--redo", action="store_true")
     o = a.parse_args()
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", o.name):
         return say(ok=False, error='the name is lower-case letters, digits and dashes, for example "paper-fizz"')
-    folder = HERE / "ads" / o.name
+    folder = ADS / o.name
     out = folder / "spec.json"
     if out.exists() and not o.redo:
         return say(ok=False, error=f"ads/{o.name} already has a script. Add --redo to write it again.")
     folder.mkdir(parents=True, exist_ok=True)
     prefix = re.sub(r"[^a-z0-9]", "", o.name)[:12] or "ad"       # file names on the GPU start with this
-    own = ""
-    if o.picture:
-        src = Path(o.picture).expanduser()
+    own, (w, h) = "", SIZES[o.shape]
+    for key, given, what in (("product", o.picture, "the product"), ("hero", o.hero_picture, "the star of the commercial, the person's own character")):
+        if not given:
+            continue
+        src = Path(given).expanduser()
         if not src.exists():
             return say(ok=False, error=f"no picture at {src}")
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-vf", "scale=1344:768:force_original_aspect_ratio=decrease,pad=1344:768:(ow-iw)/2:(oh-ih)/2:color=white",
-                        str(folder / f"{prefix}_product.png")], timeout=120)
-        own = (f"The person supplied their own picture of the product: read the file {prefix}_product.png in the current "
-               "folder with the Read tool and describe the product from it in \"is\". Still write a \"draw\" text for "
-               "it; it will not be drawn again.")
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-vf", f"scale={w}:{h}:force_original_aspect_ratio=decrease,pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:color=white",
+                        str(folder / f"{prefix}_{key}.png")], timeout=120)
+        own += (f"The person supplied their own picture of {what}: read the file {prefix}_{key}.png in the current folder with "
+                f"the Read tool, use the picture key \"{key}\" for it, and describe it from the picture in \"is\". Still write "
+                f"a \"draw\" text for it; it will not be drawn again. ")
+    if o.hero_picture:
+        own += "The story stars that character; it must be in all three clips. "
     spec = ask_claude(ASK.format(product=o.product, style=o.style, idea=o.idea or "(none: invent one)", tagline=o.tagline or "(none: write one)",
-                                 own_picture=own, cameras=", ".join(CAMERAS), prefix=prefix), folder)
+                                 own_picture=own, cameras=", ".join(CAMERAS), prefix=prefix,
+                                 shape="tall, 9:16, for phones: compose every shot upright, the subject in the middle third" if o.shape == "tall" else "wide, 16:9"), folder)
     spec["name"] = prefix
+    spec["shape"] = o.shape
     for clip in spec.get("clips") or []:                     # the director adds these words itself; twice reads as a stutter
         for shot in clip.get("shots") or []:
             shot["text"] = re.sub(r"^\s*the camera cuts to\s+", "", str(shot.get("text") or ""), flags=re.I)

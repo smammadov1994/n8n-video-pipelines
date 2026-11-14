@@ -39,7 +39,7 @@ ROOT = Path(__file__).resolve().parent
 DIRECTOR = Path(os.environ.get("MINIMAX_DIRECTOR", ROOT / "vendor" / "ComfyUI-MiniMaxDirector"))   # a clone of github.com/imbutus/ComfyUI-MiniMaxDirector
 sys.path.insert(0, str(DIRECTOR / "src"))
 CODEX = os.environ.get("CODEX_BIN", "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex")   # the Codex command-line program that draws the pictures
-W, H = 1344, 768
+SIZES = {"wide": (1344, 768), "tall": (768, 1344)}      # "shape" in the script file; wide when it is not said
 
 
 def load(path: str):
@@ -53,8 +53,10 @@ def draw_one(folder: Path, spec: dict, key: str) -> str:
         return f"{key}: already drawn"
     work = folder / "_draw" / key
     work.mkdir(parents=True, exist_ok=True)
+    W, H = SIZES[spec.get("shape", "wide")]
+    frame = "portrait 9:16, about 864x1536" if H > W else "landscape 16:9, about 1536x864"
     prompt = (f"Use your image generation tool to make one picture, then save it in the current folder as {key}.png "
-              f"(PNG, landscape 16:9, about 1536x864). Do nothing else, and do not write any other files.\n\n"
+              f"(PNG, {frame}). Do nothing else, and do not write any other files.\n\n"
               f"PICTURE: {spec['pictures'][key]['draw']}\n\n{spec['pictures'][key].get('style', spec['picture_style'])} No text, no letters, no logos, no brand marks, no watermark.")
     for _ in range(2):
         try:
@@ -79,8 +81,8 @@ def draw(path: str) -> None:
     pics = [p for p in pics if p.exists()]
     if pics:                                                  # one strip to look at
         ins = sum((["-i", str(p)] for p in pics), [])
-        chain = "".join(f"[{i}]scale=480:-1[s{i}];" for i in range(len(pics))) + "".join(f"[s{i}]" for i in range(len(pics))) + f"hstack={len(pics)}"
-        subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", chain if len(pics) > 1 else "[0]scale=480:-1", str(folder / "pictures.jpg")])
+        chain = "".join(f"[{i}]scale=-2:270[s{i}];" for i in range(len(pics))) + "".join(f"[s{i}]" for i in range(len(pics))) + f"hstack={len(pics)}"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", chain if len(pics) > 1 else "[0]scale=-2:270", str(folder / "pictures.jpg")])
         print("look at", folder / "pictures.jpg")
 
 

@@ -69,6 +69,124 @@
   "cartoon_write_episode",
   "cartoon_get_episode",
   "cartoon_save_episode",
-  "cartoon_run_step"
- ]
+  "cartoon_run_step",
+  "stop_step"
+ ],
+ "steps": [
+  {
+   "id": "character",
+   "title": "Design the character",
+   "tool": "cartoon_create_show",
+   "job": "create_show",
+   "minutes": 3,
+   "gpu": false,
+   "show": "character_sheet",
+   "approve": true,
+   "say": "The character sheet and the rules that keep it in line. Correct anything that is wrong."
+  },
+  {
+   "id": "script",
+   "title": "Write the episode",
+   "tool": "cartoon_write_episode",
+   "job": "write_episode",
+   "minutes": 1.5,
+   "gpu": false,
+   "show": "script",
+   "approve": true
+  },
+  {
+   "id": "pictures",
+   "title": "Draw the scenes",
+   "tool": "cartoon_run_step",
+   "args": {
+    "step": "pictures"
+   },
+   "job": "pictures",
+   "minutes": 4,
+   "gpu": false,
+   "show": "pictures",
+   "approve": true
+  },
+  {
+   "id": "voice",
+   "title": "Record the voice",
+   "tool": "cartoon_run_step",
+   "args": {
+    "step": "voice"
+   },
+   "job": "voice",
+   "minutes": 1,
+   "gpu": false,
+   "approve": false
+  },
+  {
+   "id": "film",
+   "title": "Film it",
+   "tool": "cartoon_run_step",
+   "args": {
+    "step": "shoot"
+   },
+   "job": "shoot",
+   "minutes_per_scene": 5,
+   "gpu": true,
+   "approve": false
+  },
+  {
+   "id": "join",
+   "title": "Finish",
+   "tool": "cartoon_run_step",
+   "args": {
+    "step": "finish"
+   },
+   "job": "finish",
+   "minutes": 1,
+   "gpu": false,
+   "show": "final",
+   "approve": false
+  }
+ ],
+ "canvas": {
+  "note": "Which canvas node supplies each answer, and which step each node runs.",
+  "on_camera": {
+   "fills": [
+    "description",
+    "name",
+    "reference_image_path"
+   ]
+  },
+  "what_to_make": {
+   "fills": [
+    "kind_of_cartoon",
+    "place",
+    "audience"
+   ],
+   "option": "Cartoon"
+  },
+  "script": {
+   "fills": [
+    "idea"
+   ],
+   "runs": [
+    "character",
+    "script",
+    "pictures"
+   ]
+  },
+  "voice": {
+   "runs": [
+    "voice"
+   ]
+  },
+  "film": {
+   "runs": [
+    "film"
+   ]
+  },
+  "final": {
+   "runs": [
+    "join"
+   ],
+   "takes": "final"
+  }
+ }
 }

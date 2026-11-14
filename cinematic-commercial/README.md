@@ -190,6 +190,11 @@ in the ChatGPT app).
   `large`, `speed` is `slow` or `fast`.
 - A picture can carry its own `"style"` when it must not be drawn in the ad's look (a plain
   product photo inside a neon ad).
+- `"shape": "tall"` at the top makes a 9:16 commercial (768x1344) for phones. Without it the
+  commercial is wide (1344x768). On the GPU by hand, put `SHAPE=tall` in front of `run_director.py`.
+- `write_ad.py --picture` and `--hero-picture` take the person's own product photo and their
+  own character; only the pictures that are missing get drawn.
+- `ADS_HOME` moves the `ads/` folder somewhere else, for example one folder per user of a UI.
 
 ## Rules that came from real failures
 

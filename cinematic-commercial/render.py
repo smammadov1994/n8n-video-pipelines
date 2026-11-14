@@ -28,13 +28,13 @@ def say(**out):
     print(json.dumps(out, ensure_ascii=False))
 
 
-def graph(timeline, prefix, seed):
+def graph(timeline, prefix, seed, width=1344, height=768):
     return {
      "2": {"class_type": "UNETLoader", "inputs": {"unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors", "weight_dtype": "default"}},
      "3": {"class_type": "CLIPLoader", "inputs": {"clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors", "type": "minimax", "device": "default"}},
      "4": {"class_type": "VAELoader", "inputs": {"vae_name": "minimax_h3_video_vae_int8_convrot.safetensors"}},
      "5": {"class_type": "VAELoader", "inputs": {"vae_name": "minimax_h3_audio_vae_fp32.safetensors"}},
-     "6": {"class_type": "MiniMaxDirector", "inputs": {"clip": ["3", 0], "vae": ["4", 0], "audio_vae": ["5", 0], "timeline": timeline, "width": 1344, "height": 768, "ref_image_size": "max"}},
+     "6": {"class_type": "MiniMaxDirector", "inputs": {"clip": ["3", 0], "vae": ["4", 0], "audio_vae": ["5", 0], "timeline": timeline, "width": width, "height": height, "ref_image_size": "max"}},
      "7": {"class_type": "RandomNoise", "inputs": {"noise_seed": seed}},
      "8": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": "res_multistep"}},
      "9": {"class_type": "BasicScheduler", "inputs": {"model": ["2", 0], "scheduler": "simple", "steps": 20, "denoise": 1.0}},
@@ -52,6 +52,7 @@ def main():
     seed = int(sys.argv[2]) if len(sys.argv) > 2 else 11
     spec = json.loads((folder / "spec.json").read_text())
     name = spec["name"]
+    width, height = (768, 1344) if spec.get("shape") == "tall" else (1344, 768)
     timelines = sorted(folder.glob(f"{name}_[0-9].json"))
     if len(timelines) != len(spec["clips"]):
         return say(ok=False, error="build the timelines first: python3 adkit.py build " + str(folder / "spec.json"))
@@ -77,7 +78,7 @@ def main():
             if dest.exists():
                 done.append(dest.name)
                 continue
-            r = c.post("/prompt", json={"prompt": graph(t.read_text(), t.stem, seed), "client_id": server.CLIENT_ID})
+            r = c.post("/prompt", json={"prompt": graph(t.read_text(), t.stem, seed, width, height), "client_id": server.CLIENT_ID})
             body = r.json()
             if r.status_code >= 400 or body.get("node_errors"):
                 failed.append(f"{t.stem}: refused: {json.dumps(body)[:300]}")

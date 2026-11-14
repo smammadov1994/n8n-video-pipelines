@@ -97,6 +97,22 @@ def _start(folder: Path, job: str, cmd: list[str], env: dict[str, str] | None = 
     return {"started": True, "job": job, "next": "check this step with the pipeline's status tool, giving this job name"}
 
 
+def _stop(folder: Path, job: str) -> dict[str, Any]:
+    """Stop a running step and everything it started. What it already finished stays on disk."""
+    pid_file = _jobs(folder) / f"{job}.pid"
+    try:
+        pid = int(pid_file.read_text())
+    except (OSError, ValueError):
+        return {"stopped": False, "why": "that step was never started"}
+    if not _alive(pid):
+        return {"stopped": False, "why": "that step is not running"}
+    try:
+        os.killpg(pid, 15)                                   # the step was started as the leader of its own group
+    except OSError:
+        os.kill(pid, 15)
+    return {"stopped": True, "job": job, "note": "finished parts are kept; starting the step again continues from them. A clip already queued on the GPU still renders."}
+
+
 def _state(folder: Path, job: str) -> dict[str, Any]:
     jobs = _jobs(folder)
     pid_file, log = jobs / f"{job}.pid", jobs / f"{job}.log"

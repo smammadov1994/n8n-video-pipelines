@@ -26,7 +26,7 @@ from mcp.server.fastmcp import FastMCP
 
 ROOT = Path(__file__).resolve().parent
 SKILLS = ROOT / "skills"
-ADS = ROOT / "cinematic-commercial" / "ads"
+ADS = Path(os.environ.get("ADS_HOME") or ROOT / "cinematic-commercial" / "ads")      # ADS_HOME / CARTOON_SHOWS: a UI gives each user their own folders
 EPISODES = ROOT / "episodes"
 sys.path.insert(0, str(ROOT / "cartoon"))
 sys.path.insert(0, str(ROOT / "cinematic-commercial"))
@@ -34,7 +34,7 @@ import mcp_server as cartoon  # noqa: E402  (the cartoon pipeline's own server; 
 import write_ad  # noqa: E402
 
 UV = cartoon.UV
-start_job, job_state = cartoon._start, cartoon._state
+start_job, job_state, stop_job = cartoon._start, cartoon._state, cartoon._stop
 
 INSTRUCTIONS = """This server runs several video pipelines. Each makes a different kind of video and needs different
 things from the person.
@@ -93,8 +93,8 @@ def start_pipeline(pipeline: str) -> dict[str, Any]:
     """
     d = _intake(pipeline)
     skill = (SKILLS / pipeline / "SKILL.md").read_text().split("---", 2)[-1].strip()
-    out = {"pipeline": pipeline, "ask_first": d["ask_first"], "tools_in_order": d["tools_in_order"], "ready": d["ready"],
-           "needs": d["needs"], "skill": skill}
+    out = {"pipeline": pipeline, "ask_first": d["ask_first"], "steps": d.get("steps", []), "canvas": d.get("canvas", {}),
+           "tools_in_order": d["tools_in_order"], "ready": d["ready"], "needs": d["needs"], "skill": skill}
     if pipeline == "cartoon":
         out["existing_shows"] = cartoon.list_shows()
     if pipeline == "cinematic-commercial":
@@ -128,7 +128,8 @@ def commercial_list() -> list[dict[str, Any]]:
 
 @mcp.tool()
 def commercial_write(name: str, product: str, art_style: str, idea: str = "", tagline: str = "",
-                     product_image_path: str = "", redo: bool = False) -> dict[str, Any]:
+                     product_image_path: str = "", hero_image_path: str = "", shape: str = "wide",
+                     redo: bool = False) -> dict[str, Any]:
     """Have a model write a commercial's script: the look, the pictures to draw, and nine shots in three clips,
     ending on a clever way of showing the product. ASK the person for the product and the art style first.
     Runs in the background for about a minute: call commercial_status(name, "write").
@@ -140,12 +141,16 @@ def commercial_write(name: str, product: str, art_style: str, idea: str = "", ta
         idea: The person's idea for the story or the ending, if they have one.
         tagline: The closing spoken line, two to five words, if they have one.
         product_image_path: Full path of the person's own picture of the product, if they have one.
+        hero_image_path: Full path of a picture of the person's own character or avatar, to star in the commercial.
+        shape: "wide" (16:9) or "tall" (9:16, for phones).
         redo: Write the script again, replacing the one that is there.
     """
+    if shape not in ("wide", "tall"):
+        raise ValueError('shape is "wide" or "tall"')
     folder = _ad(name)
     folder.mkdir(parents=True, exist_ok=True)
-    cmd = ["python3", str(ROOT / "cinematic-commercial" / "write_ad.py"), name, "--product", product, "--style", art_style]
-    for flag, value in (("--idea", idea), ("--tagline", tagline), ("--picture", product_image_path)):
+    cmd = ["python3", str(ROOT / "cinematic-commercial" / "write_ad.py"), name, "--product", product, "--style", art_style, "--shape", shape]
+    for flag, value in (("--idea", idea), ("--tagline", tagline), ("--picture", product_image_path), ("--hero-picture", hero_image_path)):
         if value:
             cmd += [flag, value]
     return start_job(folder, "write", cmd + (["--redo"] if redo else []))
@@ -222,6 +227,29 @@ def commercial_status(name: str, job: str) -> dict[str, Any]:
         lines = [l for l in log.read_text(errors="replace").splitlines() if l.strip()]     # these steps print plain lines, not JSON
         state["result"] = {"ok": not any(w in " ".join(lines) for w in ("FAILED", "Traceback", "Error", "error:")), "printed": lines[-12:]}
     return state
+
+
+@mcp.tool()
+def stop_step(pipeline: str, job: str, name: str = "", episode: str = "") -> dict[str, Any]:
+    """Stop a background step the person no longer wants. What it already finished is kept.
+
+    Args:
+        pipeline: cartoon, cinematic-commercial, educational-presenter or person-swap.
+        job: The step's job name, as given when it was started ("render", "shoot", "pictures" ...).
+        name: The commercial's name, the show's name, or the educational episode's folder name.
+        episode: For a cartoon episode step, the episode's name.
+    """
+    if pipeline == "cinematic-commercial":
+        folder = _ad(name)
+    elif pipeline == "cartoon":
+        folder = cartoon.S.episode_dir(f"{name}/{episode}") if episode else cartoon._show_folder(name)
+    elif pipeline == "educational-presenter":
+        folder = EPISODES / name
+    elif pipeline == "person-swap":
+        folder = ROOT / "swap"
+    else:
+        raise ValueError("this pipeline has no background steps")
+    return stop_job(folder, job)
 
 
 # ---------------------------------------------------------------- educational presenter

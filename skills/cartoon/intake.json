@@ -1,0 +1,74 @@
+{
+ "pipeline": "cartoon",
+ "title": "Cartoon",
+ "makes": "A short cartoon of any character you describe; the character speaks and acts in each scene.",
+ "ready": "full",
+ "needs": [
+  "Codex (pictures)",
+  "claude command-line tool (rules and scripts)",
+  "Fish Audio key (voice)",
+  "GPU (clips)"
+ ],
+ "ask_first": [
+  {
+   "id": "description",
+   "ask": "What is the character? Describe it: what kind of creature or thing, shape, colours, face, what it wears.",
+   "kind": "text",
+   "required": true
+  },
+  {
+   "id": "name",
+   "ask": "What is its name?",
+   "kind": "text",
+   "required": true
+  },
+  {
+   "id": "reference_image_path",
+   "ask": "Do you have a picture of it? (optional; one is drawn from your description if not)",
+   "kind": "image",
+   "required": false
+  },
+  {
+   "id": "kind_of_cartoon",
+   "ask": "What kind of cartoon is it? (for example a children's counting cartoon)",
+   "kind": "text",
+   "required": false
+  },
+  {
+   "id": "place",
+   "ask": "Where does it happen? (optional; a simple bright place is invented if you leave this empty)",
+   "kind": "text",
+   "required": false
+  },
+  {
+   "id": "audience",
+   "ask": "Who is it for?",
+   "kind": "choice",
+   "options": [
+    "small children",
+    "older children",
+    "everyone",
+    "adults"
+   ],
+   "default": "small children",
+   "required": false
+  },
+  {
+   "id": "idea",
+   "ask": "What happens in the first episode? One or two sentences.",
+   "kind": "text",
+   "required": true,
+   "when": "after the character is approved"
+  }
+ ],
+ "tools_in_order": [
+  "cartoon_create_show",
+  "cartoon_job_status",
+  "cartoon_get_show",
+  "cartoon_update_show",
+  "cartoon_write_episode",
+  "cartoon_get_episode",
+  "cartoon_save_episode",
+  "cartoon_run_step"
+ ]
+}

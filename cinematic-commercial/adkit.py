@@ -84,7 +84,18 @@ def draw(path: str) -> None:
         print("look at", folder / "pictures.jpg")
 
 
+def director() -> None:
+    """The MiniMax Director's code has to be on this machine to build and check timelines. Fetch it once."""
+    if (DIRECTOR / "src" / "minimax_director").exists():
+        return
+    print("fetching ComfyUI-MiniMaxDirector into", DIRECTOR)
+    DIRECTOR.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(["git", "clone", "-q", "https://github.com/imbutus/ComfyUI-MiniMaxDirector", str(DIRECTOR)], check=True, timeout=300)
+    subprocess.run(["git", "-C", str(DIRECTOR), "checkout", "-q", "dc38ef9"], timeout=60)      # the version the examples were made with
+
+
 def build(path: str) -> None:
+    director()
     from minimax_director import Timeline, compile_timeline
     from minimax_director.lint import lint
     spec, folder = load(path)

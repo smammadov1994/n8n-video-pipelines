@@ -48,6 +48,9 @@ n8n's `Read ...` Code nodes parse that last line and branch on it. Do not print 
 | `cinematic-commercial/ads/<name>/spec.json` | one commercial: look, pictures, three clips of three shots |
 | `cinematic-commercial/box/` | runs on the GPU: queue director clips, drop a queued clip |
 | `comfyui-mcp/` | ComfyUI client (`server.py`), transcription, and the video workflow JSON files |
+| `pipelines_mcp.py` | ONE MCP server over every pipeline: `list_pipelines`, `start_pipeline`, then each pipeline's tools |
+| `skills/<pipeline>/SKILL.md`, `intake.json` | what to ask the person first, the steps and their tools, the rules; `intake.json` is the same questions as data for a UI |
+| `cinematic-commercial/write_ad.py`, `render.py` | a model writes a commercial's script; render its clips straight from the Mac |
 
 State on disk, all outside git: `episodes/<nn-slug>/` (one folder per episode), `output/*.json` (ready list, needs-a-look list, posting state), `swap/ready|sent|finished/`, `cartoon/shows/<show>/<episode>/{pictures,voice,clips,work}`.
 
@@ -77,6 +80,10 @@ There is no test suite. To check a change, run the single step it touches agains
 - **Publishing**: public, Short plus full video, one episode every three hours, back off after a failed upload. A new YouTube channel has a daily upload limit until it is phone-verified.
 - **Commercials**: never film a small object being picked up; one product picture used in every shot it appears in; a character's picture in every clip it is in; people and products drawn on plain backgrounds; no lettering; no brand names or logos. The full list is in `cinematic-commercial/README.md`.
 - **The machine keeps its caches.** Takes are cached by line and direction. When a picture changes, move the old take files aside or the old clip is reused.
+
+## When a pipeline changes
+
+A pipeline's questions, steps and rules are in `skills/<pipeline>/SKILL.md` and `skills/<pipeline>/intake.json`. Change them there, not in the MCP server's text. If a tool's arguments change, change the matching `id` in `intake.json`. `docs/USING_FROM_A_UI.md` is the contract a UI relies on.
 
 ## Safety
 

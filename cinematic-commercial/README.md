@@ -104,8 +104,10 @@ flowchart LR
    that changed, an object that appears too early, a stray first or last moment.
 6. **Join** (`adkit.py join`). Half-second fades between clips, fade out at the end.
 
-There is no n8n workflow for this pipeline yet. The steps are run by hand or by an agent,
-because step 5 still needs eyes.
+There is no n8n workflow for this pipeline yet. The steps are run by hand, or from a chat or UI
+through the repository's MCP server ([`pipelines_mcp.py`](../pipelines_mcp.py), tools `commercial_*`; what
+to ask the person first is in [`skills/cinematic-commercial/SKILL.md`](../skills/cinematic-commercial/SKILL.md)).
+Step 5 still needs eyes.
 
 ## Exactly what runs
 
@@ -139,10 +141,12 @@ git clone https://github.com/imbutus/ComfyUI-MiniMaxDirector && cd ComfyUI-MiniM
 For each commercial:
 
 ```bash
+python3 write_ad.py paper-fizz --product "a tall slim mint-green can of sparkling water" --style "handmade paper craft"   # a model writes ads/paper-fizz/spec.json; or write it by hand
 python3 adkit.py draw  ads/paper-fizz/spec.json    # Codex draws the pictures; look at ads/paper-fizz/pictures.jpg
 python3 adkit.py build ads/paper-fizz/spec.json    # writes paper_1.json, paper_2.json, paper_3.json and checks them
 
-# copy the .png pictures to ComfyUI/input and the three .json files plus box/run_director.py to the GPU, then there:
+uv run render.py ads/paper-fizz                    # films the three clips from the Mac, if a GPU is connected (set_5090.py --swap); not yet proven end to end
+# or by hand: copy the .png pictures to ComfyUI/input and the three .json files plus box/run_director.py to the GPU, then there:
 python3 run_director.py 11 paper_1.json paper_2.json paper_3.json      # 11 is the seed
 # FRONT=1 python3 run_director.py 11 paper_3.json                      # redo one clip ahead of the queue
 # python3 drop.py paper_2                                              # take a waiting clip out of the queue

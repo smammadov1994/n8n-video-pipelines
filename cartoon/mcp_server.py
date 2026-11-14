@@ -60,6 +60,7 @@ When someone wants a cartoon, do this in order.
 Say plainly when something failed, and quote the error the tool returned. Never invent a result."""
 
 mcp = FastMCP("cartoon", instructions=INSTRUCTIONS)
+PROCS: dict[int, subprocess.Popen] = {}                 # steps this server started, so a finished one is seen as finished
 
 
 def _jobs(folder: Path) -> Path:
@@ -68,21 +69,32 @@ def _jobs(folder: Path) -> Path:
     return d
 
 
+def _alive(pid: int) -> bool:
+    if pid in PROCS:
+        return PROCS[pid].poll() is None
+    try:
+        os.kill(pid, 0)                                      # a step started by an earlier run of the server
+        return True
+    except OSError:
+        return False
+
+
 def _start(folder: Path, job: str, cmd: list[str], env: dict[str, str] | None = None) -> dict[str, Any]:
     """Run a step in the background. Its output goes to _jobs/<job>.log; its last line is the step's JSON result."""
     jobs = _jobs(folder)
     pid_file, log = jobs / f"{job}.pid", jobs / f"{job}.log"
     if pid_file.exists():
         try:
-            os.kill(int(pid_file.read_text()), 0)
-            return {"started": False, "job": job, "why": "this step is already running; call job_status"}
-        except (OSError, ValueError):
+            if _alive(int(pid_file.read_text())):
+                return {"started": False, "job": job, "why": "this step is already running; check its status"}
+        except ValueError:
             pass
     p = subprocess.Popen(cmd, cwd=HERE, stdin=subprocess.DEVNULL, stdout=open(log, "w"), stderr=subprocess.STDOUT,
                          env={**os.environ, "PATH": PATH, **(env or {})}, start_new_session=True)
+    PROCS[p.pid] = p
     pid_file.write_text(str(p.pid))
     (jobs / f"{job}.started").write_text(str(time.time()))
-    return {"started": True, "job": job, "next": "call job_status with the same show (and episode) and this job name"}
+    return {"started": True, "job": job, "next": "check this step with the pipeline's status tool, giving this job name"}
 
 
 def _state(folder: Path, job: str) -> dict[str, Any]:
@@ -90,10 +102,9 @@ def _state(folder: Path, job: str) -> dict[str, Any]:
     pid_file, log = jobs / f"{job}.pid", jobs / f"{job}.log"
     if not pid_file.exists():
         return {"job": job, "state": "never started"}
-    running = True
     try:
-        os.kill(int(pid_file.read_text()), 0)
-    except (OSError, ValueError):
+        running = _alive(int(pid_file.read_text()))
+    except ValueError:
         running = False
     started = float((jobs / f"{job}.started").read_text()) if (jobs / f"{job}.started").exists() else time.time()
     lines = [l for l in (log.read_text(errors="replace").splitlines() if log.exists() else []) if l.strip()]

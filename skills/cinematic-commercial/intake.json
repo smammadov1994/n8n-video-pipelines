@@ -1,0 +1,66 @@
+{
+ "pipeline": "cinematic-commercial",
+ "title": "Cinematic commercial",
+ "makes": "A 30-second, nine-shot commercial for one product in one art style, with a clever last shot.",
+ "ready": "full",
+ "needs": [
+  "Codex (pictures)",
+  "claude command-line tool (script)",
+  "GPU with ComfyUI-MiniMaxDirector (render)"
+ ],
+ "ask_first": [
+  {
+   "id": "product",
+   "ask": "What is the product? What it is and what it looks like.",
+   "kind": "text",
+   "required": true
+  },
+  {
+   "id": "product_image_path",
+   "ask": "Do you have a picture of the product? (optional)",
+   "kind": "image",
+   "required": false
+  },
+  {
+   "id": "art_style",
+   "ask": "What art style?",
+   "kind": "choice_or_text",
+   "required": true,
+   "options": [
+    "live action",
+    "stop motion",
+    "3D animated film",
+    "comic book",
+    "paper craft",
+    "black-and-white film noir",
+    "1970s home movie",
+    "pixel game",
+    "ink painting",
+    "oil painting",
+    "travel poster",
+    "felted wool",
+    "1980s neon",
+    "shadow puppets"
+   ]
+  },
+  {
+   "id": "idea",
+   "ask": "Any idea for the story or the ending? (optional; one is proposed if you leave this empty)",
+   "kind": "text",
+   "required": false
+  },
+  {
+   "id": "tagline",
+   "ask": "The closing line, two to five words (optional)",
+   "kind": "text",
+   "required": false
+  }
+ ],
+ "tools_in_order": [
+  "commercial_write",
+  "commercial_status",
+  "commercial_get",
+  "commercial_save",
+  "commercial_step"
+ ]
+}

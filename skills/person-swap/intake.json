@@ -1,0 +1,44 @@
+{
+ "pipeline": "person-swap",
+ "title": "Person swap",
+ "makes": "An existing product video re-filmed with our presenter and her voice.",
+ "ready": "partial",
+ "needs": [
+  "a swap GPU connected with set_5090.py --swap",
+  "videos whose creators agreed"
+ ],
+ "ask_first": [
+  {
+   "id": "source",
+   "ask": "Which video, or which list to pick from?",
+   "kind": "choice_or_text",
+   "options": [
+    "top",
+    "trending",
+    "latest"
+   ],
+   "required": true
+  },
+  {
+   "id": "consent",
+   "ask": "Has the person in the video agreed to being replaced?",
+   "kind": "choice",
+   "options": [
+    "yes",
+    "no",
+    "not sure"
+   ],
+   "required": true
+  },
+  {
+   "id": "keep",
+   "ask": "How many to keep?",
+   "kind": "number",
+   "default": 5,
+   "required": false
+  }
+ ],
+ "tools_in_order": [
+  "swap_step"
+ ]
+}

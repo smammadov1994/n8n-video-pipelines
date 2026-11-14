@@ -1,0 +1,36 @@
+{
+ "pipeline": "talking-avatar",
+ "title": "Talking avatar",
+ "makes": "A video of the person or character in a picture speaking a voice recording.",
+ "ready": "by hand",
+ "needs": [
+  "the LongCat machine set up with talking/setup_longcat.sh"
+ ],
+ "ask_first": [
+  {
+   "id": "picture",
+   "ask": "The picture of the speaker",
+   "kind": "image",
+   "required": true
+  },
+  {
+   "id": "voice",
+   "ask": "The voice recording, or the words to say",
+   "kind": "audio_or_text",
+   "required": true
+  },
+  {
+   "id": "consent",
+   "ask": "Whose picture and voice are these, and have they agreed?",
+   "kind": "text",
+   "required": true
+  },
+  {
+   "id": "scene",
+   "ask": "One sentence about who it is, where they are and how they speak",
+   "kind": "text",
+   "required": true
+  }
+ ],
+ "tools_in_order": []
+}

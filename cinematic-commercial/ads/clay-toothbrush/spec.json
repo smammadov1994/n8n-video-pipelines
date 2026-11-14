@@ -1,0 +1,103 @@
+{
+ "name": "claytoothbru",
+ "style": "Claymation stop motion: every surface is matte hand-pressed plasticine carrying visible thumbprints, fingernail scratches and tool marks, with tiny frame-to-frame jitter and a slight squash in every movement. Soft warm tabletop key light, deep shadows, shallow miniature depth of field, no gloss and no text anywhere.",
+ "picture_style": "Style: claymation stop motion still, matte hand-sculpted plasticine with visible thumbprints and tool marks, soft warm tabletop key light, deep shadows, shallow miniature depth of field, no gloss, no lettering.",
+ "voice": "A woman with a low, warm, unhurried voice",
+ "pictures": {
+  "hero": {
+   "draw": "A small claymation fox sculpted from pale grey-white plasticine, rounded body, short rounded ears, big dark bead eyes, stubby tail, mouth closed, standing in profile, whole body visible, thumbprints and tool marks pressed over its entire surface, on a flat plain mid-grey backdrop; no clothes, no props, no wire, no lettering.",
+   "is": "the small clay fox"
+  },
+  "product": {
+   "draw": "A slim white plasticine electric toothbrush standing upright, one round mint-green button on the front of the handle, one small round brush head with short pale clay bristles, thumbprints and fingertip ridges pressed into the clay, on a flat plain mid-grey backdrop; no cable, no wire, no label, no lettering, no logo.",
+   "is": "the pale clay toothbrush"
+  },
+  "end": {
+   "draw": "One slim white plasticine electric toothbrush lying on dark grey clay, sculpted to read as a landscape: the handle is a long pale ridge with a thread of tiny pawprints climbing it, its one round mint-green button glows like a low moon at the ridge end, its small round brush head stands up as a frosted grove of pale clay bristles, a few miniature clay hills at its base, thumbprints everywhere, plain dark backdrop, no horizon; no cable, no wire, no lettering, no logo.",
+   "is": "the clay world that is the toothbrush"
+  }
+ },
+ "clips": [
+  {
+   "sound": "dry wind over grit, faint clay creaks, a single soft click, a distant hollow hum",
+   "shots": [
+    {
+     "len": 80,
+     "pic": "hero",
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "text": "A small clay fox, {hero}, stands still on a dark plain of thumbprinted clay hills, ears turned toward a faint mint-green glow far across the valley; no wire anywhere, lips closed, nobody speaks, nothing is picked up."
+    },
+    {
+     "len": 80,
+     "camera": "pan_right",
+     "amp": "small",
+     "speed": "slow",
+     "text": "the valley floor, ribbed grey clay pressed by huge thumbprints, a long pale ridge rising at its far end where one round green light burns alone; no people, no wire, only clay dust drifting."
+    },
+    {
+     "len": 83,
+     "pic": "product",
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "text": "{product} standing upright far out on the clay plain like a pale tower, its round mint-green button the only light for miles, held perfectly still; no wire, no hands, nothing is picked up."
+    }
+   ]
+  },
+  {
+   "sound": "small claws pressing into clay, puffs of dust, steady wind, a low even hum",
+   "shots": [
+    {
+     "len": 82,
+     "pic": "hero",
+     "camera": "tracking",
+     "text": "Clay dust puffs under {hero} as the small fox climbs a long white slope of thumbprinted clay toward the mint-green glow above the crest; lips closed, nobody speaks, no wire, nothing is carried."
+    },
+    {
+     "len": 78,
+     "camera": "tilt_up",
+     "amp": "small",
+     "speed": "slow",
+     "text": "the slope itself, smooth white clay scarred with fingerprints and faint grip rings, mint-green light spilling over the crest above and pooling in every thumbprint; nobody is there, no wire, nothing moves but light."
+    },
+    {
+     "len": 83,
+     "pic": "product",
+     "camera": "orbit",
+     "amp": "small",
+     "speed": "slow",
+     "text": "{product} close now, the pale tower filling the sky above the clay ridge, its round mint-green button glowing like a low green moon; no wire, no hands, nothing is opened, nobody is near it."
+    }
+   ]
+  },
+  {
+   "sound": "wind easing, one slow breath, a soft electric purr, a gentle click",
+   "shots": [
+    {
+     "len": 76,
+     "pic": "hero",
+     "camera": "static",
+     "text": "At the crest {hero} sits down in the white clay, tail curled, small chest rising, looking up at a round grove of frosted clay bristles that stand against the dawn; lips closed, nobody speaks, no wire."
+    },
+    {
+     "len": 79,
+     "camera": "dolly_out",
+     "amp": "large",
+     "speed": "slow",
+     "text": "the whole landscape from far off as morning light arrives, the ridge, the green moon and the frosted grove lining up into one familiar slim shape; no lettering anywhere, no wire, nobody speaks."
+    },
+    {
+     "len": 88,
+     "pic": "end",
+     "camera": "dolly_in",
+     "amp": "small",
+     "speed": "slow",
+     "say": "Morning starts right here.",
+     "text": "{end} lying alone on dark clay, the valley ridge now plainly a slim white handle, the green moon its one round button, the frosted grove its small brush head, tiny pawprints climbing it; no wire, nothing is picked up."
+    }
+   ]
+  }
+ ]
+}

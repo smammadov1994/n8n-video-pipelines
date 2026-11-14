@@ -30,6 +30,9 @@ __pycache__/
 swap/captioned/
 swap/caption_work/
 cinematic-commercial/vendor/
+cinematic-commercial/ads/*/_jobs/
+cinematic-commercial/ads/*/spec.rejected.json
+swap/_jobs/
 cinematic-commercial/ads/*/clips/
 cinematic-commercial/ads/*/old/
 cinematic-commercial/ads/*/_draw/

@@ -1,0 +1,32 @@
+{
+ "pipeline": "educational-presenter",
+ "title": "Educational presenter",
+ "makes": "A 35 to 45 second explainer with our AI presenter, as a wide video and a vertical Short.",
+ "ready": "partial",
+ "needs": [
+  "claude command-line tool",
+  "Codex",
+  "Fish Audio key",
+  "GPU",
+  "the presenter's master picture in her/"
+ ],
+ "ask_first": [
+  {
+   "id": "topic",
+   "ask": "What question should the episode answer?",
+   "kind": "text",
+   "required": true
+  },
+  {
+   "id": "where",
+   "ask": "Where should it be filmed? (optional)",
+   "kind": "text",
+   "required": false
+  }
+ ],
+ "tools_in_order": [
+  "educational_plan",
+  "educational_status",
+  "educational_shoot"
+ ]
+}

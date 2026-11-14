@@ -49,7 +49,7 @@ yellow buttons, and [this] tends to drift or multiply between scenes."*
 
 ## Use it from a chat (MCP)
 
-`mcp_server.py` lets any assistant that speaks MCP run the whole pipeline. It tells the assistant to
+`mcp_server.py` lets any assistant that speaks MCP run this pipeline on its own. The same tools, prefixed `cartoon_`, are also in the repository's one server for every pipeline, [`pipelines_mcp.py`](../pipelines_mcp.py), and what to ask first is written down in [`skills/cartoon/SKILL.md`](../skills/cartoon/SKILL.md). It tells the assistant to
 **start by asking what character you want**, before it calls anything.
 
 ```json

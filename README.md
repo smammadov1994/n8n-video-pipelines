@@ -11,6 +11,8 @@ Three video pipelines that run on their own (plus one stand-alone tool, the [tal
 
 Every step is a small Python script that prints one line of JSON, so n8n decides what happens next and a failed step never kills a run.
 
+**From a chat or a UI.** One MCP server, [`pipelines_mcp.py`](pipelines_mcp.py), covers all of them. Each pipeline has a skill ([`skills/<pipeline>/SKILL.md`](skills/)) that says what to ask the person first, the steps and the rules; the server hands it out, so an assistant asked for a cartoon starts with "what is the character, and do you have a picture of it?". See [`docs/USING_FROM_A_UI.md`](docs/USING_FROM_A_UI.md).
+
 ---
 
 ## 1. Educational presenter
@@ -210,7 +212,8 @@ What it is for, the exact models and settings, the script format, all seven exam
 ```
 workflows/            the three n8n workflows (import these)
 scripts/              educational pipeline steps and checks
-skills/               the director rulebook Claude writes episodes from
+skills/               one folder per pipeline: SKILL.md (what to ask, steps, rules) and intake.json (the questions as data); plus the episode director rulebook
+pipelines_mcp.py      one MCP server over every pipeline
 her/                  the presenter's master picture and stock studio sets
 swap/                 person-swap picker, sender, collector
 swap/box/             files that run ON the swap GPU (install, queue, swap)
@@ -220,7 +223,7 @@ talking/              talking avatar: setup, 32 GB fixes and run script for Long
 cinematic-commercial/ commercial pipeline: adkit.py, the GPU scripts in box/, one script file per commercial in ads/
 poster/               YouTube publisher (browser automation helpers)
 comfyui-mcp/          the ComfyUI driver the scripts import, plus the video workflows
-docs/                 RULEBOOK.md, RUNBOOK.md, pictures for this page
+docs/                 RULEBOOK.md, RUNBOOK.md, USING_FROM_A_UI.md, pictures for this page
 examples/             finished example videos
 set_5090.py           point the Mac at a GPU (reads the link from the clipboard, never prints the token)
 setup_5090.sh         install models and nodes on the episode GPU

@@ -35,7 +35,8 @@ n8n's `Read ...` Code nodes parse that last line and branch on it. Do not print 
 | `scripts/episode_job.py` | n8n steps: `next`, `plan`, `shoot`, `finish`, `post`, `approve` |
 | `skills/episode-director/` | the director rulebook the script writer follows (`SKILL.md`, `LONGFORM.md`) |
 | `swap/prep_swaps.py`, `swap/text_screen.py` | pick and prepare clips for the swap |
-| `swap/swap_job.py` | n8n steps: `prep`, `send`, `collect`, `status` |
+| `swap/swap_job.py` | n8n steps: `prep`, `send`, `collect`, `status` (batches from Kaiyros lists, our presenter) |
+| `swap/swap_one.py` | one supplied video, any supplied person: `prepare`, `send`, `collect`, `status`; needs `--rights own` or `agreed` |
 | `swap/caption_job.py`, `swap/caption_template/edit.tsx` | captions, product tag and end card on finished swaps, rendered by raea on the Mac |
 | `swap/box/` | runs on the swap GPU, not on the Mac |
 | `cartoon/show.py` | what a show is; the picture prompt and the clip prompt are built here and nowhere else |
@@ -91,7 +92,7 @@ A pipeline's questions, steps and rules are in `skills/<pipeline>/SKILL.md` and 
 - Never commit `episodes/`, `media/`, `output/`, `swap/ready`, `swap/sent`, `swap/finished`, `node_modules/`, `.n8n/` (see `.gitignore`).
 - Renting a GPU costs money and destroying one deletes its files. Ask the owner before either.
 - Do not stop a running `make_episode.py` by pattern-killing; it takes the n8n step down with it. Use the pause file and let the episode finish.
-- The swap pipeline may only be used on videos whose creators have agreed to it.
+- The swap pipeline may only be used on videos whose creators have agreed to it, or on the person's own video. `swap_one.py` and the `swap_prepare` tool refuse without that answer; do not add a default or a way round it. The picture swapped in must be of someone who agreed, or of a made-up character.
 
 ## Style
 

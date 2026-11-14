@@ -13,4 +13,5 @@ hf download Comfy-Org/Qwen3-VL text_encoders/qwen3vl_8b_int8_convrot.safetensors
 hf download Comfy-Org/sam3.1 checkpoints/sam3.1_multiplex_fp16.safetensors --local-dir models
 supervisorctl restart comfyui
 mkdir -p /workspace/results
+ln -sfn /workspace/results /workspace/ComfyUI/output/swap_results     # so the Mac can fetch results, logs and failure marks through ComfyUI
 echo "Done. Copy run_swap.py and queue.sh to /workspace, put character.png in ComfyUI/input, then: nohup /workspace/queue.sh &"

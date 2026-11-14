@@ -56,7 +56,7 @@ A UI can show these as a form. A chat assistant asks them in words.
 | `cartoon` | full | `cartoon_create_show`, `cartoon_get_show`, `cartoon_update_show`, `cartoon_write_episode`, `cartoon_get_episode`, `cartoon_save_episode`, `cartoon_run_step`, `cartoon_job_status`, `cartoon_list_shows` |
 | `cinematic-commercial` | full | `commercial_write`, `commercial_get`, `commercial_save`, `commercial_step` (`draw`, `build`, `render`, `sheet`, `join`), `commercial_status`, `commercial_list` |
 | `educational-presenter` | partial: no publishing | `educational_plan`, `educational_shoot`, `educational_status` |
-| `person-swap` | partial: needs the swap GPU connected | `swap_step` (`prep`, `send`, `collect`, `status`), `swap_status` |
+| `person-swap` | full, once the swap GPU is connected | `swap_prepare`, `swap_run` (`send`, `collect`), `swap_get`, `swap_job_status`; the owner's batch version is `swap_batch_step`, `swap_batch_status` |
 | `talking-avatar` | by hand | none yet; the skill says how it is run |
 
 ## Steps, as data (for a node canvas)
@@ -91,12 +91,27 @@ Made for that use:
 
 - **Tall videos.** `shape: "tall"` gives 9:16 (768x1344) for phones; `wide` is 16:9.
 - **The person's own pictures.** A product picture and a character picture can both be handed in; only what is missing is drawn.
-- **A folder per user.** Start the server with `ADS_HOME` and `CARTOON_SHOWS` set to that user's folders. Nothing is shared between users and the repository's own examples stay out of their list.
+- **A folder per user.** Start the server with `ADS_HOME`, `CARTOON_SHOWS` and `SWAP_HOME` set to that user's folders. Nothing is shared between users and the repository's own examples stay out of their list.
 - **A stop button.** `stop_step(pipeline, job, name)` ends a running step and keeps what it finished.
 
 <img src="media/commercial_own_pictures.jpg" width="420" alt="A user's own character, their own product photo, and the ending the pipeline drew from them">
 
 *Tested this way: a character picture and a product photo handed in, tall shape. The pipeline wrote the script, kept both pictures, and drew only the ending (right): the character inside a world that is the product.*
+
+### Person swap on the canvas
+
+| Canvas node | Supplies | Runs |
+|---|---|---|
+| The subject: a selling video | the video, and whether it is the person's own or its creator agreed | |
+| On camera | the picture of who goes into it | |
+| What to make: "Remake it with my avatar" | | |
+| The voice | keep the original, or a new voice | |
+| Film it | | check and cut, swap on the GPU, bring it back |
+| Final video | takes the swapped clip | |
+
+Two things a UI must not skip: the `rights` answer (`own` or `agreed`; the tool refuses anything else),
+and showing what the check said before GPU time is spent. The result keeps the shape of the video
+that went in, so phone videos stay tall.
 
 ## How slow steps work
 

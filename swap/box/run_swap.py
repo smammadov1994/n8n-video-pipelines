@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Run OpenJutsu's simple one-person swap straight against ComfyUI on this machine (no web app).
-    python3 run_swap.py [--check]      --check only lists missing nodes / model files
+    python3 run_swap.py [clip.mp4] [person.png] [--check]      --check only lists missing nodes / model files
+The person swapped in is ComfyUI/input/character.png unless another picture in that folder is named.
 Mirrors lib/simple.ts pruneSimple: hat fix off, lip-sync ON (the person talks), default sizes."""
 import json, re, sys, time, urllib.request, urllib.error
 API = "http://127.0.0.1:18188"
@@ -33,7 +34,7 @@ for k, n in g.items():
     for name, v in n["inputs"].items():
         if is_link(v) and v[0] not in g: sys.exit(f"node {k}.{name} links to missing node {v[0]}")
 # our files
-g["2"]["inputs"]["image"] = "character.png"
+g["2"]["inputs"]["image"] = next((a for a in sys.argv[1:] if a.lower().endswith((".png", ".jpg", ".jpeg"))), "character.png")
 VIDEO = next((a for a in sys.argv[1:] if a.endswith(".mp4")), "source.mp4")
 g["5"]["inputs"]["video"] = VIDEO
 g["19"]["inputs"]["clip_name"] = "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors"

@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parent
 SKILLS = ROOT / "skills"
 ADS = Path(os.environ.get("ADS_HOME") or ROOT / "cinematic-commercial" / "ads")      # ADS_HOME / CARTOON_SHOWS: a UI gives each user their own folders
 EPISODES = ROOT / "episodes"
+SWAPS = Path(os.environ.get("SWAP_HOME") or ROOT / "swap" / "jobs")                       # SWAP_HOME: the same, for single swaps
 sys.path.insert(0, str(ROOT / "cartoon"))
 sys.path.insert(0, str(ROOT / "cinematic-commercial"))
 import mcp_server as cartoon  # noqa: E402  (the cartoon pipeline's own server; its tools are re-used here)
@@ -99,6 +100,9 @@ def start_pipeline(pipeline: str) -> dict[str, Any]:
         out["existing_shows"] = cartoon.list_shows()
     if pipeline == "cinematic-commercial":
         out["existing_commercials"] = commercial_list()
+    if pipeline == "person-swap":
+        out["existing_swaps"] = sorted(p.parent.name for p in SWAPS.glob("*/job.json"))
+        out["gpu_connected"] = (Path.home() / "comfyui-mcp" / "swap_connection.json").exists()
     return out
 
 
@@ -246,7 +250,7 @@ def stop_step(pipeline: str, job: str, name: str = "", episode: str = "") -> dic
     elif pipeline == "educational-presenter":
         folder = EPISODES / name
     elif pipeline == "person-swap":
-        folder = ROOT / "swap"
+        folder = _swap(name) if name else ROOT / "swap"
     else:
         raise ValueError("this pipeline has no background steps")
     return stop_job(folder, job)
@@ -314,16 +318,84 @@ def educational_status(episode: str = "") -> dict[str, Any]:
     return out
 
 
-# ---------------------------------------------------------------- person swap
+# ---------------------------------------------------------------- person swap: one video, any person
+def _swap(name: str) -> Path:
+    if not re.fullmatch(r"[a-z0-9][a-z0-9_-]*", name or ""):
+        raise ValueError('a swap\'s name is lower-case letters, digits, - and _, for example "bottle-remake"')
+    return SWAPS / name
+
+
 @mcp.tool()
-def swap_step(step: str, source: str = "top", look_at: int = 20, keep: int = 5) -> dict[str, Any]:
-    """One step of the person-swap pipeline, in the background. Only for videos whose creators have agreed: ASK first.
+def swap_prepare(name: str, video_path: str, person_image_path: str, rights: str, voice: str = "keep",
+                 voice_id: str = "", force: bool = False) -> dict[str, Any]:
+    """Get one video ready to be re-filmed with another person or character in it. ASK first: which video, whose
+    picture, and whether they may use both. Checks that the video suits a swap (one person, face to camera and
+    talking, no word-by-word captions, not an outfit video), cuts it to at most 20 seconds, and sets the voice.
+    Runs in the background for a minute or two: call swap_job_status(name, "prepare").
+
+    Args:
+        name: Folder name for this swap, lower-case with dashes, for example "bottle-remake".
+        video_path: Full path of the video on this computer.
+        person_image_path: Full path of a picture of the person or character to put in the video.
+        rights: "own" if the video is the person's own, "agreed" if its creator agreed to this. Anything else is refused:
+                do not guess, ask. The picture must also be of someone who agreed, or of a made-up character.
+        voice: "keep" leaves the original voice; "new" has a library voice say the same words at the same moments.
+        voice_id: A Fish Audio voice id for "new" (the presenter's voice when empty).
+        force: Try even though the check says the video is unlikely to swap well.
+    """
+    if rights not in ("own", "agreed"):
+        raise ValueError('rights must be "own" (their own video) or "agreed" (its creator agreed). Ask the person; do not assume.')
+    if voice not in ("keep", "new"):
+        raise ValueError('voice is "keep" or "new"')
+    folder = _swap(name)
+    folder.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(ROOT / "swap" / "swap_one.py"), "prepare", name, "--video", video_path, "--person", person_image_path,
+           "--rights", rights, "--voice", voice] + (["--voice-id", voice_id] if voice_id else []) + (["--force"] if force else [])
+    return start_job(folder, "prepare", cmd)
+
+
+@mcp.tool()
+def swap_run(name: str, step: str) -> dict[str, Any]:
+    """Send a prepared swap to the GPU, or bring the finished one back. In the background.
+
+    send:    uploads the clip and the person's picture; the GPU swaps it (about 40 seconds of work per second of video).
+    collect: fetches the result as swapped.mp4, or says it is still swapping, or why it failed.
+    Then call swap_job_status(name, step). Run collect again later if it is still swapping.
+    """
+    if step not in ("send", "collect"):
+        raise ValueError("step is send or collect")
+    return start_job(_swap(name), step, ["python3", str(ROOT / "swap" / "swap_one.py"), step, name])
+
+
+@mcp.tool()
+def swap_get(name: str) -> dict[str, Any]:
+    """One swap: whether it is prepared, sent and finished, what the check said about the video, and the files
+    (the prepared clip, the person's picture, the finished swap)."""
+    folder = _swap(name)
+    job = json.loads((folder / "job.json").read_text()) if (folder / "job.json").exists() else {}
+    files = {k: str(folder / f) for k, f in (("source", "source.mp4"), ("person", "person.png"), ("swapped", "swapped.mp4")) if (folder / f).exists()}
+    return {"name": name, "prepared": bool(job), "sent": (folder / "sent").exists(), "finished": (folder / "swapped.mp4").exists(),
+            "seconds": job.get("seconds"), "size": job.get("size"), "voice": job.get("voice"), "check": job.get("screen"), "files": files,
+            "gpu_connected": (Path.home() / "comfyui-mcp" / "swap_connection.json").exists()}
+
+
+@mcp.tool()
+def swap_job_status(name: str, job: str) -> dict[str, Any]:
+    """Whether a swap's background step is still running, and its result. job is "prepare", "send" or "collect"."""
+    return job_state(_swap(name), job)
+
+
+# ---------------------------------------------------------------- person swap: batches from Kaiyros lists, with our presenter
+@mcp.tool()
+def swap_batch_step(step: str, source: str = "top", look_at: int = 20, keep: int = 5) -> dict[str, Any]:
+    """The owner's batch version: picks creator videos from the Kaiyros lists and swaps in our own presenter.
+    Only for videos whose creators have agreed. For one video the person supplies, use swap_prepare instead.
 
     prep:    pick and prepare clips from a list ("top", "trending" or "latest"), looking at `look_at` and keeping `keep`.
     send:    upload the prepared clips to the swap GPU.
     collect: bring finished swaps back.
     status:  how many are waiting, sent and finished.
-    Then call swap_status(step).
+    Then call swap_batch_status(step).
     """
     job = str(ROOT / "swap" / "swap_job.py")
     cmds = {"prep": ["python3", job, "prep", source, str(look_at), str(keep)], "send": ["python3", job, "send"],
@@ -336,8 +408,8 @@ def swap_step(step: str, source: str = "top", look_at: int = 20, keep: int = 5) 
 
 
 @mcp.tool()
-def swap_status(step: str) -> dict[str, Any]:
-    """Whether a person-swap step is still running, and its result when finished. step is prep, send, collect or status."""
+def swap_batch_status(step: str) -> dict[str, Any]:
+    """Whether a batch person-swap step is still running, and its result. step is prep, send, collect or status."""
     return job_state(ROOT / "swap", step)
 
 

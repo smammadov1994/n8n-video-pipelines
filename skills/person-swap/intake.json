@@ -1,44 +1,126 @@
 {
  "pipeline": "person-swap",
  "title": "Person swap",
- "makes": "An existing product video re-filmed with our presenter and her voice.",
- "ready": "partial",
+ "makes": "An existing video re-filmed with another person or character in it: same room, same product, same movements.",
+ "ready": "full",
  "needs": [
-  "a swap GPU connected with set_5090.py --swap",
-  "videos whose creators agreed"
+  "a swap GPU connected with set_5090.py --swap, running swap/box/queue.sh",
+  "the claude command-line tool (the suitability check)",
+  "a Fish Audio key (only for a new voice)"
  ],
  "ask_first": [
   {
-   "id": "source",
-   "ask": "Which video, or which list to pick from?",
-   "kind": "choice_or_text",
-   "options": [
-    "top",
-    "trending",
-    "latest"
-   ],
+   "id": "video_path",
+   "ask": "Which video should be re-filmed?",
+   "kind": "video",
    "required": true
   },
   {
-   "id": "consent",
-   "ask": "Has the person in the video agreed to being replaced?",
+   "id": "person_image_path",
+   "ask": "Who goes into it? A picture of the person or character.",
+   "kind": "image",
+   "required": true
+  },
+  {
+   "id": "rights",
+   "ask": "Is this your own video, or has its creator agreed to this?",
    "kind": "choice",
    "options": [
-    "yes",
-    "no",
-    "not sure"
+    "own",
+    "agreed"
    ],
-   "required": true
+   "required": true,
+   "why": "A swap copies someone's video. Without one of these two answers it is not made."
   },
   {
-   "id": "keep",
-   "ask": "How many to keep?",
-   "kind": "number",
-   "default": 5,
+   "id": "voice",
+   "ask": "Keep the original voice, or have a new voice say the same words?",
+   "kind": "choice",
+   "options": [
+    "keep",
+    "new"
+   ],
+   "default": "keep",
    "required": false
   }
  ],
+ "steps": [
+  {
+   "id": "prepare",
+   "title": "Check and cut the video",
+   "tool": "swap_prepare",
+   "job": "prepare",
+   "minutes": 2,
+   "gpu": false,
+   "show": "check",
+   "approve": true,
+   "say": "Whether the video suits a swap, and how long the swap will take."
+  },
+  {
+   "id": "swap",
+   "title": "Swap the person",
+   "tool": "swap_run",
+   "args": {
+    "step": "send"
+   },
+   "job": "send",
+   "minutes_per_video_second": 0.65,
+   "gpu": true,
+   "approve": false
+  },
+  {
+   "id": "collect",
+   "title": "Bring it back",
+   "tool": "swap_run",
+   "args": {
+    "step": "collect"
+   },
+   "job": "collect",
+   "minutes": 1,
+   "gpu": false,
+   "show": "swapped",
+   "approve": false,
+   "say": "Run again every few minutes until it is finished."
+  }
+ ],
+ "canvas": {
+  "note": "Which canvas node supplies each answer, and which step each node runs.",
+  "subject": {
+   "fills": [
+    "video_path",
+    "rights"
+   ],
+   "takes": "a selling video"
+  },
+  "on_camera": {
+   "fills": [
+    "person_image_path"
+   ]
+  },
+  "what_to_make": {
+   "option": "Remake it with my avatar"
+  },
+  "voice": {
+   "fills": [
+    "voice"
+   ]
+  },
+  "film": {
+   "runs": [
+    "prepare",
+    "swap",
+    "collect"
+   ]
+  },
+  "final": {
+   "takes": "swapped"
+  }
+ },
  "tools_in_order": [
-  "swap_step"
+  "swap_prepare",
+  "swap_job_status",
+  "swap_get",
+  "swap_run",
+  "stop_step"
  ]
 }

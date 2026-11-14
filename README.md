@@ -75,6 +75,8 @@ Original creator on the left, our presenter on the right. Same room, same produc
 
 The creators in these clips are members of the Kaiyros creator program and agreed to this feature.
 
+**One video, any person.** [`swap/swap_one.py`](swap/swap_one.py) swaps a single video someone supplies, with any person or character whose picture they supply: `prepare` checks that the video suits a swap and cuts it, `send` uploads it with the picture, `collect` brings the result back. It refuses unless the video is the person's own or its creator agreed. The batch workflow below is the owner's version for lists of creator videos and our own presenter.
+
 **How it works**
 
 ```mermaid

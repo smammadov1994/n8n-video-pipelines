@@ -6,7 +6,7 @@ Three video pipelines that run on their own (plus one stand-alone tool, the [tal
 |---|---|---|
 | **Educational presenter** | An AI presenter explains one science question per episode, as a wide video and a vertical Short, and publishes both to YouTube | [`workflows/episode-machine.json`](workflows/episode-machine.json) |
 | **Person swap** | Takes an existing product video, replaces the person with our presenter and gives her one consistent voice | [`workflows/swap-machine.json`](workflows/swap-machine.json) |
-| **Kids cartoon** | "Mango", a round orange cat, teaches children to cook one simple recipe per episode | [`workflows/cartoon-machine.json`](workflows/cartoon-machine.json) |
+| **Cartoon** | A cartoon of any character you describe. It writes its own keep-in-line rules from the description and a picture. Example show: "Mango", a round orange cat who teaches children to cook | [`workflows/cartoon-machine.json`](workflows/cartoon-machine.json) |
 | **Cinematic commercial** | A 30-second, nine-shot commercial for one product in one art style, with the product shown in a clever way at the end | no workflow yet, run by hand: [`cinematic-commercial/`](cinematic-commercial/README.md) |
 
 Every step is a small Python script that prints one line of JSON, so n8n decides what happens next and a failed step never kills a run.
@@ -97,7 +97,11 @@ The video list comes from a private Kaiyros API client that is not part of this 
 
 ---
 
-## 3. Kids cartoon: Mango the cat
+## 3. Cartoon pipeline (any character)
+
+Describe a character, optionally give a picture of it, and the pipeline sets up a show for it: it draws a character sheet, a model looks at the sheet and writes the rules that keep the character in line (how many arms, legs, tails or wheels it has, which marks sit where, what must never appear), then it writes episodes and films them. Connected over MCP, an assistant starts by asking what character you want. Full guide: [`cartoon/README.md`](cartoon/README.md).
+
+The first show made with it is Mango the cat:
 
 <p>
   <img src="docs/media/cartoon_omelet.gif" width="560" alt="Mango cracks an egg">
@@ -126,14 +130,22 @@ flowchart LR
   D --> E[Join + vertical Short]
 ```
 
-An episode is one `script.json` with an entry per scene: what Mango **says**, what the start **picture** shows, and what Mango **does**. See [`cartoon/omelet/script.json`](cartoon/omelet/script.json).
+A character is a **show**, a folder with one settings file ([`cartoon/shows/mango/show.json`](cartoon/shows/mango/show.json)) and one character sheet. An episode is one `script.json` with an entry per scene: what the character **says**, what the start **picture** shows, and what the character **does**. See [`cartoon/shows/mango/omelet/script.json`](cartoon/shows/mango/omelet/script.json).
 
 What keeps it consistent:
 
-- One fixed character description ([`cartoon/character.txt`](cartoon/character.txt)) and one art style ([`cartoon/style.txt`](cartoon/style.txt)) go into every prompt.
-- Every start picture is made from the previous one, so the cat, the kitchen and the props stay identical.
+- The show's character description, art style and keep-in-line rules go into every prompt. For Mango they were written by hand; for a new character [`cartoon/new_show.py`](cartoon/new_show.py) has a model write them from the description and the character sheet.
+- Every start picture is made from the previous one, so the character, the place and the props stay identical.
 - Everything a scene uses must already be visible in its start picture, and the action is described as something that is *seen happening* ("the egg is seen falling from the shell into the bowl"). This is what stopped ingredients from appearing out of nowhere.
-- Kid-safe by rule: no knives, no flame, and the hot pan is always "a job for a grown-up".
+- Kid-safe by rule when the audience is children: no knives, no flame, and the hot pan is always "a job for a grown-up".
+
+**A second character, from one sentence**
+
+<img src="docs/media/cartoon_pip_sheet.jpg" width="300" alt="Pip the robot, character sheet drawn from a description"> <img src="docs/media/cartoon_pip_scenes.jpg" width="420" alt="Start pictures of four scenes of Pip counting apples">
+
+*"A small round sky-blue robot with one bendy antenna with a yellow ball on top, two big round white eyes, short arms with mitten hands, and one wheel instead of legs."* From that, [`cartoon/shows/pip/`](cartoon/shows/pip/show.json) was made with no code changed: the sheet on the left, rules such as "one antenna with one yellow ball, two arms, two mitten hands, one wheel, no legs, no tail", a four-scene script, and the start pictures on the right. Pip has not been filmed yet.
+
+**From a chat.** [`cartoon/mcp_server.py`](cartoon/mcp_server.py) is an MCP server for the whole pipeline. Its instructions tell the assistant to ask for the character first, show the sheet and the rules, and film only when the person is happy with them.
 
 The full account of what was tried is in [`cartoon/REPORT.md`](cartoon/REPORT.md).
 
@@ -202,7 +214,8 @@ skills/               the director rulebook Claude writes episodes from
 her/                  the presenter's master picture and stock studio sets
 swap/                 person-swap picker, sender, collector
 swap/box/             files that run ON the swap GPU (install, queue, swap)
-cartoon/              Mango: character, style, episode scripts, steps
+cartoon/              cartoon pipeline for any character: new_show.py, write_episode.py, the filming steps, mcp_server.py
+cartoon/shows/        one folder per character (mango, pip): show.json, character sheet, episodes
 talking/              talking avatar: setup, 32 GB fixes and run script for LongCat-Video-Avatar 1.5
 cinematic-commercial/ commercial pipeline: adkit.py, the GPU scripts in box/, one script file per commercial in ads/
 poster/               YouTube publisher (browser automation helpers)

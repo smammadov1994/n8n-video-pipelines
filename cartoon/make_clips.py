@@ -2,15 +2,14 @@
 # requires-python = ">=3.10"
 # dependencies = ["mcp>=1.2,<2", "httpx>=0.27"]
 # ///
-"""Cartoon cat feasibility test. Technique copied from kaiyros n8n-pipeline/scripts/make_episode.py
-(voice_clip: Fish voice anchored at frame 0 of an image-to-video job on the 5090).
+"""Voice and clips for one cartoon episode of any show (see show.py). The character's voice is recorded first
+(Fish Audio) and anchored at frame 0 of an image-to-video job on the 5090, so the mouth follows the voice.
 
-    uv run make_clips.py voice            speak the three lines (cached)
-    uv run make_clips.py clip <n> <try>   one clip of scene n, try number picks the seed
-    uv run make_clips.py check <file>     transcript score + 6-frame sheet for one clip
+    EPISODE=mango/omelet uv run make_clips.py voice            speak every line (cached)
+    EPISODE=mango/omelet uv run make_clips.py clip <n> <try>   one clip of scene n, try number picks the seed
+    EPISODE=mango/omelet uv run make_clips.py check <file>     transcript score + 6-frame sheet for one clip
 
-Differences from production: jobs are queued at the BACK of the queue (no "front"), and downloads
-land in this folder, so the live production run is not disturbed.
+Jobs are queued at the BACK of the 5090's queue, and downloads land in this folder.
 """
 import copy
 import difflib
@@ -31,17 +30,14 @@ os.environ["PATH"] = f"{Path.home()}/.local/bin:/opt/homebrew/bin:" + os.environ
 COMFY = Path.home() / "comfyui-mcp"
 sys.path.insert(0, str(COMFY))
 
-VOICE_ID = "44a7a443f7404ef6b8565022b150d2ed"      # "Kids" from the Fish library: young, cheerful, clear
-SPEED = 0.9
-TONE = "(cheerful, warm, friendly) "
+import show as S  # noqa: E402
+
 W, H = 1344, 768
 TAIL = float(os.environ.get("TAIL", "0.6"))   # silent seconds after the last word
-STYLE = (HERE / "style.txt").read_text().strip()
-EP = HERE / os.environ.get("EPISODE", "")            # EPISODE=omelet uses the omelet/ subfolder
+EP = S.episode_dir(os.environ.get("EPISODE", ""))    # EPISODE=mango/omelet is shows/mango/omelet
+SHOW = S.load_show(EP)
 SCRIPT = json.loads((EP / "script.json").read_text())
-RULES = ("One continuous take, camera locked off, no cuts, no zoom. Exactly one cat. Mango keeps exactly the shape, "
-         "colours, face, teal apron with yellow pocket and teal chef hat of the first frame. Two arms, two paws, "
-         "no extra limbs. Bright sunny daytime kitchen with the same even lighting and the same pale yellow wall in every frame. Mango says the line exactly once and adds no word after the last one. No text on screen, no captions, no music.")
+TAG = f"{EP.parent.name}_{EP.name}"                  # in every file sent to the 5090: two episodes filming at once must not share a file name
 
 
 def run(cmd, timeout=900):
@@ -77,7 +73,8 @@ def heard_in(clip):
 def fish_voice(server, line, dest):
     if dest.exists():
         return
-    body = {"text": TONE + line, "format": "wav", "prosody": {"speed": SPEED}, "reference_id": VOICE_ID}
+    v = SHOW["voice"]
+    body = {"text": v["tone"] + line, "format": "wav", "prosody": {"speed": v["speed"]}, "reference_id": v["id"]}
     headers = {"Authorization": f"Bearer {server._fish_key()}", "model": "s2.1-pro-free"}
     for attempt in range(6):
         r = httpx.post(f"{server.FISH_API}/v1/tts", json=body, headers=headers, timeout=180)
@@ -123,6 +120,14 @@ def wait_for(server, client, prompt_id, dest):
         time.sleep(5)
 
 
+def named(path, n):
+    """A copy of a file under a name no other episode uses (scene2.wav from two episodes once overwrote each other on the 5090)."""
+    copy_to = EP / "work" / "send" / f"{TAG}_scene{n}{path.suffix}"
+    copy_to.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(path, copy_to)
+    return copy_to
+
+
 def voice_clip(server, client, voice, picture, prompt, seed, dest):
     frames = next(17 * k + 5 for k in range(7, 60) if (17 * k + 5) / 24 >= seconds_of(voice) + TAIL)
     wf = copy.deepcopy(server._load_workflow("i2v"))
@@ -134,7 +139,7 @@ def voice_clip(server, client, voice, picture, prompt, seed, dest):
                 "inputs": {"positive": ["5", 0], "latent": ["5", 1], "frame_idx": 0, "audio_vae": ["4", 0], "audio": ["22", 0]}}
     wf["9"]["inputs"]["conditioning"] = ["23", 0]
     wf["8"]["inputs"]["noise_seed"] = seed
-    wf["14"]["inputs"]["filename_prefix"] = "hyperflow/catcartoon"
+    wf["14"]["inputs"]["filename_prefix"] = f"hyperflow/cartoon_{TAG}"
     r = client.post("/prompt", json={"prompt": wf, "client_id": server.CLIENT_ID})      # back of the queue
     body = r.json()
     if r.status_code >= 400 or body.get("node_errors"):
@@ -144,10 +149,7 @@ def voice_clip(server, client, voice, picture, prompt, seed, dest):
 
 
 def prompt_for(s):
-    return (f"SCENE: A children's cooking cartoon. {s['picture']} Colourful cartoon kitchen with a round window, wooden "
-            f"cupboards and a shelf of jars, exactly as in the first frame. Mango's eyes are on the camera. {s['does']} "
-            f"LINE: Mango speaks these exact words, the mouth matching the voice on the soundtrack: \"{s['says']}\" "
-            f"STYLE: {STYLE} RULES: {RULES} Same character and kitchen as the first frame.")
+    return S.clip_prompt(SHOW, s)
 
 
 def check(clip, line):
@@ -175,7 +177,7 @@ def main():
     what = sys.argv[1]
     if what == "check":
         clip = Path(sys.argv[2]).resolve()
-        n = int(re.search(r"scene(\d)", clip.name).group(1))
+        n = int(re.search(r"scene(\d+)", clip.name).group(1))
         check(clip, SCRIPT[n - 1]["says"])
         return
     import server
@@ -191,7 +193,7 @@ def main():
     dest = EP / "clips" / f"scene{n}_try{attempt}.mp4"
     if not dest.exists():
         with server._client() as client:
-            voice_clip(server, client, EP / "voice" / f"scene{n}.wav", EP / "pictures" / f"scene{n}_{W}x{H}.png",
+            voice_clip(server, client, named(EP / "voice" / f"scene{n}.wav", n), named(EP / "pictures" / f"scene{n}_{W}x{H}.png", n),
                        prompt_for(s), 4100 * n + 7919 * attempt, dest)
     check(dest, s["says"])
 

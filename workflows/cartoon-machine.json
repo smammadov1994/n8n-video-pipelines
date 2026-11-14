@@ -30,13 +30,13 @@
               "id": "e1",
               "name": "episode",
               "type": "string",
-              "value": "omelet"
+              "value": "mango/omelet"
             }
           ]
         },
         "options": {}
       },
-      "notes": "EDIT HERE. Name of a folder in cartoon/ that holds script.json (one entry per scene: says, picture, does).",
+      "notes": "EDIT HERE. <show>/<episode>: a folder in cartoon/shows/ that holds script.json (one entry per scene: says, picture, does), for example mango/omelet or pip/five_apples.",
       "notesInFlow": true
     },
     {

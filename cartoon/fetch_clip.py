@@ -3,7 +3,7 @@
 # dependencies = ["mcp>=1.2,<2", "httpx>=0.27"]
 # ///
 """Pick up a clip whose wait ran out while it was still in the 5090 queue (does not queue anything new).
-    EPISODE=pbj uv run fetch_clip.py <scene n> <try> <prompt id>"""
+    EPISODE=mango/pbj uv run fetch_clip.py <scene n> <try> <prompt id>"""
 import sys
 import make_clips as m
 import server

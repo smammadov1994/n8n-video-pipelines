@@ -1,0 +1,19 @@
+{
+ "name": "Pip",
+ "what": "children's counting cartoon",
+ "character": "Pip is a small robot whose head and body are one single sky-blue ball, glossy and about as wide as it is tall. One grey ribbed antenna rises from the top and curves to the viewer's right, tipped with a yellow ball. Two very big round white eyes with black pupils sit side by side under two dark blue eyebrows; a tiny smiling mouth, no nose. A small grey disc sits on each side like an ear. A grey band crosses the lower body with three round yellow buttons on it. Short grey ribbed arms end in sky-blue mitten hands. One dark grey rubber wheel on a grey fork replaces legs. No fingers, no claws, no tail, no stripes, no clothes, no hat.",
+ "style": "Flat vector cartoon drawing with thick dark blue outlines, simple rounded shapes, smooth glossy surfaces with soft highlights, even bright daylight and no harsh shadows, in cheerful pastel colours; fully animated cartoon, not a photograph, no text, no letters, no logos anywhere.",
+ "place": "Every scene happens in one sunny playroom with pale yellow walls and a light wooden floor, a tall wooden shelf of coloured blocks against the back wall on the left, a round red rug in the middle of the floor, and a big round window with blue sky behind Pip on the right.",
+ "place_word": "playroom",
+ "keep_same": "the same round sky-blue robot character (one ball body, one bent grey antenna with a yellow ball, two big white eyes, two grey ear discs, a grey belt with three yellow buttons, sky-blue mitten hands, one dark grey wheel), the same sunny playroom with its pale yellow walls and light wooden floor, the same wooden block shelf against the back wall on the left, the same round red rug in the middle of the floor",
+ "picture_rules": "Exactly one robot: one body, one antenna with one yellow ball, two eyes, two arms, two mitten hands, one wheel. Every counted object and the mitten hand doing the action are fully visible and not hidden by anything. No second Pip, no fingers, no fire, no smoke, no text.",
+ "clip_rules": "Exactly one robot. Pip keeps exactly the sky-blue ball body, the bent grey antenna with its yellow ball, the grey belt with three yellow buttons and the sky-blue mitten hands of the first frame. Two arms, two mitten hands, one wheel, no legs, no tail, no extra limbs. The same playroom in bright daytime with the same soft even light in every frame; no fire, no smoke, no text.",
+ "voice": {
+  "id": "17079d6adb8b4ecc8e42c8e6f489492b",
+  "name": "Chill southern child (Fish library, found with: cheerful young child)",
+  "speed": 0.9,
+  "tone": "(curious, gentle, warm) "
+ },
+ "audience": "small children",
+ "described_as": "a small round sky-blue robot with one bendy antenna with a yellow ball on top, two big round white eyes, short arms with mitten hands, and one wheel instead of legs. Curious and gentle, loves counting things."
+}

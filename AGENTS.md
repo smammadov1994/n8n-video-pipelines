@@ -38,14 +38,18 @@ n8n's `Read ...` Code nodes parse that last line and branch on it. Do not print 
 | `swap/swap_job.py` | n8n steps: `prep`, `send`, `collect`, `status` |
 | `swap/caption_job.py`, `swap/caption_template/edit.tsx` | captions, product tag and end card on finished swaps, rendered by raea on the Mac |
 | `swap/box/` | runs on the swap GPU, not on the Mac |
-| `cartoon/` | Mango: `character.txt`, `style.txt`, `<episode>/script.json`, step scripts |
+| `cartoon/show.py` | what a show is; the picture prompt and the clip prompt are built here and nowhere else |
+| `cartoon/shows/<show>/` | one character: `show.json` (look, style, place, rules, voice), `character_sheet.png`, `<episode>/script.json` |
+| `cartoon/new_show.py`, `cartoon/write_episode.py` | a model writes a new show's rules from a description and a picture; a model writes an episode |
+| `cartoon/cartoon_job.py` | n8n steps: `pictures`, `voice`, `shoot`, `finish`, each given `<show>/<episode>` |
+| `cartoon/mcp_server.py` | MCP server for the cartoon pipeline; its instructions make the assistant ask for the character first |
 | `poster/` | YouTube publishing helpers |
 | `cinematic-commercial/adkit.py` | commercials: `draw` (Codex pictures), `build` (director timelines), `sheet` (frames to check), `join` |
 | `cinematic-commercial/ads/<name>/spec.json` | one commercial: look, pictures, three clips of three shots |
 | `cinematic-commercial/box/` | runs on the GPU: queue director clips, drop a queued clip |
 | `comfyui-mcp/` | ComfyUI client (`server.py`), transcription, and the video workflow JSON files |
 
-State on disk, all outside git: `episodes/<nn-slug>/` (one folder per episode), `output/*.json` (ready list, needs-a-look list, posting state), `swap/ready|sent|finished/`, `cartoon/<episode>/{pictures,voice,clips}`.
+State on disk, all outside git: `episodes/<nn-slug>/` (one folder per episode), `output/*.json` (ready list, needs-a-look list, posting state), `swap/ready|sent|finished/`, `cartoon/shows/<show>/<episode>/{pictures,voice,clips,work}`.
 
 ## Commands
 
@@ -69,7 +73,7 @@ There is no test suite. To check a change, run the single step it touches agains
 - **The presenter never walks, is never filmed from behind or far away, never touches objects.** Still, talking, in varied places and framings.
 - **The video models never draw text.** Text comes from raea after the fact (`swap/caption_job.py`): it is code, so it is always spelled right. Keep source clips free of burned-in captions.
 - **Swap picker**: one person, face talking, product in hand; no outfit videos, no word-by-word captions. Count only *newly* prepared clips toward the keep limit.
-- **Cartoon**: everything a scene uses is already visible in its start picture; actions are written as things seen happening; no knives, no flame.
+- **Cartoon**: no script names a character. Everything about one lives in `shows/<show>/show.json`; a new character is a new show, never a code change. Everything a scene uses is already visible in its start picture; actions are written as things seen happening; no knives, no flame when the audience is children. Files sent to the GPU carry the show and episode in their name (two episodes once overwrote each other's `scene2.wav`).
 - **Publishing**: public, Short plus full video, one episode every three hours, back off after a failed upload. A new YouTube channel has a daily upload limit until it is phone-verified.
 - **Commercials**: never film a small object being picked up; one product picture used in every shot it appears in; a character's picture in every clip it is in; people and products drawn on plain backgrounds; no lettering; no brand names or logos. The full list is in `cinematic-commercial/README.md`.
 - **The machine keeps its caches.** Takes are cached by line and direction. When a picture changes, move the old take files aside or the old clip is reused.

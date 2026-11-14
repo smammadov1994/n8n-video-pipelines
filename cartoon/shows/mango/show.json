@@ -1,0 +1,18 @@
+{
+ "name": "Mango",
+ "what": "children's cooking cartoon",
+ "character": "Mango is a very round, chubby cartoon cat shaped like a soft pear: small head blending into a big wide belly, short stubby arms and legs, tiny rounded paws with no claws. Plain apricot-orange fur with NO stripes and no markings, a cream-white oval belly patch and cream-white muzzle, a small pink heart-shaped nose, big round leaf-green eyes with large black pupils, two small rounded triangular ears where the left ear tip is folded down, three short white whiskers on each cheek, one short thick tail with a cream-white tip. Mango wears a teal-turquoise bib apron with one big sunny-yellow round pocket on the front, and a soft floppy teal-turquoise chef hat with a sunny-yellow band, tilted slightly to one side.",
+ "style": "Soft 3D-animated preschool kids-show look: rounded chunky shapes, smooth matte clay-like surfaces, big simple expressive eyes, gentle warm studio lighting with soft shadows, bright candy colours, clean uncluttered background, friendly and cosy, fully animated cartoon, not a photograph, no text, no letters, no logos anywhere.",
+ "place": "Colourful cartoon kitchen with a round window, wooden cupboards and a shelf of jars",
+ "place_word": "kitchen",
+ "keep_same": "the same cat character (same body shape, fur colour, face, eyes, folded left ear, teal apron with yellow round pocket, floppy teal chef hat with yellow band), the same kitchen with pale yellow wall and light wooden cupboards, the same round window on the left, the same shelf with the same pink, yellow and purple jars on the right",
+ "picture_extra": "Remove every prop from the counter that is not listed below.",
+ "picture_rules": "Exactly one cat, two arms, two paws. Every listed object and the paw doing the action are fully visible and not hidden by anything. No knives, no flame, no fire, no smoke, no text.",
+ "clip_rules": "Exactly one cat. Mango keeps exactly the shape, colours, face, teal apron with yellow pocket and teal chef hat of the first frame. Two arms, two paws, no extra limbs. Bright sunny daytime kitchen with the same even lighting and the same pale yellow wall in every frame.",
+ "voice": {
+  "id": "44a7a443f7404ef6b8565022b150d2ed",
+  "name": "Kids (Fish library): young, cheerful, clear",
+  "speed": 0.9,
+  "tone": "(cheerful, warm, friendly) "
+ }
+}

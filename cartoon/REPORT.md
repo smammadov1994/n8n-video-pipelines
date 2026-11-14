@@ -1,5 +1,7 @@
 # Mango the cooking cat: feasibility test report
 
+> History. Written when the pipeline only knew Mango. The scripts now work for any character (see `README.md` in this folder); Mango lives in `shows/mango/`, and the paths below are the old ones.
+
 Date: 11 November 2026. One test video, `final.mp4`, 32.8 seconds, 1920x1080, four shots.
 
 ## Short answer

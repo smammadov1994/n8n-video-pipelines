@@ -3,7 +3,7 @@
 # dependencies = ["mcp>=1.2,<2", "httpx>=0.27", "numpy"]
 # ///
 """Speak one line several times and measure each take, to pick one without a drawn-out or odd ending.
-    EPISODE=pbj uv run voice_takes.py <scene n> <how many>
+    EPISODE=mango/pbj uv run voice_takes.py <scene n> <how many>
 Prints for each take: length, words heard, and the sound bursts (start-end seconds) found by loudness."""
 import subprocess, sys
 import numpy as np

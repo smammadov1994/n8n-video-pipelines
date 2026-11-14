@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """The steps of the n8n "Cartoon machine" workflow. Each prints ONE JSON line and always exits 0.
 
-    cartoon_job.py pictures <episode>   start picture per scene (Codex, from the character sheet, then from scene 1)
-    cartoon_job.py voice <episode>      Mango's voice line per scene (Fish Audio)
-    cartoon_job.py shoot <episode>      one clip per scene on the 5090, up to 4 tries until the words match
-    cartoon_job.py finish <episode>     join the best take of every scene into final.mp4 + a vertical Short
+    cartoon_job.py pictures <show>/<episode>   start picture per scene (Codex, from the character sheet, then from scene 1)
+    cartoon_job.py voice <show>/<episode>      the character's voice line per scene (Fish Audio)
+    cartoon_job.py shoot <show>/<episode>      one clip per scene on the 5090, up to 4 tries until the words match
+    cartoon_job.py finish <show>/<episode>     join the best take of every scene into final.mp4 + a vertical Short
 
-<episode> is a folder next to this file that holds script.json (see omelet/, pbj/, fruit_cup/).
-The three example episodes were made by running these same scripts by hand; this wrapper only chains them.
+<show>/<episode> is a folder in shows/ that holds script.json, for example mango/omelet. The show folder above it
+holds show.json (the character, the look, the rules) and character_sheet.png. new_show.py makes a show,
+write_episode.py writes an episode. The Mango examples were made by running these same scripts by hand.
 """
 import json, os, subprocess, sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import show as S  # noqa: E402
 UV = str(Path.home() / ".local/bin/uv")
 PASS, TRIES = 0.97, 4
 os.environ["PATH"] = f"{Path.home()}/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:" + os.environ.get("PATH", "")
@@ -27,31 +30,32 @@ def run(cmd, episode, timeout):
 
 
 def scenes(episode):
-    return json.loads((HERE / episode / "script.json").read_text())
+    return json.loads((S.episode_dir(episode) / "script.json").read_text())
 
 
 def pictures(episode):
-    ep = HERE / episode
+    ep = S.episode_dir(episode)
     (ep / "pictures").mkdir(exist_ok=True)
     first = ep / "pictures" / "scene1_1344x768.png"
     if not first.exists():                                   # scene 1 from the character sheet
-        run(["python3", "make_pictures.py", episode, str(HERE / "character_sheet.png"), "1"], episode, 600)
+        run(["python3", "make_pictures.py", episode, str(S.load_show(ep)["sheet"]), "1"], episode, 600)
     todo = [str(s["n"]) for s in scenes(episode) if not (ep / "pictures" / f"scene{s['n']}_1344x768.png").exists()]
-    if todo and first.exists():                              # every other scene from scene 1, so cat and kitchen stay the same
+    if todo and first.exists():                              # every other scene from scene 1, so character and place stay the same
         run(["python3", "make_pictures.py", episode, str(first)] + todo, episode, 900)
     missing = [s["n"] for s in scenes(episode) if not (ep / "pictures" / f"scene{s['n']}_1344x768.png").exists()]
     say(ok=not missing, episode=episode, missing_pictures=missing)
 
 
 def voice(episode):
-    (HERE / episode / "voice").mkdir(exist_ok=True)
+    ep = S.episode_dir(episode)
+    (ep / "voice").mkdir(exist_ok=True)
     r = run([UV, "run", "make_clips.py", "voice"], episode, 1800)
-    missing = [s["n"] for s in scenes(episode) if not (HERE / episode / "voice" / f"scene{s['n']}.wav").exists()]
+    missing = [s["n"] for s in scenes(episode) if not (ep / "voice" / f"scene{s['n']}.wav").exists()]
     say(ok=not missing, episode=episode, missing_voice=missing, error=(r.stderr or "")[-200:] if missing else None)
 
 
 def shoot(episode):
-    ep = HERE / episode
+    ep = S.episode_dir(episode)
     (ep / "clips").mkdir(exist_ok=True)
     best, flags = {}, []
     for s in scenes(episode):
@@ -77,7 +81,7 @@ def shoot(episode):
 
 
 def finish(episode):
-    ep = HERE / episode
+    ep = S.episode_dir(episode)
     best = json.loads((ep / "best.json").read_text())
     clips = [str(ep / "clips" / best[str(s["n"])]) for s in scenes(episode)]
     final, short = ep / "final.mp4", ep / "short.mp4"
